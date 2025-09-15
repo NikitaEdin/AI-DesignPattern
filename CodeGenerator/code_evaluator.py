@@ -48,7 +48,7 @@ class CodeEvaluator:
 
         prompt = f"""
 You are a code reviewer specialising in design patterns. 
-Evaluate the following Python code snippet to determine if it correctly implements the {design_pattern} design pattern.
+Evaluate the following Python code snippet to determine if it correctly implements the {design_pattern} design pattern, *without ever disclosing the pattern name**.
 
 Design Pattern: {design_pattern}
 Exepected Difficulty: {difficulty_desc}
@@ -59,12 +59,14 @@ Code to evaluate:
 ```
 
 Evaluate based on these criteria:
-1. Does the code correctly implement the {design_pattern} design pattern?
+1. Does the code correctly implement the design pattern?
 2. Are the key components and relationships of the pattern present?
 3. Is the code syntactically correct and runnable?
 4. Does the complexity match the expected difficulty level?
 5. Are there any obvious bugs or issues?
-6. The code must not contain any direct or indirect reference to the term {design_pattern}.
+6. Any class, method, or variable names that are commonly associated with this type of designpattern are strictly forbidden. Violations must result in EVALUATION: FAIL.
+
+
 
 Response in the following format:
 EVALUATION: [PASS/FAIL]

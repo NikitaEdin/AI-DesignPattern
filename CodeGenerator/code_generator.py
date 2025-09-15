@@ -57,6 +57,9 @@ class CodeSnippetGenerator:
                 # Evluate the generated code
                 is_valid, feedback = self.evaluator.evaluate_code(clean_code, design_pattern, difficulty)
 
+                # DEBUG
+                #print(feedback)
+
                 if is_valid:
                     return clean_code, True, feedback
                 else:
@@ -80,69 +83,34 @@ class CodeSnippetGenerator:
         """ Create the actual code generation prompt """
         difficulty_desc = self.difficulty_templates.get(difficulty, "")
 
-#         prompt = f"""
-# Generate a Python code snippet that implements the {design_pattern} design pattern.
-
-# Requirements:
-# - Difficulty Level: {difficulty} - ({difficulty_desc})
-# - Include proper class definitions, methods, attributes, and relationships.
-# - Make the code executable and demonstate usage within a main section.
-# - Ensure the code is syntactically correct and follows Python best practices.
-# - Include error handling and edge case management.
-# - Add type hints for better code clarity.
-
-# CRITICAL NAMING CONSTRAINTS:
-# - NEVER use the word "{design_pattern}" or any variation of it in class names, method names, variable names, or comments.
-
-# Design Pattern: {design_pattern}
-
-# Provide a complete, working Python implementation that clearly demonstrates the {design_pattern} design pattern.
-
-# Make sure to:
-# 1. Implement all key components of the {design_pattern} pattern.
-# 2. Use meaningful class and method names, but avoid using the pattern name directly.
-# 3. Add a usage example in a main section.
-# 4. Ensure the code is completely free of the {design_pattern} name in ANY form.
-# 5. Ensure the code is free of syntax errors.
-
-# Return only the Python code, formatted properly, no explanation, comments, or additional text.
-# Provide the code within ````python ... ``` blocks.
-#         """
-
-
         prompt = f"""
-Generate a Python implementation of the {design_pattern} design pattern with these specifications:
+Generate a Python code snippet that implements the {design_pattern} design pattern.
 
-## Requirements
-- **Difficulty**: {difficulty} - ({difficulty_desc})
-- **Focus**: Clear pattern implementation with realistic complexity
-- **Code Quality**: Clean, readable, and executable Python code
+Requirements:
+- Difficulty Level: {difficulty} - ({difficulty_desc})
+- Include proper class definitions, methods, attributes, and relationships.
+- Make the code executable and demonstate usage within a main section.
+- Ensure the code is syntactically correct and follows Python best practices.
+- Include error handling and edge case management.
+- Add type hints for better code clarity.
 
-## Implementation Guidelines
-- Follow Python best practices and PEP 8
-- Include type hints where they add clarity
-- Make it executable with a practical example
-- Use meaningful names that reveal intent
-- Keep it realistic - not overly simplified, not enterprise-overengineered
-
-## Critical Rule
-- Do NOT use the name of {design_pattern}, its abbreviation, or related keywords in class, method, or variable names
-- Avoid comments that reference the {design_pattern} explicitly or indirectly.
-
-## What to Include
-1. **Core pattern components** - all essential parts of the {design_pattern}
-2. **Realistic scenario** - use a practical domain (e.g., notification system, data processing, game mechanics, etc.)
-3. **Working example** - demonstrate the pattern in action with `if __name__ == "__main__"`
-4. **Natural complexity** - enough code to show the pattern's value, not just 3-line examples
-
-## Example Quality Target
-Think: "If I were teaching this pattern to a junior dev, this code would clearly show how and why it's useful"
+CRITICAL NAMING CONSTRAINTS:
+- NEVER use the word "{design_pattern}" or any variation of it in class names, method names, variable names, or comments.
 
 Design Pattern: {design_pattern}
 
-Provide only the Python code in ````python ... ``` blocks. No explanations or comments outside the code.
-        """
+Provide a complete, working Python implementation that clearly demonstrates the {design_pattern} design pattern.
 
+Make sure to:
+1. Implement all key components of the {design_pattern} pattern.
+2. Use meaningful class and method names, but avoid using the pattern name directly.
+3. Add a usage example in a main section.
+4. Ensure the code is completely free of the {design_pattern} name in ANY form.
+5. Ensure the code is free of syntax errors.
+
+Return only the Python code, formatted properly, no explanation, comments, or additional text.
+Provide the code within ````python ... ``` blocks.
+        """
         return prompt
 
     def _extract_python_code(self, response: str) -> str:
