@@ -64,7 +64,43 @@ class OllamaInterface(LLMInterface):
         return "L"
     
 
-# TODO: Implement OpenAI, Claude, and Kimi K2 interfaces
+
+class OpenAIInterface(LLMInterface):
+    """Interface for OpenAI LLM"""
+
+    def __init__(self, api_key: str = None, model: str = "gpt-5-mini"):
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+        self.model = model
+
+        if not self.api_key:
+            raise ValueError("OpenAI API key is required")
+        
+    def generate_response(self, prompt: str) -> str:
+        """Generate response using OpenAI API"""
+
+        try:
+            import openai
+            
+            client = openai.OpenAI(api_key=self.api_key)
+            
+            response = client.chat.completions.create(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt}],
+                max_completion_tokens=3000
+            )
+            
+            result = response.choices[0].message.content
+            return result
+            
+        except Exception as e:
+            print(f"Exception caught: {e}")
+            raise Exception(f"OpenAI API error: {str(e)}")
+        
+    def get_prefix(self) -> str:
+        return "O"
+
+
+# TODO: Implement Claude, and Kimi K2 interfaces
 
 
 
@@ -76,8 +112,8 @@ class LLMFactory:
         provider = provider.lower()
         if provider == "ollama":
             return OllamaInterface(**kwargs)
-        # elif provider == "openai":
-        #     return OpenAIInterface(**kwargs)
+        elif provider == "openai":
+             return OpenAIInterface(**kwargs)
         # elif provider == "claude":
         #     return ClaudeInterface(**kwargs)
         # elif provider == "kimi":
@@ -87,4 +123,4 @@ class LLMFactory:
         
     @staticmethod
     def get_availabvle_providers() -> list:
-        return ["ollama"]  
+        return ["ollama", "openai"]  
