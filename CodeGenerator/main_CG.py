@@ -24,18 +24,28 @@ class CodeGenerator:
 
     def run(self, args: argparse.Namespace):
         try:
+
+            # Validate starting args
+            self._validate_arguments(args)
+
+            selected_llm = args.llm
+            selected_count = args.count
+            selected_difficulty = args.difficulty
+            selected_pattern = args.pattern
+
+
             # Create LLM interface
-            llm = self._create_llm_interface("ollama")
+            llm = self._create_llm_interface(selected_llm)
             # Create code generator 
             generator = CodeSnippetGenerator(llm)
 
             # Generate code snippets
             success_count, failed_count = self._generate_snippets(
-                generator, "Observer", 10, 'H', llm.get_prefix()
+                generator, selected_pattern, selected_count, selected_difficulty, llm.get_prefix()
             )
 
             # Results
-            self._display_results(success_count, failed_count, "Observer")
+            self._display_results(success_count, failed_count, selected_pattern)
         except Exception as e:
             print(f"Error: {str(e)}")
             sys.exit(1)
@@ -135,13 +145,99 @@ class CodeGenerator:
                     print(f"  ... and {len(files_info) - 5} more files")
         print("="*60)
 
+    def _validate_arguments(self, args: argparse.Namespace):
+        """Validate command line arguments"""
+
+        # Design Pattern
+        if args.pattern not in self.design_patterns:
+            print(f"Error: Unknown design pattern '{args.pattern}'")
+            print(f"Available patterns: {', '.join(self.design_patterns)}")
+            sys.exit(1)
+
+        # Complexity level
+        if args.difficulty not in self.difficulty_levels:
+            print(f"Error: Invalid difficulty level '{args.difficulty}'")
+            print(f"Available levels: {','.join(self.difficulty_levels)} (E=Easy, M=Medium, H=Hard)")
+            sys.exit(1)
+
+        # LLM provider    
+        if args.llm not in self.llm_providers:
+            print(f"Error: Unsupposrted LLM provider '{args.llm}'")
+            print(f"Available providers: {', '.join(self.llm_providers)}")
+            sys.exit(1)
+
+        if args.count <= 0:
+            print(f"Error: Count must be a positive integer")
+            sys.exit(1)
+        
 
 
-def main():
-    #TODO: add argparse for more options
+
+##################### ARGUMENT PARSER & MAIN  #####################
+
+def create_argument_parser() -> argparse.ArgumentParser:
+    """ Create and configure argument parser"""
+    parser = argparse.ArgumentParser(
+        description="Generate code snippet using design patterns and various LLMs",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+python main_CG.py --pattern Singleton --count 5 --llm ollama --difficulty M
+python main_CG.py --pattern Factory --count 3 --llm openAI --difficulty H
+
+Available Design Patterns:
+Singleton, Factory, Builder, Prototype,
+Adapter, Decorator, Facade, Proxy,
+Observer, Strategy, Command, Iterator, State
+
+Difficulty Levels:
+E = Easy (basic implementation)
+M = Medium (standard implementation with features)
+H = Hard (complex implementation with advanced features)
+
+LLM Providers:
+ollama - Local Ollama
+openai - OpenAI GPT   (NOT YET IMPLEMENTED)
+claude - Anthorpic Claude (NOT YET IMPLEMENTED)
+kimi - Kimi K2 (NOT YET IMPLEMENTED)
+"""
+    )
+
+    parser.add_argument(
+        "--pattern", "-p",
+        required=True,
+        help="Design pattern to implement"
+    )
+    
+    parser.add_argument(
+        "--count", "-c",
+        type=int,
+        default=1,
+        help="Number of code snippets to generate (default: 1)"
+    )
+    
+    parser.add_argument(
+        "--llm", "-l",
+        default="ollama",
+        help="LLM provider to use (default: ollama)"
+    )
+    
+    parser.add_argument(
+        "--difficulty", "-d",
+        default="M",
+        help="Difficulty level: E(asy), M(edium), H(ard) (default: M)"
+    )
+
+    return parser
+    
+
+def main(argv=None):
+    # Parse args
+    parser = create_argument_parser()
+    args = parser.parse_args(argv)
 
     app = CodeGenerator()
-    app.run(args = None)
+    app.run(args)
 
 if __name__ == "__main__":
     main()
