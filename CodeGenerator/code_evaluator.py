@@ -64,6 +64,7 @@ Evaluate based on these criteria:
 3. Is the code syntactically correct and runnable?
 4. Does the complexity match the expected difficulty level?
 5. Are there any obvious bugs or issues?
+6. The code must not contain any direct or indirect reference to the term {design_pattern}.
 
 Response in the following format:
 EVALUATION: [PASS/FAIL]

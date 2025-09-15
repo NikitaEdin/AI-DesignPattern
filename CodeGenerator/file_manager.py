@@ -11,7 +11,7 @@ from datetime import datetime
 class FileManager:
     """Manages file operations for code snippets"""
 
-    def __init__(self, base_output_dir: str = ".../CodeSnippets"):
+    def __init__(self, base_output_dir: str = "../CodeSnippets"):
         self.base_output_dir = base_output_dir
         self.ensure_base_directory()
 
@@ -95,40 +95,39 @@ class FileManager:
     def _prepare_file_content(self, code: str, design_pattern: str, difficulty: str, llm_prefix: str, file_id: int, metadata: Optional[Dict]) -> str:
         """Prepare the complete file content with metadata header"""
 
-        # Map LLM prefix to full name
-        llm_name = {
-            'L': 'Ollama (codeLlama)',
-            'O': 'OpenAI',
-            'C': 'Claude',
-            'K': 'Kimi K2'
-        }
+#         # Map LLM prefix to full name
+#         llm_name = {
+#             'L': 'Ollama (codeLlama)',
+#             'O': 'OpenAI',
+#             'C': 'Claude',
+#             'K': 'Kimi K2'
+#         }
 
-        # Map difficulty codes to description
-        difficulty_desc = {
-            'E': 'Easy',
-            'M': 'Medium',
-            'H': 'Hard'
-        }
+#         # Map difficulty codes to description
+#         difficulty_desc = {
+#             'E': 'Easy',
+#             'M': 'Medium',
+#             'H': 'Hard'
+#         }
 
-        llm_name = llm_name.get(llm_prefix, 'Unknown')
-        difficulty_name = difficulty_desc.get(difficulty, 'Unknown')
+#         llm_name = llm_name.get(llm_prefix, 'Unknown')
+#         difficulty_name = difficulty_desc.get(difficulty, 'Unknown')
 
-        # Create metadata header
-        header = f'''"""
-Code Snippet: {design_pattern} Pattern Implementation
-
-Created by: {llm_name}
-Pattern: {design_pattern}
-Difficulty: {difficulty_name} ({difficulty})
-ID: {file_id}
-Generated on: {datetime.now().strftime("d-%m-%Y %H:%M:%S")}
-"""
-
-'''
-      # Add medata if provided
-        if metadata:
-            header += f'# Metadata: {json.dumps(metadata, indent=2)}\n\n'
-        return header + code
+#         # Create metadata header
+#         header = f'''"""
+# Code Snippet: {design_pattern} Pattern Implementation
+# Created by: {llm_name}
+# Pattern: {design_pattern}
+# Difficulty: {difficulty_name} ({difficulty})
+# ID: {file_id}
+# Generated on: {datetime.now().strftime("%d-%m-%Y %H:%M:%S")}
+# """
+# '''
+        # Add medata if provided
+        # if metadata:
+        #     header += f'__metadata__ = {repr(metadata)}\n\n'
+        # return header + code
+        return code
 
     def get_existing_files_info(self, design_pattern:str) -> List[Dict]:
         """
@@ -139,10 +138,17 @@ Generated on: {datetime.now().strftime("d-%m-%Y %H:%M:%S")}
         pattern_dir = self.get_pattern_directory(design_pattern)
         files_info = []
 
+        regex = re.compile(
+                rf'^{re.escape(design_pattern)}_(\d+)_([EMH])_([LOCK])\.py$'
+            )
+
+        difficulty_order = {'E': 0, 'M': 1, 'H': 2}
+
+
         for filename in os.listdir(pattern_dir):
             if filename.endswith('.py'):
                 # Parse filename
-                match = re.match(rf'^{re.escape(design_pattern)}_d(\d+)_([MEH]_([LOCK])\.py)', filename)
+                match = regex.match(filename)
                 if match:
                     file_id = int(match.group(1))
                     difficulty = match.group(2)
@@ -158,7 +164,8 @@ Generated on: {datetime.now().strftime("d-%m-%Y %H:%M:%S")}
                         'size': os.path.getsize(file_path)
                     })
 
-        return sorted(files_info, key=lambda x: (x['difficulty'], x['llm_prefix'], x['id']))
+        return sorted(files_info, key=lambda x: ( 
+            difficulty_order[x['difficulty']], x['llm_prefix'], x['id']))
     
     def cleanup_failed_files(self, pattern_dir:str, max_size: int = 100):
         """
