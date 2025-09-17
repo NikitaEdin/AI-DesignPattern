@@ -78,9 +78,9 @@ class OpenAIInterface(LLMInterface):
         try:
             import openai
             
-            encoder = tiktoken.encoding_for_model(self.model)
-            token_count = len(encoder.encode(prompt))
-            print(f"DEBUG: Input tokens: {token_count}")
+            #encoder = tiktoken.encoding_for_model(self.model)
+            #token_count = len(encoder.encode(prompt))
+            #print(f"[DEBUG] Input tokens: {token_count}")
 
             client = openai.OpenAI(api_key=self.api_key)
             response = client.chat.completions.create(
