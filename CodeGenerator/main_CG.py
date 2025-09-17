@@ -20,7 +20,7 @@ class CodeGenerator:
 
         self.difficulty_levels = ['E', 'M', 'H']  # Easy, Medium, Hard
         self.llm_providers = ["ollama", "openai"]
-        # TODO: Add more providers when implemented - openai, claude, kimi k2
+        # TODO: Add more providers when implemented - claude, kimi k2
 
     def run(self, args: argparse.Namespace):
         try:
@@ -32,8 +32,6 @@ class CodeGenerator:
             selected_count = args.count
             selected_difficulty = args.difficulty
             selected_pattern = args.pattern
-
-            print(f"selected_llm: {selected_llm}, selected_count: {selected_count}, selected_difficulty: {selected_difficulty}, selected_pattern: {selected_pattern}")
 
             # Create LLM interface
             llm = self._create_llm_interface(selected_llm)

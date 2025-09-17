@@ -88,9 +88,20 @@ class OpenAIInterface(LLMInterface):
                 messages=[{"role": "user", "content": prompt}],
                 max_completion_tokens=3000
             )
-            
+        
+            if not response.choices:
+                raise Exception("No choices returned from OpenAI API")
+
             result = response.choices[0].message.content
-            return result
+        
+            # Handle empty/None results
+            if not result:
+                raise Exception("Empty response content from OpenAI API")
+                
+            if len(result.strip()) == 0:
+                raise Exception("Response content is only whitespace")
+            
+            return result.strip()
             
         except Exception as e:
             print(f"Exception caught: {e}")

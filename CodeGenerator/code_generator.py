@@ -18,10 +18,16 @@ class CodeSnippetGenerator:
         self.max_retries = max_retries
 
         # Design pattern template for different difficulty levels
+        # self.difficulty_templates = {
+        #     'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations. Limit to 15-25 lines of code maximum.",
+        #     'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise - aim for 30-50 lines of code total. Focus on one key additional feature beyond the core concept.",
+        #     'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured - target 60-100 lines maximum. Prioritize depth over breadth: choose 2-3 key advanced features rather than trying to cover everything."
+        # }
+
         self.difficulty_templates = {
             'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations.",
-            'M': "Create a practical implementation that not only demonstrates the core concept but also includes realistic usage, such as basic error handling, meaningful naming, and at least one additional feature beyond the core.",
-            'H': "Create a robust and comprehensive implementation with advanced features, optimizations, and handling of multiple edge cases. The design should be production-like, demonstrating deep understanding of the pattern."
+            'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise.",
+            'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured."
         }
 
 
@@ -43,7 +49,6 @@ class CodeSnippetGenerator:
             try:
                 # generate code
                 generated_code = self.llm.generate_response(prompt)
-
                 # Clean and extract
                 clean_code = self._extract_python_code(generated_code)
 
@@ -64,6 +69,7 @@ class CodeSnippetGenerator:
                     return clean_code, True, feedback
                 else:
                     if attempt < self.max_retries - 1:
+                        print(f"Attempt {attempt + 1} failed, retrying... Reason: {feedback}")
                         prompt = self.evaluator.get_retry_prompt(prompt, feedback)
                         continue
                     else:
@@ -84,20 +90,21 @@ class CodeSnippetGenerator:
         difficulty_desc = self.difficulty_templates.get(difficulty, "")
 
         prompt = f"""
-Generate a Python code snippet that implements the {design_pattern} design pattern.
+TASK: Generate a Python code snippet that implements the {design_pattern} design pattern.
+
+CRITICAL OUTPUT FORMAT REQUIREMENTS:
+- Return ONLY Python code within ```python ... ``` code blocks
+- NO explanations, comments, or additional text outside the code block
+- Start your response immediately with ```python
+- End with ```
 
 Requirements:
 - Difficulty Level: {difficulty} - ({difficulty_desc})
 - Include proper class definitions, methods, attributes, and relationships.
 - Make the code executable and demonstate usage within a main section.
 - Ensure the code is syntactically correct and follows Python best practices.
-- Include error handling and edge case management.
-- Add type hints for better code clarity.
-
-CRITICAL NAMING CONSTRAINTS:
 - NEVER use the word "{design_pattern}" or any variation of it in class names, method names, variable names, or comments.
 
-Design Pattern: {design_pattern}
 
 Provide a complete, working Python implementation that clearly demonstrates the {design_pattern} design pattern.
 
@@ -105,11 +112,16 @@ Make sure to:
 1. Implement all key components of the {design_pattern} pattern.
 2. Use meaningful class and method names, but avoid using the pattern name directly.
 3. Add a usage example in a main section.
-4. Ensure the code is completely free of the {design_pattern} name in ANY form.
 5. Ensure the code is free of syntax errors.
 
 Return only the Python code, formatted properly, no explanation, comments, or additional text.
 Provide the code within ````python ... ``` blocks.
+
+FORMAT EXAMPLE:
+```python
+# Your code here
+```
+
         """
         return prompt
 

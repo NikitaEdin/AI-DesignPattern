@@ -48,7 +48,7 @@ class CodeEvaluator:
 
         prompt = f"""
 You are a code reviewer specialising in design patterns. 
-Evaluate the following Python code snippet to determine if it correctly implements the {design_pattern} design pattern, *without ever disclosing the pattern name**.
+TASK: Evaluate the following Python code snippet to determine if it correctly implements the {design_pattern} design pattern, *without ever disclosing the pattern name**.
 
 Design Pattern: {design_pattern}
 Exepected Difficulty: {difficulty_desc}
@@ -58,19 +58,17 @@ Code to evaluate:
 {code}
 ```
 
-Evaluate based on these criteria:
-1. Does the code correctly implement the design pattern?
-2. Are the key components and relationships of the pattern present?
-3. Is the code syntactically correct and runnable?
-4. Does the complexity match the expected difficulty level?
-5. Are there any obvious bugs or issues?
-6. Any class, method, or variable names that are commonly associated with this type of designpattern are strictly forbidden. Violations must result in EVALUATION: FAIL.
+EVALUATION CRITERIA (ALL must pass for PASS rating):
+1. Pattern Implementation: Does the code correctly implement the {design_pattern} design pattern structure?
+2. Key Components: Are all essential components and relationships of the pattern present?
+3. Syntax & Execution: Is the code syntactically correct and runnable?
+4. Difficulty Match: Does the complexity and length match the expected difficulty level?
+5. Code Quality: Are there any bugs, logic errors, or major issues?
+6. NAMING VIOLATION CHECK: Any class, method, or variable names containing "{design_pattern}" or variations MUST result in FAIL.
 
-
-
-Response in the following format:
+RESPONSE FORMAT:
 EVALUATION: [PASS/FAIL]
-FEEDBACK: [Detailed explanation of your evaluation, including what's correct, what's missing, or what needs improvement]
+FEEDBACK: [Detailed explanation covering: what's implemented correctly, what's missing/wrong, difficulty appropriateness, and any naming violations]
 
 Example Response:
 EVALUATION: PASS
@@ -81,32 +79,51 @@ FEEDBACK: The code correctly implements the Singleton pattern by ensuring only o
     
     def _parse_evaluation_response(self, response: str) -> Tuple[bool, str]:
         """ Parse LLM evaluation response """
-
         try:
-            eval_match = re.search(r"EVALUATION:\s*(PASS|FAIL)", response, re.IGNORECASE)
-            feedback_match = re.search(r"FEEDBACK:\s*(.*)", response, re.IGNORECASE | re.DOTALL)
-
-            if not eval_match or not feedback_match:
-                return False, "Invalid evaluation response format."
-
-            evaluation = eval_match.group(1).strip().upper()
-            feedback = feedback_match.group(1).strip()
-
-            is_valid = evaluation == "PASS"
-            return is_valid, feedback
+            lines = response.strip().split('\n')
+            evaluation, feedback = None, None
+            
+            for i, line in enumerate(lines):
+                if line.upper().startswith('EVALUATION:'):
+                    evaluation = line.split(':', 1)[1].strip().upper()
+                elif line.upper().startswith('FEEDBACK:'):
+                    feedback = '\n'.join(lines[i:]).split(':', 1)[1].strip()
+                    break
+                    
+            if not evaluation or not feedback:
+                print(f"[DEBUG] RESPONSE PRINT\n{response}")
+                return False, f"Missing EVALUATION or FEEDBACK in response"
+                
+            return evaluation == "PASS", feedback
+            
         except Exception as e:
-            # If parsing fails - assume failure and provide error feedback
-            return False, f"Could not parse evaluation response: {str(e)}"
+            return False, f"Parse error: {str(e)}"
         
     def get_retry_prompt(self, original_prompt: str, feedback: str) -> str:
         """ Generate a retry prompt based on feedback """
         retry_prompt = f"""
-{original_prompt}
+RETRY ATTEMPT - PREVIOUS VERSION FAILED
+
+CRITICAL: You MUST follow the exact output format requirements from the original prompt.
 
 PREVIOUS ATTEMPT FEEDBACK:
 {feedback}
 
-Please generate an improved version that addresses the feedback above.
-Make sure to correctly implement the design pattern and fix any identified issues.
+MANDATORY IMPROVEMENTS REQUIRED:
+1. Address ALL issues mentioned in the feedback above
+2. Ensure EXACT format compliance: ```python ... ```
+3. Return ONLY code within code blocks - NO explanations or text outside
+4. Verify syntax correctness before responding
+5. Double-check pattern implementation requirements
+
+FORMAT REMINDER (CRITICAL):
+- Start response immediately with ```python
+- End with ```
+- NO text before or after code blocks
+- NO explanations or comments outside the code
+
+{original_prompt}
+
+FINAL REMINDER: This is a retry attempt. Learn from the feedback and ensure you address every issue mentioned while maintaining perfect format compliance.
 """
         return retry_prompt
