@@ -5,12 +5,10 @@ Provides unified interface for different LLM providers.
 """
 
 
-
+import tiktoken
 import os
 import requests
-import json
 from abc import ABC, abstractmethod
-from typing import List, Dict, Optional
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -64,7 +62,6 @@ class OllamaInterface(LLMInterface):
         return "L"
     
 
-
 class OpenAIInterface(LLMInterface):
     """Interface for OpenAI LLM"""
 
@@ -81,12 +78,15 @@ class OpenAIInterface(LLMInterface):
         try:
             import openai
             
+            encoder = tiktoken.encoding_for_model(self.model)
+            token_count = len(encoder.encode(prompt))
+            print(f"DEBUG: Input tokens: {token_count}")
+
             client = openai.OpenAI(api_key=self.api_key)
-            
             response = client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                max_completion_tokens=3000
+                max_completion_tokens=5000
             )
         
             if not response.choices:

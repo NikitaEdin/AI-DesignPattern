@@ -4,6 +4,7 @@ Code Generator Module
 Handles the generation of code snippets
 """
 
+import time
 import re
 from typing import Tuple
 from llm_interface import LLMInterface
@@ -18,17 +19,17 @@ class CodeSnippetGenerator:
         self.max_retries = max_retries
 
         # Design pattern template for different difficulty levels
-        # self.difficulty_templates = {
-        #     'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations. Limit to 15-25 lines of code maximum.",
-        #     'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise - aim for 30-50 lines of code total. Focus on one key additional feature beyond the core concept.",
-        #     'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured - target 60-100 lines maximum. Prioritize depth over breadth: choose 2-3 key advanced features rather than trying to cover everything."
-        # }
-
         self.difficulty_templates = {
-            'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations.",
-            'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise.",
-            'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured."
+            'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations. Limit to 15-25 lines of code maximum.",
+            'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise - aim for 30-50 lines of code total. Focus on one key additional feature beyond the core concept.",
+            'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured - target 60-100 lines maximum. Prioritize depth over breadth: choose 2-3 key advanced features rather than trying to cover everything."
         }
+
+        # self.difficulty_templates = {
+        #     'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations.",
+        #     'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise.",
+        #     'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured."
+        # }
 
 
     def generate_code_snippet(self, design_pattern: str, difficulty: str) -> Tuple[str, bool, str]:
@@ -55,6 +56,7 @@ class CodeSnippetGenerator:
                 if not clean_code:
                     if attempt < self.max_retries - 1:
                         prompt = self._create_retry_prompt(design_pattern, difficulty, "No valid Python code found.")
+                        time.sleep(2)
                         continue
                     else:
                         return "", False, "Failed to generate a valid Python code snippet."
@@ -69,8 +71,9 @@ class CodeSnippetGenerator:
                     return clean_code, True, feedback
                 else:
                     if attempt < self.max_retries - 1:
-                        print(f"Attempt {attempt + 1} failed, retrying... Reason: {feedback}")
+                        print(f"Attempt {attempt + 1} failed, retrying...")
                         prompt = self.evaluator.get_retry_prompt(prompt, feedback)
+                        time.sleep(2)
                         continue
                     else:
                         return clean_code, False, feedback
