@@ -19,8 +19,8 @@ class CodeGenerator:
         ]
 
         self.difficulty_levels = ['E', 'M', 'H']  # Easy, Medium, Hard
-        self.llm_providers = ["ollama", "openai"]
-        # TODO: Add more providers when implemented - claude, kimi k2
+        self.llm_providers = ["ollama", "openai", "claude"]
+        # TODO: Add more providers when implemented - kimi k2
 
     def run(self, args: argparse.Namespace):
         try:
@@ -197,7 +197,7 @@ H = Hard (complex implementation with advanced features)
 LLM Providers:
 ollama - Local Ollama
 openai - OpenAI GPT  
-claude - Anthorpic Claude (NOT YET IMPLEMENTED)
+claude - Anthorpic Claude
 kimi - Kimi K2 (NOT YET IMPLEMENTED)
 """
     )

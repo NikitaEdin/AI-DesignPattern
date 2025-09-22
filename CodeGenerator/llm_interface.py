@@ -4,8 +4,6 @@ LLM interface Module
 Provides unified interface for different LLM providers.
 """
 
-
-import tiktoken
 import os
 import requests
 from abc import ABC, abstractmethod
@@ -77,10 +75,6 @@ class OpenAIInterface(LLMInterface):
 
         try:
             import openai
-            
-            #encoder = tiktoken.encoding_for_model(self.model)
-            #token_count = len(encoder.encode(prompt))
-            #print(f"[DEBUG] Input tokens: {token_count}")
 
             client = openai.OpenAI(api_key=self.api_key)
             response = client.chat.completions.create(
@@ -111,7 +105,39 @@ class OpenAIInterface(LLMInterface):
         return "O"
 
 
-# TODO: Implement Claude, and Kimi K2 interfaces
+class ClaudeInterface(LLMInterface):
+    """Interface for Claude LLM"""
+
+    def __init__(self, api_key: str = None, model: str = "claude-sonnet-4-20250514"):
+        self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
+        self.model = model
+        if not self.api_key:
+            raise ValueError("Claude API Key is required")
+        
+    def generate_response(self, prompt: str) -> str:
+        """Generate response using Claude"""
+        try:
+            import anthropic
+
+            client = anthropic.Anthropic(api_key=self.api_key)
+
+            response = client.messages.create(
+                model=self.model,
+                max_tokens=2000,
+                messages=[{"role": "user", "content": prompt}]
+            )
+
+            return response.content[0].text
+        except Exception as e:
+            raise Exception(f"Claude API error: {str(e)}")
+        
+
+    def get_prefix(self) -> str:
+        return "C"
+
+
+
+# TODO: Implement and Kimi K2 interface
 
 
 
@@ -125,8 +151,8 @@ class LLMFactory:
             return OllamaInterface(**kwargs)
         elif provider == "openai":
              return OpenAIInterface(**kwargs)
-        # elif provider == "claude":
-        #     return ClaudeInterface(**kwargs)
+        elif provider == "claude":
+            return ClaudeInterface(**kwargs)
         # elif provider == "kimi":
         #     return KimiK2Interface(**kwargs)
         else:
@@ -134,4 +160,4 @@ class LLMFactory:
         
     @staticmethod
     def get_availabvle_providers() -> list:
-        return ["ollama", "openai"]  
+        return ["ollama", "openai", "claude"]  
