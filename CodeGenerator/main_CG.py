@@ -19,8 +19,7 @@ class CodeGenerator:
         ]
 
         self.difficulty_levels = ['E', 'M', 'H']  # Easy, Medium, Hard
-        self.llm_providers = ["ollama", "openai", "claude"]
-        # TODO: Add more providers when implemented - kimi k2
+        self.llm_providers = list(LLMFactory.get_available_providers())
 
     def run(self, args: argparse.Namespace):
         try:

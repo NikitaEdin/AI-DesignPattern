@@ -5,6 +5,7 @@ Provides unified interface for different LLM providers.
 """
 
 import os
+from typing import Dict, List, Type
 import requests
 from abc import ABC, abstractmethod
 from dotenv import load_dotenv
@@ -136,28 +137,109 @@ class ClaudeInterface(LLMInterface):
         return "C"
 
 
+#### OpenRouter AI PROVIDER ####
+class OpenRouterInterface(LLMInterface):
+    """Base interface for OpenRouter LLMs"""
+    def __init__(self, api_key:str = None, model: str = None, max_tokens: int = 5000, temperature: float = 0.7):
+        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
+        self.model = model
+        self.max_tokens = max_tokens
+        self.temperature = temperature
+        self.base_url = "https://openrouter.ai/api/v1"
 
-# TODO: Implement and Kimi K2 interface
+        if not self.api_key:
+            raise ValueError("OpenRouter API Key is required")
+        if not self.model:
+            raise ValueError("Model is required")
+        
+        self.headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "HTTP-Referer": os.getenv("APP_URL", "http://localhost"),
+            "X-Title": os.getenv("APP_NAME", "OpenRouter Interface"),
+            "Content-Type": "application/json"
+        }
+
+    def generate_response(self, prompt):
+        """Generate response using OpenRouter """
+        try:
+            payload = {
+                "model": self.model,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": self.max_tokens,
+                "temperature": self.temperature
+            }
+
+            response = requests.post(
+                f"{self.base_url}/chat/completions",
+                headers=self.headers,
+                json=payload
+            )
+
+            if response.status_code == 200:
+                data = response.json()
+                return data["choices"][0]["message"]["content"]
+            else:
+                raise Exception(f"API request failed: {response.status_code} - {response.text}")
+        except Exception as e:
+            raise Exception(f"OpenRouter API error: {str(e)}")
 
 
+    def get_prefix(self):
+        return "OR"
+
+#### Specific OpenRouter model classes ####
+class GrokInterface(OpenRouterInterface):
+    """Interface for Grok via OpenRouter"""
+    # 1.12T
+    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
+        super().__init__(api_key, "x-ai/grok-code-fast-1", max_tokens, temperature)
+
+    def get_prefix(self):
+        return "GROK"
+    
+class QwenInterface(OpenRouterInterface):
+    """Interface for Qwen3 Coder via OpenRouter"""
+    # 48B
+    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
+        super().__init__(api_key, "qwen/qwen3-coder", max_tokens, temperature)
+
+    def get_prefix(self):
+        return "Q3C"
+    
+class Grok4FastInterface(OpenRouterInterface):
+    """Interface for Grok 4 Fast (free) via OpenRouter"""
+    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
+        super().__init__(api_key, "x-ai/grok-4-fast:free", max_tokens, temperature)
+
+    def get_prefix(self):
+        return "GROK4F"
+    
 
 class LLMFactory:
     """Factory class to create LLM interfaces"""
 
+
+    # Registery of available providers
+    _providers: Dict[str, Type[LLMInterface]] = {
+        # Direct providers
+        "ollama": OllamaInterface,
+        "openai": OpenAIInterface,
+        "claude": ClaudeInterface,
+
+        # OpenRouter
+        "grok": GrokInterface,
+        "qwen": QwenInterface,
+        "grok4fast": Grok4FastInterface,
+    }
+
     @staticmethod
     def create_llm(provider: str, **kwargs) -> LLMInterface:
         provider = provider.lower()
-        if provider == "ollama":
-            return OllamaInterface(**kwargs)
-        elif provider == "openai":
-             return OpenAIInterface(**kwargs)
-        elif provider == "claude":
-            return ClaudeInterface(**kwargs)
-        # elif provider == "kimi":
-        #     return KimiK2Interface(**kwargs)
-        else:
-            raise ValueError(f"Unsupported LLM provider: {provider}")
+        if provider not in LLMFactory._providers:
+                raise ValueError(f"Unsupported LLM provider: {provider}")
+            
+        return LLMFactory._providers[provider](**kwargs)
         
     @staticmethod
-    def get_availabvle_providers() -> list:
-        return ["ollama", "openai", "claude"]  
+    def get_available_providers() -> List[str]:
+        return tuple(LLMFactory._providers.keys())
