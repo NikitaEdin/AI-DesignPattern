@@ -31,7 +31,7 @@ class OllamaInterface(LLMInterface):
     """Ollama LLM interface"""
 
     def __init__(self, model: str = "codellama", host: str = None):
-        self.model = model or os.getenv("OLLAMA_MODEL", "codellama:latest")
+        self.model = model or os.getenv("OLLAMA_MODEL", "qwen2.5-coder:14b-instruct")
         self.host = host or os.getenv("OLLAMA_HOST", "http://localhost:11434")
         
 
@@ -206,6 +206,7 @@ class QwenInterface(OpenRouterInterface):
     def get_prefix(self):
         return "Q3C"
     
+# Free models
 class Grok4FastInterface(OpenRouterInterface):
     """Interface for Grok 4 Fast (free) via OpenRouter"""
     def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
@@ -214,6 +215,14 @@ class Grok4FastInterface(OpenRouterInterface):
     def get_prefix(self):
         return "GROK4F"
     
+
+class KimiK2FreeInterface(OpenRouterInterface):
+    """Interface for MoonshotAI: Kimi K2 0711 (free) via OpenRouter"""
+    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
+        super().__init__(api_key, "moonshotai/kimi-k2:free", max_tokens, temperature)
+
+    def get_prefix(self):
+        return "Kimi2F"
 
 class LLMFactory:
     """Factory class to create LLM interfaces"""
@@ -227,9 +236,10 @@ class LLMFactory:
         "claude": ClaudeInterface,
 
         # OpenRouter
-        "grok": GrokInterface,
+        "grok": GrokInterface, 
         "qwen": QwenInterface,
-        "grok4fast": Grok4FastInterface,
+        "grok4fast": Grok4FastInterface, #free
+        "kimik2": KimiK2FreeInterface
     }
 
     @staticmethod
