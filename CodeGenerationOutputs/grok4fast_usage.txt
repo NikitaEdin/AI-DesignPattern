@@ -1,0 +1,712 @@
+> python main_CG.py --pattern Adapter --count 10 --llm grok4fast --difficulty E; python main_CG.py --pattern Adapter --count 10 --llm grok4fast --difficulty M; python main_CG.py --pattern Adapter --count 10 --llm grok4fast --difficulty H; python main_CG.py --pattern Decorator --count 10 --llm grok4fast --difficulty E; python main_CG.py --pattern Decorator --count 10 --llm grok4fast --difficulty M; python main_CG.py --pattern Decorator --count 10 --llm grok4fast --difficulty H; python main_CG.py --pattern Facade --count 10 --llm grok4fast --difficulty E; python main_CG.py --pattern Facade --count 10 --llm grok4fast --difficulty M; python main_CG.py --pattern Facade --count 10 --llm grok4fast --difficulty H; python main_CG.py --pattern Proxy --count 10 --llm grok4fast --difficulty E; python main_CG.py --pattern Proxy --count 10 --llm grok4fast --difficulty M; python main_CG.py --pattern Proxy --count 10 --llm grok4fast --difficulty H
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Adapter_0_E_GROK4F.py
+[INFO] Time: 12.90 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Adapter_1_E_GROK4F.py
+[INFO] Time: 13.81 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Adapter_2_E_GROK4F.py
+[INFO] Time: 18.38 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Adapter_3_E_GROK4F.py
+[INFO] Time: 8.70 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Adapter_4_E_GROK4F.py
+[INFO] Time: 21.41 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Adapter_5_E_GROK4F.py
+[INFO] Time: 14.16 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Adapter_6_E_GROK4F.py
+[INFO] Time: 12.20 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Adapter_7_E_GROK4F.py
+[INFO] Time: 17.15 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Adapter_8_E_GROK4F.py
+[INFO] Time: 15.24 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Adapter_9_E_GROK4F.py
+[INFO] Time: 17.88 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Adapter:
+  Adapter_4_H_O.py (5692 bytes)
+  Adapter_5_H_O.py (5511 bytes)
+  Adapter_6_H_O.py (3320 bytes)
+  Adapter_7_H_O.py (6648 bytes)
+  Adapter_8_H_O.py (5994 bytes)
+  ... and 54 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Adapter_0_M_GROK4F.py
+[INFO] Time: 14.39 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Adapter_1_M_GROK4F.py
+[INFO] Time: 19.54 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Adapter_2_M_GROK4F.py
+[INFO] Time: 20.55 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Adapter_3_M_GROK4F.py
+[INFO] Time: 22.87 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Adapter_4_M_GROK4F.py
+[INFO] Time: 27.61 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Adapter_5_M_GROK4F.py
+[INFO] Time: 17.15 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Adapter_6_M_GROK4F.py
+[INFO] Time: 14.69 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Adapter_7_M_GROK4F.py
+[INFO] Time: 20.87 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Adapter_8_M_GROK4F.py
+[INFO] Time: 28.52 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Adapter_9_M_GROK4F.py
+[INFO] Time: 21.79 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Adapter:
+  Adapter_4_H_O.py (5692 bytes)
+  Adapter_5_H_O.py (5511 bytes)
+  Adapter_6_H_O.py (3320 bytes)
+  Adapter_7_H_O.py (6648 bytes)
+  Adapter_8_H_O.py (5994 bytes)
+  ... and 54 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Adapter_0_H_GROK4F.py
+[INFO] Time: 26.89 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Adapter_1_H_GROK4F.py
+[INFO] Time: 18.96 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Adapter_2_H_GROK4F.py
+[INFO] Time: 26.60 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Adapter_3_H_GROK4F.py
+[INFO] Time: 25.32 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Adapter_4_H_GROK4F.py
+[INFO] Time: 32.63 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Adapter_5_H_GROK4F.py
+[INFO] Time: 34.51 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Adapter_6_H_GROK4F.py
+[INFO] Time: 21.76 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Adapter_7_H_GROK4F.py
+[INFO] Time: 26.69 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Adapter_8_H_GROK4F.py
+[INFO] Time: 26.45 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Adapter_9_H_GROK4F.py
+[INFO] Time: 25.92 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Adapter:
+  Adapter_4_H_O.py (5692 bytes)
+  Adapter_5_H_O.py (5511 bytes)
+  Adapter_6_H_O.py (3320 bytes)
+  Adapter_7_H_O.py (6648 bytes)
+  Adapter_8_H_O.py (5994 bytes)
+  ... and 54 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Decorator_0_E_GROK4F.py
+[INFO] Time: 15.91 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Decorator_1_E_GROK4F.py
+[INFO] Time: 14.02 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Decorator_2_E_GROK4F.py
+[INFO] Time: 9.95 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Decorator_3_E_GROK4F.py
+[INFO] Time: 16.08 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Decorator_4_E_GROK4F.py
+[INFO] Time: 18.28 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Decorator_5_E_GROK4F.py
+[INFO] Time: 10.86 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Decorator_6_E_GROK4F.py
+[INFO] Time: 11.83 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Decorator_7_E_GROK4F.py
+[INFO] Time: 10.81 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Decorator_8_E_GROK4F.py
+[INFO] Time: 12.09 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Decorator_9_E_GROK4F.py
+[INFO] Time: 9.36 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Decorator:
+  Decorator_5_H_O.py (4485 bytes)
+  Decorator_6_H_O.py (4498 bytes)
+  Decorator_7_H_O.py (4919 bytes)
+  Decorator_8_H_O.py (4503 bytes)
+  Decorator_9_H_O.py (5460 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Decorator_0_M_GROK4F.py
+[INFO] Time: 16.28 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Decorator_1_M_GROK4F.py
+[INFO] Time: 8.72 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Decorator_2_M_GROK4F.py
+[INFO] Time: 18.71 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Decorator_3_M_GROK4F.py
+[INFO] Time: 15.97 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Decorator_4_M_GROK4F.py
+[INFO] Time: 15.20 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Decorator_5_M_GROK4F.py
+[INFO] Time: 18.91 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Decorator_6_M_GROK4F.py
+[INFO] Time: 11.04 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Decorator_7_M_GROK4F.py
+[INFO] Time: 12.63 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Decorator_8_M_GROK4F.py
+[INFO] Time: 17.91 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Decorator_9_M_GROK4F.py
+[INFO] Time: 13.33 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Decorator:
+  Decorator_5_H_O.py (4485 bytes)
+  Decorator_6_H_O.py (4498 bytes)
+  Decorator_7_H_O.py (4919 bytes)
+  Decorator_8_H_O.py (4503 bytes)
+  Decorator_9_H_O.py (5460 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Decorator_0_H_GROK4F.py
+[INFO] Time: 30.80 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Decorator_1_H_GROK4F.py
+[INFO] Time: 18.37 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Decorator_2_H_GROK4F.py
+[INFO] Time: 24.50 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Decorator_3_H_GROK4F.py
+[INFO] Time: 17.64 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Decorator_4_H_GROK4F.py
+[INFO] Time: 16.87 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Decorator_5_H_GROK4F.py
+[INFO] Time: 21.08 seconds
+
+Generating snippets 7/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Decorator_6_H_GROK4F.py
+[INFO] Time: 45.99 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Decorator_7_H_GROK4F.py
+[INFO] Time: 21.44 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Decorator_8_H_GROK4F.py
+[INFO] Time: 17.75 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Decorator_9_H_GROK4F.py
+[INFO] Time: 13.20 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Decorator:
+  Decorator_5_H_O.py (4485 bytes)
+  Decorator_6_H_O.py (4498 bytes)
+  Decorator_7_H_O.py (4919 bytes)
+  Decorator_8_H_O.py (4503 bytes)
+  Decorator_9_H_O.py (5460 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Facade_0_E_GROK4F.py
+[INFO] Time: 14.92 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Facade_1_E_GROK4F.py
+[INFO] Time: 8.87 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Facade_2_E_GROK4F.py
+[INFO] Time: 10.44 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Facade_3_E_GROK4F.py
+[INFO] Time: 8.13 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Facade_4_E_GROK4F.py
+[INFO] Time: 42.20 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Facade_5_E_GROK4F.py
+[INFO] Time: 10.15 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Facade_6_E_GROK4F.py
+[INFO] Time: 8.97 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Facade_7_E_GROK4F.py
+[INFO] Time: 11.62 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Facade_8_E_GROK4F.py
+[INFO] Time: 8.46 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Facade_9_E_GROK4F.py
+[INFO] Time: 9.54 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Facade:
+  Facade_5_H_O.py (4236 bytes)
+  Facade_6_H_O.py (4503 bytes)
+  Facade_7_H_O.py (6361 bytes)
+  Facade_8_H_O.py (5634 bytes)
+  Facade_9_H_O.py (5516 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Facade_0_M_GROK4F.py
+[INFO] Time: 16.44 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Facade_1_M_GROK4F.py
+[INFO] Time: 19.27 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Facade_2_M_GROK4F.py
+[INFO] Time: 14.11 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Facade_3_M_GROK4F.py
+[INFO] Time: 12.21 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Facade_4_M_GROK4F.py
+[INFO] Time: 14.55 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Facade_5_M_GROK4F.py
+[INFO] Time: 12.86 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Facade_6_M_GROK4F.py
+[INFO] Time: 11.12 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Facade_7_M_GROK4F.py
+[INFO] Time: 11.33 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Facade_8_M_GROK4F.py
+[INFO] Time: 12.03 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Facade_9_M_GROK4F.py
+[INFO] Time: 12.02 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Facade:
+  Facade_5_H_O.py (4236 bytes)
+  Facade_6_H_O.py (4503 bytes)
+  Facade_7_H_O.py (6361 bytes)
+  Facade_8_H_O.py (5634 bytes)
+  Facade_9_H_O.py (5516 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Facade_0_H_GROK4F.py
+[INFO] Time: 20.04 seconds
+
+Generating snippets 2/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Facade_1_H_GROK4F.py
+[INFO] Time: 38.73 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Facade_2_H_GROK4F.py
+[INFO] Time: 17.65 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Facade_3_H_GROK4F.py
+[INFO] Time: 14.07 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Facade_4_H_GROK4F.py
+[INFO] Time: 16.46 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Facade_5_H_GROK4F.py
+[INFO] Time: 12.73 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Facade_6_H_GROK4F.py
+[INFO] Time: 28.16 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Facade_7_H_GROK4F.py
+[INFO] Time: 13.96 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Facade_8_H_GROK4F.py
+[INFO] Time: 32.84 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Facade_9_H_GROK4F.py
+[INFO] Time: 20.93 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Facade:
+  Facade_5_H_O.py (4236 bytes)
+  Facade_6_H_O.py (4503 bytes)
+  Facade_7_H_O.py (6361 bytes)
+  Facade_8_H_O.py (5634 bytes)
+  Facade_9_H_O.py (5516 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Proxy_0_E_GROK4F.py
+[INFO] Time: 10.43 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Proxy_1_E_GROK4F.py
+[INFO] Time: 9.15 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Proxy_2_E_GROK4F.py
+[INFO] Time: 14.81 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Proxy_3_E_GROK4F.py
+[INFO] Time: 19.67 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Proxy_4_E_GROK4F.py
+[INFO] Time: 12.50 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Proxy_5_E_GROK4F.py
+[INFO] Time: 14.97 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Proxy_6_E_GROK4F.py
+[INFO] Time: 9.45 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Proxy_7_E_GROK4F.py
+[INFO] Time: 10.50 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Proxy_8_E_GROK4F.py
+[INFO] Time: 14.47 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Proxy_9_E_GROK4F.py
+[INFO] Time: 11.94 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Proxy:
+  Proxy_5_H_O.py (3926 bytes)
+  Proxy_6_H_O.py (4981 bytes)
+  Proxy_7_H_O.py (5114 bytes)
+  Proxy_8_H_O.py (4351 bytes)
+  Proxy_9_H_O.py (4456 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Proxy_0_M_GROK4F.py
+[INFO] Time: 13.79 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Proxy_1_M_GROK4F.py
+[INFO] Time: 12.39 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Proxy_2_M_GROK4F.py
+[INFO] Time: 13.99 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Proxy_3_M_GROK4F.py
+[INFO] Time: 16.76 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Proxy_4_M_GROK4F.py
+[INFO] Time: 14.15 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Proxy_5_M_GROK4F.py
+[INFO] Time: 12.89 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Proxy_6_M_GROK4F.py
+[INFO] Time: 15.50 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Proxy_7_M_GROK4F.py
+[INFO] Time: 19.84 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Proxy_8_M_GROK4F.py
+[INFO] Time: 18.15 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Proxy_9_M_GROK4F.py
+[INFO] Time: 11.08 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Proxy:
+  Proxy_5_H_O.py (3926 bytes)
+  Proxy_6_H_O.py (4981 bytes)
+  Proxy_7_H_O.py (5114 bytes)
+  Proxy_8_H_O.py (4351 bytes)
+  Proxy_9_H_O.py (4456 bytes)
+  ... and 55 more files
+============================================================
+Testing connection to grok4fast LLM...
+Connection to grok4fast LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Proxy_0_H_GROK4F.py
+[INFO] Time: 26.00 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Proxy_1_H_GROK4F.py
+[INFO] Time: 23.41 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Proxy_2_H_GROK4F.py
+[INFO] Time: 40.99 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Proxy_3_H_GROK4F.py
+[INFO] Time: 40.61 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Proxy_4_H_GROK4F.py
+[INFO] Time: 19.57 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Proxy_5_H_GROK4F.py
+[INFO] Time: 27.60 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Proxy_6_H_GROK4F.py
+[INFO] Time: 24.83 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Proxy_7_H_GROK4F.py
+[INFO] Time: 21.10 seconds
+
+Generating snippets 9/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Proxy_8_H_GROK4F.py
+[INFO] Time: 53.25 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Proxy_9_H_GROK4F.py
+[INFO] Time: 20.65 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Proxy:
+  Proxy_5_H_O.py (3926 bytes)
+  Proxy_6_H_O.py (4981 bytes)
+  Proxy_7_H_O.py (5114 bytes)
+  Proxy_8_H_O.py (4351 bytes)
+  Proxy_9_H_O.py (4456 bytes)
+  ... and 55 more files
+============================================================

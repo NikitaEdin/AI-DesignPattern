@@ -1,0 +1,180 @@
+r> python main_CG.py --pattern Builder --count 10 --llm openai --difficulty E ; python main_CG.py --pattern Builder --count 10 --llm openai --difficulty M ; python main_CG.py --pattern Builder --count 10 --llm openai --difficulty H
+Testing connection to openai LLM...
+Connection to openai LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Builder_0_E_O.py
+[INFO] Time: 31.33 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Builder_1_E_O.py
+[INFO] Time: 39.78 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Builder_2_E_O.py
+[INFO] Time: 56.62 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Builder_3_E_O.py
+[INFO] Time: 48.86 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Builder_4_E_O.py
+[INFO] Time: 58.57 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Builder_5_E_O.py
+[INFO] Time: 42.77 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Builder_6_E_O.py
+[INFO] Time: 36.79 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Builder_7_E_O.py
+[INFO] Time: 47.58 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Builder_8_E_O.py
+[INFO] Time: 49.69 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Builder_9_E_O.py
+[INFO] Time: 52.32 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Builder:
+  Builder_5_E_O.py (1309 bytes)
+  Builder_6_E_O.py (822 bytes)
+  Builder_7_E_O.py (1054 bytes)
+  Builder_8_E_O.py (1136 bytes)
+  Builder_9_E_O.py (998 bytes)
+  ... and 5 more files
+============================================================
+Testing connection to openai LLM...
+Connection to openai LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Builder_0_M_O.py
+[INFO] Time: 77.94 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Builder_1_M_O.py
+[INFO] Time: 55.55 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Builder_2_M_O.py
+[INFO] Time: 48.75 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Builder_3_M_O.py
+[INFO] Time: 82.30 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Builder_4_M_O.py
+[INFO] Time: 61.94 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Builder_5_M_O.py
+[INFO] Time: 59.68 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Builder_6_M_O.py
+[INFO] Time: 49.56 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Builder_7_M_O.py
+[INFO] Time: 47.22 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Builder_8_M_O.py
+[INFO] Time: 52.19 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Builder_9_M_O.py
+[INFO] Time: 55.55 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Builder:
+  Builder_5_M_O.py (4196 bytes)
+  Builder_6_M_O.py (4089 bytes)
+  Builder_7_M_O.py (3321 bytes)
+  Builder_8_M_O.py (4595 bytes)
+  Builder_9_M_O.py (3647 bytes)
+  ... and 15 more files
+============================================================
+Testing connection to openai LLM...
+Connection to openai LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Builder_0_H_O.py
+[INFO] Time: 81.35 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Builder_1_H_O.py
+[INFO] Time: 77.00 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Builder_2_H_O.py
+[INFO] Time: 62.05 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Builder_3_H_O.py
+[INFO] Time: 71.33 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Builder_4_H_O.py
+[INFO] Time: 64.21 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Builder_5_H_O.py
+[INFO] Time: 67.81 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Builder_6_H_O.py
+[INFO] Time: 57.20 seconds
+
+Generating snippets 8/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Builder_7_H_O.py
+[INFO] Time: 150.80 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Builder_8_H_O.py
+[INFO] Time: 88.70 seconds
+
+Generating snippets 10/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Builder_9_H_O.py
+[INFO] Time: 172.88 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Builder:
+  Builder_5_H_O.py (7549 bytes)
+  Builder_6_H_O.py (4450 bytes)
+  Builder_7_H_O.py (4756 bytes)
+  Builder_8_H_O.py (5158 bytes)
+  Builder_9_H_O.py (6179 bytes)
+  ... and 25 more files
+============================================================

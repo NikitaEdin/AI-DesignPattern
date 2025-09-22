@@ -1,0 +1,71 @@
+> python main_CG.py --pattern Observer --count 10 --llm openai --difficulty E       
+Testing connection to openai LLM...
+Connection to openai LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Observer_0_E_O.py
+[INFO] Time: 51.98 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Observer_1_E_O.py
+[INFO] Time: 69.47 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Observer_2_E_O.py
+[INFO] Time: 36.34 seconds
+
+[SUCCESS] Generated and saved: Observer_2_E_O.py
+[INFO] Time: 36.34 seconds
+
+[INFO] Time: 36.34 seconds
+
+Generating snippets 4/10...
+
+Generating snippets 4/10...
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Observer_3_E_O.py
+[SUCCESS] Generated and saved: Observer_3_E_O.py
+[INFO] Time: 55.96 seconds
+[INFO] Time: 55.96 seconds
+
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Observer_4_E_O.py
+[INFO] Time: 32.10 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Observer_5_E_O.py
+[INFO] Time: 51.50 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Observer_6_E_O.py
+[INFO] Time: 114.30 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Observer_7_E_O.py
+[INFO] Time: 39.78 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Observer_8_E_O.py
+[INFO] Time: 38.70 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Observer_9_E_O.py
+[INFO] Time: 56.81 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Observer:
+  Observer_5_M_L.py (748 bytes)
+  Observer_6_M_L.py (948 bytes)
+  Observer_7_M_L.py (1322 bytes)
+  Observer_8_M_L.py (1041 bytes)
+  Observer_9_M_L.py (758 bytes)
+  ... and 25 more files
+============================================================

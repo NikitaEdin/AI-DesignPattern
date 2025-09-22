@@ -1,0 +1,177 @@
+PS C:\Users\dmgvol\source\repos\AI-DesignPattern\CodeGenerator> python main_CG.py --pattern Singleton --count 9 --llm claude --difficulty E ; python main_CG.py --pattern Singleton --count 10 --llm claude --difficulty M ; python main_CG.py --pattern Singleton --count 10 --llm claude --difficulty H
+Testing connection to claude LLM...
+Connection to claude LLM successful.
+
+Generating snippets 1/9...
+[SUCCESS] Generated and saved: Singleton_1_E_C.py
+[INFO] Time: 18.23 seconds
+
+Generating snippets 2/9...
+[SUCCESS] Generated and saved: Singleton_2_E_C.py
+[INFO] Time: 14.45 seconds
+
+Generating snippets 3/9...
+[SUCCESS] Generated and saved: Singleton_3_E_C.py
+[INFO] Time: 14.68 seconds
+
+Generating snippets 4/9...
+[SUCCESS] Generated and saved: Singleton_4_E_C.py
+[INFO] Time: 14.91 seconds
+
+Generating snippets 5/9...
+[SUCCESS] Generated and saved: Singleton_5_E_C.py
+[INFO] Time: 18.42 seconds
+
+Generating snippets 6/9...
+[SUCCESS] Generated and saved: Singleton_6_E_C.py
+[INFO] Time: 13.83 seconds
+
+Generating snippets 7/9...
+[SUCCESS] Generated and saved: Singleton_7_E_C.py
+[INFO] Time: 14.17 seconds
+
+Generating snippets 8/9...
+[SUCCESS] Generated and saved: Singleton_8_E_C.py
+[INFO] Time: 14.86 seconds
+
+Generating snippets 9/9...
+[SUCCESS] Generated and saved: Singleton_9_E_C.py
+[INFO] Time: 14.01 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 9
+Successful: 9
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Singleton:
+  Singleton_8_H_O.py (3367 bytes)
+  Singleton_9_H_O.py (2075 bytes)
+  Singleton_10_H_O.py (2578 bytes)
+  Singleton_11_H_O.py (2806 bytes)
+  Singleton_12_H_O.py (2982 bytes)
+  ... and 65 more files
+============================================================
+Testing connection to claude LLM...
+Connection to claude LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Singleton_0_M_C.py
+[INFO] Time: 16.66 seconds
+
+Generating snippets 2/10...
+[SUCCESS] Generated and saved: Singleton_1_M_C.py
+[INFO] Time: 26.23 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Singleton_2_M_C.py
+[INFO] Time: 21.79 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Singleton_3_M_C.py
+[INFO] Time: 20.38 seconds
+
+Generating snippets 5/10...
+[SUCCESS] Generated and saved: Singleton_4_M_C.py
+[INFO] Time: 21.60 seconds
+
+Generating snippets 6/10...
+[SUCCESS] Generated and saved: Singleton_5_M_C.py
+[INFO] Time: 19.26 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Singleton_6_M_C.py
+[INFO] Time: 18.86 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Singleton_7_M_C.py
+[INFO] Time: 22.45 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Singleton_8_M_C.py
+[INFO] Time: 17.22 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Singleton_9_M_C.py
+[INFO] Time: 19.50 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Singleton:
+  Singleton_8_H_O.py (3367 bytes)
+  Singleton_9_H_O.py (2075 bytes)
+  Singleton_10_H_O.py (2578 bytes)
+  Singleton_11_H_O.py (2806 bytes)
+  Singleton_12_H_O.py (2982 bytes)
+  ... and 75 more files
+============================================================
+Testing connection to claude LLM...
+Connection to claude LLM successful.
+
+Generating snippets 1/10...
+[SUCCESS] Generated and saved: Singleton_0_H_C.py
+[INFO] Time: 30.35 seconds
+
+Generating snippets 2/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Singleton_1_H_C.py
+[INFO] Time: 58.29 seconds
+
+Generating snippets 3/10...
+[SUCCESS] Generated and saved: Singleton_2_H_C.py
+[INFO] Time: 27.07 seconds
+
+Generating snippets 4/10...
+[SUCCESS] Generated and saved: Singleton_3_H_C.py
+[INFO] Time: 27.36 seconds
+
+Generating snippets 5/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Singleton_4_H_C.py
+[INFO] Time: 56.41 seconds
+
+Generating snippets 6/10...
+Attempt 1 failed, retrying...
+[SUCCESS] Generated and saved: Singleton_5_H_C.py
+[INFO] Time: 55.84 seconds
+
+Generating snippets 7/10...
+[SUCCESS] Generated and saved: Singleton_6_H_C.py
+[INFO] Time: 29.03 seconds
+
+Generating snippets 8/10...
+[SUCCESS] Generated and saved: Singleton_7_H_C.py
+[INFO] Time: 27.45 seconds
+
+Generating snippets 9/10...
+[SUCCESS] Generated and saved: Singleton_8_H_C.py
+[INFO] Time: 27.37 seconds
+
+Generating snippets 10/10...
+[SUCCESS] Generated and saved: Singleton_9_H_C.py
+[INFO] Time: 38.55 seconds
+
+============================================================
+GENERATION RESULTS
+============================================================
+Total attempted: 10
+Successful: 10
+Failed: 0
+Success rate: 100.0%
+
+Existing files for Singleton:
+  Singleton_8_H_O.py (3367 bytes)
+  Singleton_9_H_O.py (2075 bytes)
+  Singleton_10_H_O.py (2578 bytes)
+  Singleton_11_H_O.py (2806 bytes)
+  Singleton_12_H_O.py (2982 bytes)
+  ... and 85 more files
+============================================================
