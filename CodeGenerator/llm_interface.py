@@ -31,7 +31,7 @@ class OllamaInterface(LLMInterface):
     """Ollama LLM interface"""
 
     def __init__(self, model: str = "codellama", host: str = None):
-        self.model = model or os.getenv("OLLAMA_MODEL", "qwen2.5-coder:14b-instruct")
+        self.model = model or os.getenv("OLLAMA_MODEL", "qwen2.5-coder:7b-instruct")
         self.host = host or os.getenv("OLLAMA_HOST", "http://localhost:11434")
         
 
@@ -198,6 +198,8 @@ class GrokInterface(OpenRouterInterface):
         return "GROK"
     
 class QwenInterface(OpenRouterInterface):
+    # Limited rate limit of 50 per date (qwen/qwen3-coder:free)
+
     """Interface for Qwen3 Coder via OpenRouter"""
     # 48B
     def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
@@ -216,10 +218,14 @@ class Grok4FastInterface(OpenRouterInterface):
         return "GROK4F"
     
 
-class KimiK2FreeInterface(OpenRouterInterface):
-    """Interface for MoonshotAI: Kimi K2 0711 (free) via OpenRouter"""
-    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
-        super().__init__(api_key, "moonshotai/kimi-k2:free", max_tokens, temperature)
+class KimiK2Interface(OpenRouterInterface):
+    # HIGH failure rate with kimi-k2:free (uses prompts&answers for public datasets)
+    # low but recoverable failure rate with kimi-k2 (paid)
+    # free tier is limited to low requested tokens
+    
+    """Interface for MoonshotAI: Kimi K2 0711 via OpenRouter"""
+    def __init__(self, api_key = None, model = None, max_tokens = 4300, temperature = 0.7):
+        super().__init__(api_key, "moonshotai/kimi-k2", max_tokens, temperature)
 
     def get_prefix(self):
         return "Kimi2F"
@@ -237,9 +243,9 @@ class LLMFactory:
 
         # OpenRouter
         "grok": GrokInterface, 
-        "qwen": QwenInterface,
+        "qwen": QwenInterface, # limited to 50 requests per days
         "grok4fast": Grok4FastInterface, #free
-        "kimik2": KimiK2FreeInterface
+        "kimik2": KimiK2Interface # limited max tokens
     }
 
     @staticmethod
