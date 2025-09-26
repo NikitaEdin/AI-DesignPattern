@@ -197,7 +197,7 @@ LLM Providers:
 ollama - Local Ollama
 openai - OpenAI GPT  
 claude - Anthorpic Claude
-kimi - Kimi K2 (NOT YET IMPLEMENTED)
+kimi - Kimi K2
 """
     )
 
