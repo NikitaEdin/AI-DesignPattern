@@ -26,6 +26,7 @@ class LLMInterface(ABC):
         """Get prefix identifier for LLM"""
         pass
 
+#### Direct AI Providers ####
 
 class OllamaInterface(LLMInterface):
     """Ollama LLM interface"""
@@ -60,7 +61,6 @@ class OllamaInterface(LLMInterface):
     def get_prefix(self) -> str:
         return "L"
     
-
 class OpenAIInterface(LLMInterface):
     """Interface for OpenAI LLM"""
 
@@ -104,7 +104,6 @@ class OpenAIInterface(LLMInterface):
         
     def get_prefix(self) -> str:
         return "O"
-
 
 class ClaudeInterface(LLMInterface):
     """Interface for Claude LLM"""
@@ -210,6 +209,7 @@ class QwenInterface(OpenRouterInterface):
     
 # Free models
 class Grok4FastInterface(OpenRouterInterface):
+    # Fast and high quality results, no limits, even after 1.5M tokens in a day.
     """Interface for Grok 4 Fast (free) via OpenRouter"""
     def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
         super().__init__(api_key, "x-ai/grok-4-fast:free", max_tokens, temperature)
@@ -217,7 +217,6 @@ class Grok4FastInterface(OpenRouterInterface):
     def get_prefix(self):
         return "GROK4F"
     
-
 class KimiK2Interface(OpenRouterInterface):
     # HIGH failure rate with kimi-k2:free (uses prompts&answers for public datasets)
     # low but recoverable failure rate with kimi-k2 (paid)
@@ -228,7 +227,9 @@ class KimiK2Interface(OpenRouterInterface):
         super().__init__(api_key, "moonshotai/kimi-k2", max_tokens, temperature)
 
     def get_prefix(self):
-        return "Kimi2F"
+        return "Kimi2"
+
+#### Factory ####
 
 class LLMFactory:
     """Factory class to create LLM interfaces"""
