@@ -1,0 +1,69 @@
+import os
+from pathlib import Path
+import re
+from typing import List, Optional
+from catalogue import DESIGN_PATTERNS, DIFFICULTY_LEVELS, LLM_PROVIDERS, get_llm_prefix
+
+class FileManager:
+    def __init__(self, base_out_dir: str = "../CodeSnippets"):
+        self.base_output_dir = base_out_dir
+        self.ensure_base_directory()
+
+    def ensure_base_directory(self):
+        """Ensure base output directory exists"""
+        os.makedirs(self.base_output_dir, exist_ok=True)
+
+    def get_pattern_directory(self, design_pattern: str) -> str:
+        """Get directory path for specific pattern"""
+        pattern_dir = os.path.join(self.base_output_dir, design_pattern)
+        os.makedirs(pattern_dir, exist_ok=True)
+        return pattern_dir
+
+    def locate_snippets( self,
+        design_pattern: Optional[str] = None,
+        difficulty: Optional[str] = None,
+        llm: Optional[str] = None,
+        count: int = -1,
+    ) -> List[str]:
+        """
+        Return absolute paths to *.py code snippets that match given filters.
+        Code snippets must follow the pattern: "<pattern>_<id>_<difficulty>_<llm>.py"
+        Unspecified filters will be ignored.
+        Count=-1 will return all matches
+        """
+
+        code_snippets: List[str] = []
+
+        # Pattern
+        if design_pattern:
+            patterns_to_scan = [design_pattern]
+        else:
+            # Set all folders as patterns to scan (scan all)
+            patterns_to_scan = [ d for d in os.listdir(self.base_output_dir)
+                                if os.path.isdir(os.path.join(self.base_output_dir, d))]
+        
+
+        llm_prefix = get_llm_prefix(llm)
+
+        # Use REGEX to filter
+        pattern_re = re.escape(design_pattern) if design_pattern else r"[^_]+" 
+        diff_re = re.escape(difficulty) if difficulty else r"[EMH]"
+        llm_re = re.escape(llm_prefix) if llm_prefix else r"[^_]+"
+
+        # Compile reg
+        file_regex = re.compile(rf"^{pattern_re}_\d+_{diff_re}_{llm_re}\.py$", re.IGNORECASE)
+
+        # Scan pattern in each code snippet folder
+        for pattern in patterns_to_scan:
+            pattern_folder = self.get_pattern_directory(pattern)
+            for filename in os.listdir(pattern_folder):
+                if not filename.endswith(".py"):
+                    continue # skip non python files
+                if file_regex.match(filename):
+                    code_snippets.append(os.path.join(pattern_folder, filename))
+            
+        # Limit by count (if any)
+        if count > 0:
+            code_snippets = code_snippets[:count]
+
+        return code_snippets

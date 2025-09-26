@@ -1,26 +1,43 @@
-import argparse
+import argparse, os
 from cli import create_argument_parser, validate_arguments
+from file_manager import FileManager
 
 class DPR:
 
     def __init__(self):
-        pass
+        self.filemanager = FileManager()
 
     def run(self, args: argparse.Namespace):
+        # workflow to use
         self.workflow = args.workflow
+        # llm to use for analysis
         self.llm = args.llm
-        self.pattern = args.pattern
-        self.difficulty = args.difficulty
-        self.count = args.count
-        self.all_flag = args.count < 0
 
-        print(f"self.workflow: {self.workflow}")
-        print(f"self.llm: {self.llm}")
-        print(f"self.pattern: {self.pattern}")
-        print(f"self.difficulty: {self.difficulty}")
-        print(f"self.count: {self.count}")
-        print(f"self.all_flag: {self.all_flag}")
-        pass
+        # filters
+        self.count = args.count
+        self.filter_pattern = args.filter_pattern
+        self.filter_difficulty = args.filter_difficulty
+        self.filter_llm = args.filter_llm
+
+        # print(f'---analysing---')
+        # print(f'self.workflow: {self.workflow}')
+        # print(f'self.llm: {self.llm}')
+        # print(f'---filters---')
+        # print(f'self.pattern: {self.filter_pattern}')
+        # print(f'self.difficulty: {self.filter_difficulty}')
+        # print(f'self.filter_llm: {self.filter_llm}')
+        # print(f'self.count: {self.count}')
+        
+        # Get code snippets
+        files = self.filemanager.locate_snippets(
+            design_pattern=self.filter_pattern, 
+            difficulty=self.filter_difficulty,
+            llm=self.filter_llm,
+            count=self.count)
+        
+        print(len(files))
+
+        
            
 
     
