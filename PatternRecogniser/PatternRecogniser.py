@@ -1,7 +1,9 @@
-import argparse, os
-import sys
+# Used to include SHARED dir - don't remove
+import add_shared as _
+
+import argparse, sys
 from catalogue import WorkflowType
-from llm_interface import LLMFactory
+from shared.llm_interface import LLMFactory
 from single_workflow import SingleWorkflow
 from cli import create_argument_parser, validate_arguments
 from file_manager import FileManager

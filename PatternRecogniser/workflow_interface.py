@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Dict, List
 from file_manager import CodeSnippet
-from llm_interface import LLMInterface
+from shared.llm_interface import LLMInterface
 from catalogue import DIFFICULTY_LEVELS, WorkflowType
 
 # Analysis Result Class

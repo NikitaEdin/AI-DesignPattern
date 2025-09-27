@@ -3,7 +3,7 @@ from typing import Any, Dict, List
 from catalogue import DESIGN_PATTERNS, WorkflowType
 from file_manager import CodeSnippet
 from workflow_interface import AnalysisResult, WorkflowInterface
-from llm_interface import LLMInterface
+from shared.llm_interface import LLMInterface
 
 
 class SingleWorkflow(WorkflowInterface):
