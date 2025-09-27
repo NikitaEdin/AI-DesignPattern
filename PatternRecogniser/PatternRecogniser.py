@@ -1,4 +1,8 @@
 import argparse, os
+import sys
+from catalogue import WorkflowType
+from llm_interface import LLMFactory
+from single_workflow import SingleWorkflow
 from cli import create_argument_parser, validate_arguments
 from file_manager import FileManager
 
@@ -35,7 +39,42 @@ class DPR:
             llm=self.filter_llm,
             count=self.count)
         
-        print(len(files))
+        # for file in files:
+        #     print(file)
+
+        print(f"Found {len(files)} code snippets to analyse")
+        
+        if not files:
+            print("No code snippets found matching the criteria.")
+            return
+        
+        # init LLM
+        llm_interface = LLMFactory.create_llm(self.llm)
+
+        # Select and run workflow
+        if self.workflow == WorkflowType.SINGLE_PROMPT:
+            workflow = SingleWorkflow(llm_interface)
+        elif self.workflow == WorkflowType.MULTI_LAYERED:
+            print("[DEV] Multilayered workflow is not yet implemented.")
+            sys.exit(1)
+        else:
+            raise ValueError(f"Unknown workflow: {self.workflow}")
+        
+        # Execute the workflow
+        results = workflow.execute(files)
+
+        if results:
+           for result in results:
+               print(f"""
+Result for: {result.snippet_path}
+ analysis_time: {result.analysis_time}
+ confidence: {result.confidence}
+ identified_pattern: {result.identified_pattern}
+ evaluation_pass: {result.evaluation_pass}
+""")
+
+
+        
 
         
            
