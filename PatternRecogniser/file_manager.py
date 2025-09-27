@@ -1,8 +1,19 @@
+from dataclasses import dataclass
 import os
-from pathlib import Path
 import re
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from catalogue import DESIGN_PATTERNS, DIFFICULTY_LEVELS, LLM_PROVIDERS, get_llm_prefix
+
+@dataclass
+class CodeSnippet:
+    """Code snippet with metadata"""
+    filepath: str
+    filename: str
+    content: str
+    design_pattern: Optional[str] = None
+    difficulty: Optional[str] = None
+    llm: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None
 
 class FileManager:
     def __init__(self, base_out_dir: str = "../CodeSnippets"):
@@ -59,8 +70,27 @@ class FileManager:
             for filename in os.listdir(pattern_folder):
                 if not filename.endswith(".py"):
                     continue # skip non python files
+
                 if file_regex.match(filename):
-                    code_snippets.append(os.path.join(pattern_folder, filename))
+                    filepath = os.path.join(pattern_folder, filename)
+
+                    # Split filename parts and autoassign to variables
+                    name_parts = filename[:-3].split("_") 
+                    metadata_pattern, _, metadata_difficulty, metadata_llm = name_parts
+
+                    content = ""
+                    # Read content
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        content = f.read()
+
+                    code_snippets.append(CodeSnippet(
+                        filepath=filepath,
+                        filename=filename,
+                        content=content,
+                        difficulty=metadata_difficulty,
+                        design_pattern=metadata_pattern,
+                        llm=metadata_llm
+                    ))
             
         # Limit by count (if any)
         if count > 0:
