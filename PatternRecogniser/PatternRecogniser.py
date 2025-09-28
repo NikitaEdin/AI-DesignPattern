@@ -1,4 +1,5 @@
 # Used to include SHARED dir - don't remove
+from report_generator import ReportGenerator
 import add_shared as _
 
 import argparse, sys
@@ -64,24 +65,12 @@ class DPR:
         
         # Execute the workflow
         results = workflow.execute(files)
-
+        
+        # Report
         if results:
-           for result in results:
-               print(f"""
-Result for: {result.snippet_path}
- analysis_time: {result.analysis_time}
- confidence: {result.confidence}
- identified_pattern: {result.identified_pattern}
- evaluation_pass: {result.evaluation_pass}
-""")
+            report_gen = ReportGenerator()
+            report_gen.save_results(results, llm_interface)
 
-
-        
-
-        
-           
-
-    
 
 def main(argv=None):
    # CLI args
