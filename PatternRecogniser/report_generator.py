@@ -38,6 +38,12 @@ class ReportGenerator:
         
         # Prepare info
         llm_name = catalogue.LLM_SHORT_MAP.get(llm_interface.get_prefix())
+
+        # Abort is failed to get llm name by prefix
+        if llm_name is None:
+            return ""
+        
+
         filename = f'report_{llm_name}.xlsx'
         filepath = os.path.join(self.base_report_dir, filename)
 
@@ -53,7 +59,6 @@ class ReportGenerator:
         """Convert analysis results to pandas DataFrame"""
 
         data = []
-        current_time = datetime.now()
         for result in results:
             # Determine success flag if pattern match
             success = False
@@ -63,9 +68,9 @@ class ReportGenerator:
             snippet_filename = os.path.basename(result.snippet_path)
             analysed_file_data = catalogue.parse_filename(snippet_filename)
             row = {
-                'Date': current_time.strftime('%H:%M:%S %d-%m-%Y'),
-                'Analysing_LLM': analysing_llm,
-                'Generated_LLM': analysed_file_data.get('llm'),
+                'Date': result.analysis_started_at.strftime('%H:%M:%S %d-%m-%Y'),
+                'Analysing_LLM': analysing_llm.lower(),
+                'Generated_LLM': analysed_file_data.get('llm').lower(),
                 'Snippet_name': snippet_filename,
                 'Identified pattern': result.identified_pattern,
                 'Confidence': result.confidence,

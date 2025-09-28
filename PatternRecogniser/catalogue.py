@@ -20,15 +20,26 @@ DIFFICULTY_LEVELS: Final[tuple[str, ...]] = ("E", "M", "H")
 
 # LLM providers
 LLM_PROVIDERS: Final[tuple[str, ...]] = (
-    "openai", "claude", "kimi", "grok", "ollama"
+    "ollama",
+    "openai",
+    "claude",
+
+    "kimi",
+    "grok",
+    "grok4fast",
+    "qwen",
 )
 
+# PREFIX - PROVIDER
 LLM_SHORT_MAP: Final[dict[str, str]] = {
+    "L": "ollama",
     "O": "openai",
     "C": "claude",
-    "Kimi2F": "kimi",
-    "GROK4F": "grok",
-    "L": "ollama",
+
+    "Kimi2": "kimi",
+    "GROK": "grok",
+    "GROK4F": "grok4fast",
+    "Q3C": "qwen",
 }
 
 

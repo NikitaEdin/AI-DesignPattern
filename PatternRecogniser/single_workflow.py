@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 import time
 from typing import Any, Dict, List
 from catalogue import DESIGN_PATTERNS, WorkflowType
@@ -29,11 +30,18 @@ class SingleWorkflow(WorkflowInterface):
         results = []
         for i, snippet in enumerate(snippets, 1):
             print(f"[{i}/{len(snippets)}] Analysing: {snippet.filename}")
-
+            
+            # Track when started
             start_time = time.time()
-            result = self._analyse_single_snippet(snippet)
-            result.analysis_time = time.time() - start_time
+            analysis_started_at = datetime.now(timezone.utc)
 
+            # Analyse code snippet
+            result = self._analyse_single_snippet(snippet)
+
+            # Record time taken
+            result.analysis_time = time.time() - start_time
+            result.analysis_started_at = analysis_started_at
+            # Append result
             results.append(result)
 
             # TODO: Display progress

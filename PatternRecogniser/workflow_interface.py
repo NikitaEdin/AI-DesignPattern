@@ -4,40 +4,44 @@ from typing import Any, Dict, List
 from file_manager import CodeSnippet
 from shared.llm_interface import LLMInterface
 from catalogue import DIFFICULTY_LEVELS, WorkflowType
+from datetime import datetime, timezone
 
 # Analysis Result Class
+#TODO: convert to TypedDict for performance. Having a class just to hold data is inefficient.
 
 @dataclass
 class AnalysisResult:
-	"""Results of analysing a code snippet"""
-	snippet_path: str
-	identified_pattern: str
-	confidence: float
-	explanation: str
-	evaluation_pass: bool
-	evaluation_feedback: str
-	analysis_time: float
-	expected_pattern: str = None
-	difficulty: str = DIFFICULTY_LEVELS[0] # default to 'E'
-	error: str = None
-	workflow_type: WorkflowType = WorkflowType.SINGLE_PROMPT
-	metadata: Dict[str, Any] = None
+    """Results of analysing a code snippet"""
+    snippet_path: str
+    identified_pattern: str
+    confidence: float
+    explanation: str
+    evaluation_pass: bool
+    evaluation_feedback: str
+    analysis_time: float
+    expected_pattern: str = None
+    difficulty: str = DIFFICULTY_LEVELS[0] # default to 'E'
+    error: str = None
+    workflow_type: WorkflowType = WorkflowType.SINGLE_PROMPT
+    metadata: Dict[str, Any] = None
+    analysis_started_at: datetime = datetime.now(timezone.utc)
 
-	def to_dict(self) -> Dict[str, Any]:
-		return {
-			'snippet_path': self.snippet_path,
-			'identified_pattern': self.identified_pattern,
-			'confidence': self.confidence,
-			'explanation': self.explanation,
-			'evaluation_pass': self.evaluation_pass,
-			'evaluation_feedback': self.evaluation_feedback,
-			'analysis_time': self.analysis_time,
-			'expected_pattern': self.expected_pattern,
-			'difficulty': self.difficulty,
-			'error': self.error,
-			'workflow_type': self.workflow_type,
-			'metadata': self.metadata
-		}
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'snippet_path': self.snippet_path,
+            'identified_pattern': self.identified_pattern,
+            'confidence': self.confidence,
+            'explanation': self.explanation,
+            'evaluation_pass': self.evaluation_pass,
+            'evaluation_feedback': self.evaluation_feedback,
+            'analysis_time': self.analysis_time,
+            'expected_pattern': self.expected_pattern,
+            'difficulty': self.difficulty,
+            'error': self.error,
+            'workflow_type': self.workflow_type,
+            'metadata': self.metadata,
+            'analysis_started_at': self.analysis_started_at
+        }
         
 	
 class WorkflowInterface(ABC):
