@@ -1,66 +1,76 @@
-from abc import ABC, abstractmethod
-from typing import Dict, Type
-import logging
+import abc
+from typing import Dict, Type, Optional
 
-class DataProcessor(ABC):
-    @abstractmethod
-    def process(self, data: str) -> str:
+class Vehicle(abc.ABC):
+    @abc.abstractmethod
+    def start(self) -> str:
         pass
 
-class CsvHandler(DataProcessor):
-    def process(self, data: str) -> str:
-        return f"CSV: {data.upper()}"
+    @abc.abstractmethod
+    def specs(self) -> Dict[str, str]:
+        pass
 
-class JsonHandler(DataProcessor):
-    def process(self, data: str) -> str:
-        return f"JSON: {data.lower()}"
+class Car(Vehicle):
+    def __init__(self, model: str) -> None:
+        self.model = model
 
-class XmlHandler(DataProcessor):
-    def process(self, data: str) -> str:
-        return f"XML: <root>{data}</root>"
+    def start(self) -> str:
+        return f"{self.model} car engine ignited"
 
-class HandlerRegistry:
-    def __init__(self):
-        self._handlers: Dict[str, Type[DataProcessor]] = {}
-        self._logger = logging.getLogger(self.__class__.__name__)
+    def specs(self) -> Dict[str, str]:
+        return {"wheels": "4", "fuel": "gasoline"}
 
-    def register(self, key: str, handler_class: Type[DataProcessor]) -> None:
-        if not issubclass(handler_class, DataProcessor):
-            raise TypeError("Handler must inherit from DataProcessor")
-        self._handlers[key] = handler_class
-        self._logger.debug(f"Registered {handler_class.__name__} for {key}")
+class Motorcycle(Vehicle):
+    def __init__(self, model: str) -> None:
+        self.model = model
 
-    def get(self, key: str) -> DataProcessor:
-        try:
-            handler_class = self._handlers[key]
-            return handler_class()
-        except KeyError:
-            raise ValueError(f"No handler for {key}")
+    def start(self) -> str:
+        return f"{self.model} motorcycle engine started"
 
-    def list_available(self) -> list:
-        return list(self._handlers.keys())
+    def specs(self) -> Dict[str, str]:
+        return {"wheels": "2", "fuel": "gasoline"}
 
-class ProcessingEngine:
-    def __init__(self):
-        self.registry = HandlerRegistry()
-        self._initialize_defaults()
+class ElectricScooter(Vehicle):
+    def __init__(self, model: str) -> None:
+        self.model = model
 
-    def _initialize_defaults(self):
-        self.registry.register("csv", CsvHandler)
-        self.registry.register("json", JsonHandler)
-        self.registry.register("xml", XmlHandler)
+    def start(self) -> str:
+        return f"{self.model} electric scooter powered on"
 
-    def execute(self, format_type: str, data: str) -> str:
-        handler = self.registry.get(format_type)
-        return handler.process(data)
+    def specs(self) -> Dict[str, str]:
+        return {"wheels": "2", "fuel": "electric"}
+
+class VehicleProducer:
+    _registry: Dict[str, Type[Vehicle]] = {}
+    _fallback: Optional[Type[Vehicle]] = None
+
+    @classmethod
+    def register(cls, key: str, vehicle_cls: Type[Vehicle]) -> None:
+        cls._registry[key.lower()] = vehicle_cls
+
+    @classmethod
+    def set_fallback(cls, vehicle_cls: Type[Vehicle]) -> None:
+        cls._fallback = vehicle_cls
+
+    @classmethod
+    def create(cls, key: str, model: str) -> Vehicle:
+        vehicle_cls = cls._registry.get(key.lower(), cls._fallback)
+        if vehicle_cls is None:
+            raise ValueError(f"Unknown vehicle type: {key}")
+        return vehicle_cls(model)
+
+VehicleProducer.register("car", Car)
+VehicleProducer.register("motorcycle", Motorcycle)
+VehicleProducer.register("scooter", ElectricScooter)
+VehicleProducer.set_fallback(Car)
 
 if __name__ == "__main__":
-    engine = ProcessingEngine()
-    
-    result1 = engine.execute("csv", "user,data,123")
-    result2 = engine.execute("json", "{'name':'test'}")
-    result3 = engine.execute("xml", "content")
-    
-    print(result1)
-    print(result2)
-    print(result3)
+    vehicles = [
+        VehicleProducer.create("car", "Tesla Model 3"),
+        VehicleProducer.create("motorcycle", "Harley Davidson"),
+        VehicleProducer.create("scooter", "Xiaomi Mi"),
+        VehicleProducer.create("unknown", "Generic Model")
+    ]
+    for v in vehicles:
+        print(v.start())
+        print(v.specs())

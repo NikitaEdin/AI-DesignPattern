@@ -1,65 +1,102 @@
 from abc import ABC, abstractmethod
-import json
+import random
+import threading
 from typing import Dict, Type
 
-class Transport(ABC):
-    @abstractmethod
-    def move(self) -> str: ...
+class Vehicle(ABC):
+    def __init__(self, identifier: str):
+        self.identifier = identifier
+        self.speed = 0
     
     @abstractmethod
-    def capacity(self) -> int: ...
-
-class Car(Transport):
-    def move(self) -> str:
-        return "Driving on roads"
-    def capacity(self) -> int:
-        return 5
-
-class Boat(Transport):
-    def move(self) -> str:
-        return "Sailing on water"
-    def capacity(self) -> int:
-        return 30
-
-class Plane(Transport):
-    def move(self) -> str:
-        return "Flying in air"
-    def capacity(self) -> int:
-        return 200
-
-class Registry:
-    _builders: Dict[str, Type[Transport]] = {}
+    def accelerate(self) -> str:
+        pass
     
-    @classmethod
-    def register(cls, key: str, transport_class: Type[Transport]):
-        if not issubclass(transport_class, Transport):
-            raise TypeError("Must be Transport subclass")
-        cls._builders[key] = transport_class
+    @abstractmethod
+    def brake(self) -> str:
+        pass
     
-    @classmethod
-    def create(cls, key: str, **config) -> Transport:
-        builder = cls._builders.get(key)
-        if not builder:
-            raise ValueError(f"Unknown key: {key}")
-        return builder(**config)
+    def get_status(self) -> str:
+        return f"{self.__class__.__name__} {self.identifier}: {self.speed} km/h"
 
-Registry.register("car", Car)
-Registry.register("boat", Boat)
-Registry.register("plane", Plane)
+class Car(Vehicle):
+    def __init__(self, identifier: str):
+        super().__init__(identifier)
+        self.max_speed = 200
+    
+    def accelerate(self) -> str:
+        self.speed = min(self.speed + 20, self.max_speed)
+        return f"Car {self.identifier} accelerating to {self.speed} km/h"
+    
+    def brake(self) -> str:
+        self.speed = max(self.speed - 30, 0)
+        return f"Car {self.identifier} braking to {self.speed} km/h"
 
-class ConfigLoader:
-    @staticmethod
-    def from_json(path: str) -> Dict:
-        with open(path) as f:
-            return json.load(f)
+class Motorcycle(Vehicle):
+    def __init__(self, identifier: str):
+        super().__init__(identifier)
+        self.max_speed = 180
+    
+    def accelerate(self) -> str:
+        self.speed = min(self.speed + 30, self.max_speed)
+        return f"Motorcycle {self.identifier} accelerating to {self.speed} km/h"
+    
+    def brake(self) -> str:
+        self.speed = max(self.speed - 25, 0)
+        return f"Motorcycle {self.identifier} braking to {self.speed} km/h"
+
+class VehicleProducer:
+    _instance = None
+    _lock = threading.Lock()
+    
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+                    cls._instance._initialized = False
+        return cls._instance
+    
+    def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
+        self._producers: Dict[str, Type[Vehicle]] = {
+            'car': Car,
+            'motorcycle': Motorcycle
+        }
+        self._created_vehicles = []
+    
+    def register_producer(self, vehicle_type: str, producer_class: Type[Vehicle]):
+        self._producers[vehicle_type.lower()] = producer_class
+    
+    def create(self, vehicle_type: str, identifier: str = None) -> Vehicle:
+        vehicle_type = vehicle_type.lower()
+        if vehicle_type not in self._producers:
+            raise ValueError(f"Unknown vehicle type: {vehicle_type}")
+        
+        if identifier is None:
+            identifier = f"{vehicle_type.upper()}{random.randint(1000, 9999)}"
+        
+        producer_class = self._producers[vehicle_type]
+        vehicle = producer_class(identifier)
+        self._created_vehicles.append(vehicle)
+        return vehicle
+    
+    def get_created_vehicles(self) -> list:
+        return self._created_vehicles.copy()
 
 if __name__ == "__main__":
-    transports = ["car", "boat", "plane"]
-    for t in transports:
-        instance = Registry.create(t)
-        print(f"{t.capitalize()}: {instance.move()} | Capacity: {instance.capacity()}")
+    producer = VehicleProducer()
     
-    try:
-        Registry.create("train")
-    except ValueError as e:
-        print(f"Error: {e}")
+    car = producer.create("car", "C001")
+    motorcycle = producer.create("motorcycle", "M001")
+    
+    print(car.accelerate())
+    print(car.brake())
+    print(motorcycle.accelerate())
+    print(motorcycle.brake())
+    
+    print(f"\nCreated vehicles: {len(producer.get_created_vehicles())}")
+    for vehicle in producer.get_created_vehicles():
+        print(vehicle.get_status())

@@ -1,62 +1,60 @@
+from __future__ import annotations
 import abc
-from typing import Dict, Type, Optional, Any
+import typing as t
 
 class Vehicle(abc.ABC):
     @abc.abstractmethod
-    def start(self) -> str: ...
+    def start_engine(self) -> str: ...
     @abc.abstractmethod
-    def specs(self) -> Dict[str, Any]: ...
+    def max_speed(self) -> int: ...
 
 class Car(Vehicle):
-    def __init__(self, model: str, fuel: str = "gasoline"):
-        self.model = model
-        self.fuel = fuel
-    def start(self) -> str:
-        return f"{self.model} car ignites {self.fuel}"
-    def specs(self) -> Dict[str, Any]:
-        return {"wheels": 4, "fuel": self.fuel}
+    def start_engine(self) -> str:
+        return "Car engine ignited"
+    def max_speed(self) -> int:
+        return 220
 
-class Bike(Vehicle):
-    def __init__(self, model: str, type_: str = "sport"):
-        self.model = model
-        self.type_ = type_
-    def start(self) -> str:
-        return f"{self.model} bike kicks {self.type_}"
-    def specs(self) -> Dict[str, Any]:
-        return {"wheels": 2, "type": self.type_}
+class Motorcycle(Vehicle):
+    def start_engine(self) -> str:
+        return "Motorcycle engine roaring"
+    def max_speed(self) -> int:
+        return 180
 
-class Truck(Vehicle):
-    def __init__(self, model: str, capacity: int = 1000):
-        self.model = model
-        self.capacity = capacity
-    def start(self) -> str:
-        return f"{self.model} truck rumbles {self.capacity}kg"
-    def specs(self) -> Dict[str, Any]:
-        return {"wheels": 6, "capacity": self.capacity}
+class Bicycle(Vehicle):
+    def start_engine(self) -> str:
+        return "Bicycle has no engine"
+    def max_speed(self) -> int:
+        return 40
 
-class Creator:
-    _registry: Dict[str, Type[Vehicle]] = {}
+class Creator(abc.ABC):
+    registry: t.Dict[str, t.Type[Vehicle]] = {}
     @classmethod
-    def register(cls, key: str, vehicle_cls: Type[Vehicle]) -> None:
-        cls._registry[key] = vehicle_cls
-    @classmethod
-    def build(cls, key: str, **kwargs) -> Vehicle:
-        if key not in cls._registry:
-            raise ValueError(f"Unknown key '{key}'")
-        return cls._registry[key](**kwargs)
-    @classmethod
-    def list_types(cls) -> list:
-        return list(cls._registry.keys())
+    def register(cls, key: str, vehicle_cls: t.Type[Vehicle]) -> None:
+        cls.registry[key] = vehicle_cls
+    @abc.abstractmethod
+    def _create(self, variant: str, **config) -> Vehicle: ...
+    def build(self, variant: str, **config) -> Vehicle:
+        if variant not in self.registry:
+            raise ValueError(f"Unknown variant '{variant}'")
+        return self._create(variant, **config)
 
-Creator.register("car", Car)
-Creator.register("bike", Bike)
-Creator.register("truck", Truck)
+class RoadBuilder(Creator):
+    def _create(self, variant: str, **config) -> Vehicle:
+        cls = self.registry[variant]
+        instance = cls()
+        for k, v in config.items():
+            setattr(instance, k, v)
+        return instance
 
 if __name__ == "__main__":
+    Creator.register("city", Car)
+    Creator.register("sport", Motorcycle)
+    Creator.register("eco", Bicycle)
+    builder = RoadBuilder()
     vehicles = [
-        Creator.build("car", model="Tesla", fuel="electric"),
-        Creator.build("bike", model="Yamaha", type_="racing"),
-        Creator.build("truck", model="Ford", capacity=1500)
+        builder.build("city", color="blue"),
+        builder.build("sport", color="red"),
+        builder.build("eco", gears=7)
     ]
     for v in vehicles:
-        print(v.start(), v.specs())
+        print(v.start_engine(), "| max:", v.max_speed())
