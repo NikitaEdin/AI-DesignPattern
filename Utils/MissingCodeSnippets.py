@@ -4,7 +4,7 @@ import os
 from collections import defaultdict
 
 
-CODE_SNIPPETS_DIR = "./CodeSnippets" 
+CODE_SNIPPETS_DIR = "../CodeSnippets" 
 # Expected code snippet PER difficulty
 EXPECTED_COUNT = 10
 

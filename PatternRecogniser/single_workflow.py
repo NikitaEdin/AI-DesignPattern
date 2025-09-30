@@ -41,6 +41,10 @@ class SingleWorkflow(WorkflowInterface):
             # Record time taken
             result.analysis_time = time.time() - start_time
             result.analysis_started_at = analysis_started_at
+
+            # Print result
+            print(f"  Identified: {result.identified_pattern} ({result.confidence})")
+    
             # Append result
             results.append(result)
 
@@ -110,7 +114,7 @@ Analyse the followign code snippet and identify any design pattern it implements
 
 RESPONSE FORMAT:
 PATTERN: [pattern name or "None" if no clear pattern]
-CONFIDENCE: [0.0-1.0]
+CONFIDENCE: [0.0 - 1.0]
 EXPLANATION: [Brief and short explanation of your reasoning, including key indications that led to your identification]
 
 Focus on:
@@ -134,7 +138,7 @@ Original code:
 
 Analysis Result:
 - Pattern: {analysis_data.get('identified_pattern', 'Unknown')}
-- Confidence: {analysis_data.get('confidence', 0)}
+- Confidence: {analysis_data.get('confidence', 0.0)}
 - Explanation: {analysis_data.get('explanation', 'No explanation provided')}
 
 Consider the following criteria:

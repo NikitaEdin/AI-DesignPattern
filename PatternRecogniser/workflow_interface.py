@@ -98,7 +98,7 @@ class WorkflowInterface(ABC):
         return AnalysisResult(
              snippet_path=snippet.filepath,
              identified_pattern='Error',
-             confidence=0,
+             confidence=0.0,
              explanation="Analysis failed due to error",
              evaluation_pass=False,
              evaluation_feedback="Not evaluated due to error",
@@ -115,7 +115,7 @@ class WorkflowInterface(ABC):
         return AnalysisResult(
            snippet_path=snippet.filepath,
             identified_pattern=analysis_data.get('identified_pattern', 'Unknown'),
-            confidence=analysis_data.get('confidence', 0),
+            confidence=analysis_data.get('confidence', 0.0),
             explanation=analysis_data.get('explanation', ''),
             evaluation_pass=analysis_data.get('evaluation_pass', False),
             evaluation_feedback=analysis_data.get('evaluation_feedback', ''),
