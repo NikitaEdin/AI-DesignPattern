@@ -36,7 +36,7 @@ LLM_SHORT_MAP: Final[dict[str, str]] = {
     "O": "openai",
     "C": "claude",
 
-    "Kimi2F": "kimi",
+    "KimiK2": "kimi",
     "GROK": "grok",
     "GROK4F": "grok4fast",
     "Q3C": "qwen",

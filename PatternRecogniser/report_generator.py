@@ -31,7 +31,12 @@ class ReportGenerator:
             'Pattern_difficulty'
         ]
 
+    def save_result(self, result: AnalysisResult, llm_interface: LLMInterface) -> str:
+        """Save single AnalysisReport record"""
+        return self.save_results([result], llm_interface)
+
     def save_results(self, results: List[AnalysisResult], llm_interface: LLMInterface) -> str:
+        """Save a list of AnalysisReport to Excel file"""
         if not results:
             print('No results to  save')
             return ""

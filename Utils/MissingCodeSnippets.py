@@ -17,7 +17,7 @@ LLM_MAPPING = {
     "L": "ollama",
     "C": "claude",
     "GROK4F": "grok4fast",
-    "KIMIK2": "kimi2f"
+    "KimiK2": "kimi"
 }
 
 def check_snippets(directory):
