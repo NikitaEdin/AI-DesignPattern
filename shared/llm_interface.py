@@ -223,11 +223,11 @@ class KimiK2Interface(OpenRouterInterface):
     # free tier is limited to low requested tokens
     
     """Interface for MoonshotAI: Kimi K2 0711 via OpenRouter"""
-    def __init__(self, api_key = None, model = None, max_tokens = 4300, temperature = 0.7):
+    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
         super().__init__(api_key, "moonshotai/kimi-k2", max_tokens, temperature)
 
     def get_prefix(self):
-        return "Kimi2"
+        return "KimiK2"
 
 #### Factory ####
 
