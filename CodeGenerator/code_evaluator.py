@@ -66,6 +66,8 @@ EVALUATION CRITERIA (ALL must pass for PASS rating):
 5. Code Quality: Are there any bugs, logic errors, or major issues?
 6. NAMING VIOLATION CHECK: Any class, method, or variable names containing "{design_pattern}" or variations MUST result in FAIL.
 
+CRITICAL: Your response MUST follow this EXACT format with no additional text, explanations, or formatting.
+
 RESPONSE FORMAT:
 EVALUATION: [PASS/FAIL]
 FEEDBACK: [Detailed explanation covering: what's implemented correctly, what's missing/wrong, difficulty appropriateness, and any naming violations]

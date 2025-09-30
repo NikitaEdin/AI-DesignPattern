@@ -218,13 +218,13 @@ class Grok4FastInterface(OpenRouterInterface):
         return "GROK4F"
     
 class KimiK2Interface(OpenRouterInterface):
-    # HIGH failure rate with kimi-k2:free (uses prompts&answers for public datasets)
+    # VERY HIGH failure rate with kimi-k2, fails to follow structured answers
     # low but recoverable failure rate with kimi-k2 (paid)
     # free tier is limited to low requested tokens
     
-    """Interface for MoonshotAI: Kimi K2 0711 via OpenRouter"""
-    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
-        super().__init__(api_key, "moonshotai/kimi-k2", max_tokens, temperature)
+    """Interface for MoonshotAI: Kimi K2 via OpenRouter"""
+    def __init__(self, api_key = None, model = None, max_tokens = 6000, temperature = 0.7):
+        super().__init__(api_key, "moonshotai/kimi-k2-0905", max_tokens, temperature)
 
     def get_prefix(self):
         return "KimiK2"

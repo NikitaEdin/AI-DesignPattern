@@ -113,7 +113,7 @@ Analyse the followign code snippet and identify any design pattern it implements
 ```
 
 RESPONSE FORMAT:
-PATTERN: [pattern name or "None" if no clear pattern]
+PATTERN: [ONE pattern name or "None" if no clear pattern]
 CONFIDENCE: [0.0 - 1.0]
 EXPLANATION: [Brief and short explanation of your reasoning, including key indications that led to your identification]
 

@@ -13,7 +13,7 @@ from code_evaluator import CodeEvaluator
 class CodeSnippetGenerator: 
     """ Generate code snippets using specified design patterns """
 
-    def __init__(self, llm: LLMInterface, max_retries: int = 3):
+    def __init__(self, llm: LLMInterface, max_retries: int = 5):
         self.llm = llm
         self.evaluator = CodeEvaluator(llm)
         self.max_retries = max_retries
@@ -55,7 +55,7 @@ class CodeSnippetGenerator:
 
                 if not clean_code:
                     if attempt < self.max_retries - 1:
-                        prompt = self._create_retry_prompt(design_pattern, difficulty, "No valid Python code found.")
+                        prompt = self._create_retry_prompt(prompt, "No valid Python code found.")
                         time.sleep(2)
                         continue
                     else:
@@ -82,6 +82,7 @@ class CodeSnippetGenerator:
             except Exception as e:
                 if attempt < self.max_retries - 1:
                     prompt = self._create_retry_prompt(prompt, f"Generation error: {str(e)}")
+                    time.sleep(2)
                     continue
                 else:
                     return "", False, f"Generation failed after {self.max_retries} attempts: {str(e)}"

@@ -224,7 +224,7 @@ class KimiK2Interface(OpenRouterInterface):
     
     """Interface for MoonshotAI: Kimi K2 0711 via OpenRouter"""
     def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
-        super().__init__(api_key, "moonshotai/kimi-k2", max_tokens, temperature)
+        super().__init__(api_key, "moonshotai/kimi-k2-0905", max_tokens, temperature)
 
     def get_prefix(self):
         return "KimiK2"
