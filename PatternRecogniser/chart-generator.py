@@ -15,6 +15,7 @@ comprehensive visualisation charts for performance comparison.
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+import os
 from pathlib import Path
 
 def load_analysis_files(analysis_dir):
@@ -147,6 +148,176 @@ PATTERNS WITH ISSUES:"""
     
     print(f"✓ Chart saved: {output_path}")
 
+def create_summary_visualisation(data_list, output_path):
+    """Create a summary visualisation comparing all LLMs."""
+    if len(data_list) < 2:
+        print("Skipping summary chart (need at least 2 LLMs to compare)")
+        return
+    
+    # Extract data for all LLMs
+    llm_names = [d["metadata"]["llm_name"] for d in data_list]
+    
+    # Get all unique patterns across all datasets
+    all_patterns = set()
+    for data in data_list:
+        all_patterns.update(data["success_rate_per_pattern"].keys())
+    patterns = sorted(list(all_patterns))
+    
+    # Create success rate matrix
+    success_matrix = []
+    total_records = []
+    avg_times = []
+    overall_success_rates = []
+    
+    for data in data_list:
+        pattern_rates = []
+        for pattern in patterns:
+            if pattern in data["success_rate_per_pattern"]:
+                rate = data["success_rate_per_pattern"][pattern]["success_rate"]
+            else:
+                rate = np.nan
+            pattern_rates.append(rate)
+        success_matrix.append(pattern_rates)
+        total_records.append(data["metadata"]["total_records_analysed"])
+        avg_times.append(data["average_analysis_time_seconds"])
+        
+        # Calculate overall success rate
+        pattern_data = data["success_rate_per_pattern"]
+        total_success = sum(p["success_count"] for p in pattern_data.values())
+        total_count = sum(p["total_count"] for p in pattern_data.values())
+        overall_success_rates.append(total_success / total_count if total_count > 0 else 0)
+    
+    success_matrix = np.array(success_matrix)
+    
+    # Create figure with subplots
+    fig = plt.figure(figsize=(20, 12))
+    fig.suptitle('Design Pattern Analysis - Multi-LLM Comparison Summary', 
+                 fontsize=18, fontweight='bold')
+    
+    # Subplot 1: Heatmap of Success Rates
+    ax1 = plt.subplot(2, 3, 1)
+    im = ax1.imshow(success_matrix, cmap='RdYlGn', aspect='auto', vmin=0.85, vmax=1.0)
+    ax1.set_xticks(np.arange(len(patterns)))
+    ax1.set_yticks(np.arange(len(llm_names)))
+    ax1.set_xticklabels(patterns, rotation=45, ha='right')
+    ax1.set_yticklabels(llm_names)
+    ax1.set_title('Success Rate Heatmap', fontweight='bold', pad=20)
+    
+    # Add text annotations
+    for i in range(len(llm_names)):
+        for j in range(len(patterns)):
+            if not np.isnan(success_matrix[i, j]):
+                text = ax1.text(j, i, f'{success_matrix[i, j]:.0%}',
+                               ha="center", va="center", color="black", fontsize=8)
+    
+    plt.colorbar(im, ax=ax1, label='Success Rate')
+    
+    # Subplot 2: Overall Success Rate Comparison
+    ax2 = plt.subplot(2, 3, 2)
+    colors_bar = ['#2ecc71' if sr >= 0.99 else '#f39c12' if sr >= 0.95 else '#e74c3c' 
+                  for sr in overall_success_rates]
+    bars = ax2.barh(llm_names, overall_success_rates, color=colors_bar, alpha=0.8, edgecolor='black')
+    ax2.set_xlabel('Overall Success Rate', fontweight='bold')
+    ax2.set_title('Overall LLM Performance', fontweight='bold')
+    ax2.set_xlim([0.9, 1.01])
+    ax2.grid(axis='x', alpha=0.3)
+    
+    for i, (bar, rate) in enumerate(zip(bars, overall_success_rates)):
+        ax2.text(rate - 0.01, bar.get_y() + bar.get_height()/2, 
+                 f'{rate:.2%}', va='center', ha='right', fontweight='bold', color='white')
+    
+    # Subplot 3: Average Analysis Time
+    ax3 = plt.subplot(2, 3, 3)
+    bars3 = ax3.barh(llm_names, avg_times, color='#3498db', alpha=0.8, edgecolor='black')
+    ax3.set_xlabel('Average Time (seconds)', fontweight='bold')
+    ax3.set_title('Average Analysis Time per Record', fontweight='bold')
+    ax3.grid(axis='x', alpha=0.3)
+    
+    for bar, time in zip(bars3, avg_times):
+        ax3.text(bar.get_width() + 0.5, bar.get_y() + bar.get_height()/2, 
+                 f'{time:.1f}s', va='center', ha='left', fontweight='bold')
+    
+    # Subplot 4: Pattern Success Rate Comparison (Line Chart)
+    ax4 = plt.subplot(2, 3, 4)
+    x_pos = np.arange(len(patterns))
+    for i, llm_name in enumerate(llm_names):
+        ax4.plot(x_pos, success_matrix[i], marker='o', label=llm_name, linewidth=2)
+    ax4.set_xticks(x_pos)
+    ax4.set_xticklabels(patterns, rotation=45, ha='right')
+    ax4.set_ylabel('Success Rate', fontweight='bold')
+    ax4.set_title('Pattern-by-Pattern Comparison', fontweight='bold')
+    ax4.set_ylim([0.85, 1.02])
+    ax4.legend(loc='lower right')
+    ax4.grid(alpha=0.3)
+    ax4.axhline(y=1.0, color='green', linestyle='--', alpha=0.3, label='Perfect Score')
+    ax4.axhline(y=0.95, color='orange', linestyle='--', alpha=0.3, label='95% Threshold')
+    
+    # Subplot 5: Total Records Processed
+    ax5 = plt.subplot(2, 3, 5)
+    bars5 = ax5.bar(llm_names, total_records, color='#9b59b6', alpha=0.8, edgecolor='black')
+    ax5.set_ylabel('Total Records', fontweight='bold')
+    ax5.set_title('Dataset Size Comparison', fontweight='bold')
+    ax5.tick_params(axis='x', rotation=45)
+    ax5.grid(axis='y', alpha=0.3)
+    
+    for bar in bars5:
+        height = bar.get_height()
+        ax5.text(bar.get_x() + bar.get_width()/2., height,
+                 f'{int(height):,}', ha='center', va='bottom', fontweight='bold')
+    
+    # Subplot 6: Summary Statistics Table
+    ax6 = plt.subplot(2, 3, 6)
+    ax6.axis('off')
+    
+    # Calculate summary statistics
+    best_performer = llm_names[np.argmax(overall_success_rates)]
+    fastest_llm = llm_names[np.argmin(avg_times)]
+    most_data = llm_names[np.argmax(total_records)]
+    
+    # Find most problematic pattern across all LLMs
+    pattern_avg_success = np.nanmean(success_matrix, axis=0)
+    worst_pattern_idx = np.argmin(pattern_avg_success)
+    worst_pattern = patterns[worst_pattern_idx]
+    
+    summary_text = f"""
+COMPARATIVE ANALYSIS SUMMARY
+{'=' * 50}
+
+LLMs Analysed: {len(llm_names)}
+Total Patterns: {len(patterns)}
+
+PERFORMANCE RANKINGS:
+  - Best Overall: {best_performer}
+     Success Rate: {max(overall_success_rates):.2%}
+  
+  - Fastest: {fastest_llm}
+     Avg Time: {min(avg_times):.2f}s per record
+  
+  - Largest Dataset: {most_data}
+     Records: {max(total_records):,}
+
+PATTERN INSIGHTS:
+  • Most Challenging: {worst_pattern}
+    Avg Success: {pattern_avg_success[worst_pattern_idx]:.1%}
+  
+  • Perfect Patterns: {sum(np.all(success_matrix[:, i] == 1.0) for i in range(len(patterns)))} patterns
+    with 100% success across all LLMs
+
+CONSISTENCY:
+  • Success Rate Range: {min(overall_success_rates):.1%} - {max(overall_success_rates):.1%}
+  • Time Range: {min(avg_times):.1f}s - {max(avg_times):.1f}s
+"""
+    
+    ax6.text(0.05, 0.95, summary_text, transform=ax6.transAxes, 
+             fontsize=11, verticalalignment='top', fontfamily='monospace',
+             bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.3))
+    
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    print(f"✓ Summary chart saved: {output_path}")
+
 def main():
     # Define paths
     script_dir = Path(__file__).parent
@@ -168,7 +339,7 @@ def main():
     print(f"\nFound {len(data_list)} analysis file(s)")
     
     # Generate charts for each analysis file
-    print("\nGenerating charts...")
+    print("\nGenerating individual charts...")
     for data in data_list:
         llm_name = data["metadata"]["llm_name"]
         output_filename = f"chart_{llm_name}.png"
@@ -179,8 +350,17 @@ def main():
         except Exception as e:
             print(f"✗ Error creating chart for {llm_name}: {e}")
     
+    # Generate summary comparison chart
+    print("\nGenerating summary comparison chart...")
+    summary_output = charts_dir / "chart_summary_all.png"
+    try:
+        create_summary_visualisation(data_list, summary_output)
+    except Exception as e:
+        print(f"✗ Error creating summary chart: {e}")
+    
     print(f"\n{'='*50}")
-    print(f"Processing complete! Generated {len(data_list)} chart(s)")
+    print(f"Processing complete! Generated {len(data_list)} individual chart(s)")
+    print(f"+ 1 summary comparison chart")
     print(f"Charts saved in: {charts_dir}")
     print(f"{'='*50}")
 
