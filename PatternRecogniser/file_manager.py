@@ -97,3 +97,42 @@ class FileManager:
             code_snippets = code_snippets[:count]
 
         return code_snippets
+    
+    def locate_snippet(self, filename: str) -> List[CodeSnippet]:
+        code_snippets: List[str] = []
+
+        filename = filename.lower()
+        if not filename.endswith(".py"):
+            filename += ".py"
+
+        # every pattern folder
+        for pattern in os.listdir(self.base_output_dir):
+            pattern_dir = os.path.join(self.base_output_dir, pattern)
+            if not os.path.isdir(pattern_dir):
+                continue
+
+            for fname in os.listdir(pattern_dir):
+                if fname.lower() == filename and fname.endswith(".py"):
+                    filepath = os.path.join(pattern_dir, fname)
+
+                    # Parse filename
+                    name_parts = fname[:-3].split("_")
+                    if len(name_parts) != 5:
+                        continue
+                    pattern, _id, difficulty, llm, _suffix = name_parts
+                    
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        content = f.read()
+
+                    code_snippets.append(CodeSnippet(
+                        filepath=filepath,
+                        filename=fname,
+                        content=content,
+                        difficulty=difficulty,
+                        design_pattern=pattern,
+                        llm=llm
+                    ))
+        print(len(code_snippets))
+        return code_snippets
+
+                    
