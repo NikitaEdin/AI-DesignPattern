@@ -1,93 +1,93 @@
 {
   "metadata": {
     "llm_name": "openai",
-    "generation_timestamp": "2025-10-01T00:04:05.239953",
+    "generation_timestamp": "2025-10-02T15:27:26.432150",
     "reports_directory": "./Reports",
-    "total_records_analysed": 1170
+    "total_records_analysed": 1560
   },
-  "total_analysis_time_seconds": 29894.36,
-  "total_analysis_time_minutes": 498.24,
-  "total_analysis_time_hours": 8.3,
-  "average_analysis_time_seconds": 25.55,
+  "total_analysis_time_seconds": 40335.97,
+  "total_analysis_time_minutes": 672.27,
+  "total_analysis_time_hours": 11.2,
+  "average_analysis_time_seconds": 25.86,
   "min_analysis_time_seconds": 12.32,
   "max_analysis_time_seconds": 78.07,
   "success_rate_per_pattern": {
     "Singleton": {
-      "success_rate": 0.96,
-      "total_count": 92,
-      "success_count": 88,
+      "success_rate": 0.97,
+      "total_count": 122,
+      "success_count": 118,
       "failure_count": 4
     },
     "Factory": {
       "success_rate": 0.97,
-      "total_count": 89,
-      "success_count": 86,
-      "failure_count": 3
+      "total_count": 119,
+      "success_count": 115,
+      "failure_count": 4
     },
     "Builder": {
       "success_rate": 1.0,
-      "total_count": 90,
-      "success_count": 90,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Prototype": {
       "success_rate": 1.0,
-      "total_count": 90,
-      "success_count": 90,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Adapter": {
       "success_rate": 1.0,
-      "total_count": 88,
-      "success_count": 88,
+      "total_count": 115,
+      "success_count": 115,
       "failure_count": 0
     },
     "Decorator": {
-      "success_rate": 0.93,
-      "total_count": 97,
-      "success_count": 90,
+      "success_rate": 0.94,
+      "total_count": 127,
+      "success_count": 120,
       "failure_count": 7
     },
     "Facade": {
-      "success_rate": 1.0,
-      "total_count": 90,
-      "success_count": 90,
-      "failure_count": 0
+      "success_rate": 0.99,
+      "total_count": 121,
+      "success_count": 120,
+      "failure_count": 1
     },
     "Proxy": {
       "success_rate": 1.0,
-      "total_count": 86,
-      "success_count": 86,
+      "total_count": 116,
+      "success_count": 116,
       "failure_count": 0
     },
     "Observer": {
       "success_rate": 1.0,
-      "total_count": 90,
-      "success_count": 90,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Strategy": {
       "success_rate": 0.98,
-      "total_count": 89,
-      "success_count": 87,
-      "failure_count": 2
+      "total_count": 120,
+      "success_count": 117,
+      "failure_count": 3
     },
     "Command": {
       "success_rate": 1.0,
-      "total_count": 90,
-      "success_count": 90,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Iterator": {
       "success_rate": 1.0,
-      "total_count": 90,
-      "success_count": 90,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "State": {
       "success_rate": 1.0,
-      "total_count": 89,
-      "success_count": 89,
+      "total_count": 119,
+      "success_count": 119,
       "failure_count": 0
     }
   }
