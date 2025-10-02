@@ -19,17 +19,17 @@ class CodeSnippetGenerator:
         self.max_retries = max_retries
 
         # Design pattern template for different difficulty levels
-        self.difficulty_templates = {
-            'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations. Limit to 15-25 lines of code maximum.",
-            'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise - aim for 30-50 lines of code total. Focus on one key additional feature beyond the core concept.",
-            'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured - target 60-100 lines maximum. Prioritize depth over breadth: choose 2-3 key advanced features rather than trying to cover everything."
-        }
-
         # self.difficulty_templates = {
-        #     'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations.",
-        #     'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise.",
-        #     'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured."
+        #     'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations. Limit to 15-25 lines of code maximum.",
+        #     'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise - aim for 30-50 lines of code total. Focus on one key additional feature beyond the core concept.",
+        #     'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured - target 60-100 lines maximum. Prioritize depth over breadth: choose 2-3 key advanced features rather than trying to cover everything."
         # }
+
+        self.difficulty_templates = {
+            'E': "Create the simplest possible implementation that demonstrates only the core concept. Keep it minimal with no extra features or optimizations. Limit to under 50 lines of code in total.",
+            'M': "Create a practical implementation that demonstrates the core concept with realistic usage. Include basic error handling and meaningful naming, but keep the implementation concise. Aim for 30 - 100 lines of code in total.",
+            'H': "Create a robust implementation with advanced features and edge case handling. Despite the complexity, keep the code concise and well-structured. aim for 80 - 200 lines of code in total."
+        }
 
 
     def generate_code_snippet(self, design_pattern: str, difficulty: str) -> Tuple[str, bool, str]:
@@ -157,5 +157,37 @@ Generate a corrected version that addresses the issue above.
 """
         return retry_prompt
 
+############ TESTING ############
 
+    def add_noise(self, code_snippet:str) -> str:
+        prompt = self._create_noise_prompt(code_snippet)
+        noised_code = self.llm.generate_response(prompt)
+        return noised_code
+
+
+    def _create_noise_prompt(self, code_snippet: str) -> str:
+        prompt = f"""
+You are given a Python code snippet that demonstrates a design pattern.
+
+YOUR TASK:
+- Keep the code intact and functional.
+- Do NOT alter the overall structure of the pattern.
+- Stay within one file.
+- Do not include any comments in the final code.
+- Do not use triple backticks or any code block markers in the output.
+- Only return the final transformed code.
+
+Add realistic 'noise' by applying **at least two different noise types** from this list:
+1. **Domain-specific naming**: Replace generic names with domain/business terms.
+2. **Extra/useless functions and classes**: Add functions or lightweight classes that serve no real purpose, but look plausible.
+3. **Additional responsibilities**: Add logging, validation, or error handling around key operations.
+4. **Non-essential functionality**: Add extra methods or classes that is unrelated but plausible (e.g., data formatting, config loading).
+5. **Inline complexity**: Introduce minor conditionals or branching logic inside methods (e.g., input checks, default handling).
+
+CODE SNIPPET:
+```python
+{code_snippet}
+```
+"""
+        return prompt
         

@@ -117,9 +117,9 @@ class FileManager:
 
                     # Parse filename
                     name_parts = fname[:-3].split("_")
-                    if len(name_parts) != 5:
+                    if len(name_parts) != 4:
                         continue
-                    pattern, _id, difficulty, llm, _suffix = name_parts
+                    pattern, _id, difficulty, llm = name_parts
                     
                     with open(filepath, "r", encoding="utf-8") as f:
                         content = f.read()

@@ -95,9 +95,6 @@ class CodeGenerator:
                         "is_valid": is_valid
                     }
 
-                    # print(f"[DEBUG] Generated Code Snippet:\n{code}")
-                    # print(f"[DEBUG] Metadata: \N{metadata}")
-
                     # Save to file
                     file_path = self.file_manager.save_code_snippet(
                         code, pattern, difficulty, llm_prefix, metadata

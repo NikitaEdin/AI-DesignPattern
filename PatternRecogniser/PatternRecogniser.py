@@ -25,15 +25,6 @@ class DPR:
         self.filter_pattern = args.filter_pattern
         self.filter_difficulty = args.filter_difficulty
         self.filter_llm = args.filter_llm
-
-        # print(f'---analysing---')
-        # print(f'self.workflow: {self.workflow}')
-        # print(f'self.llm: {self.llm}')
-        # print(f'---filters---')
-        # print(f'self.pattern: {self.filter_pattern}')
-        # print(f'self.difficulty: {self.filter_difficulty}')
-        # print(f'self.filter_llm: {self.filter_llm}')
-        # print(f'self.count: {self.count}')
         
         # Get code snippets
         files = self.filemanager.locate_snippets(
@@ -41,9 +32,6 @@ class DPR:
             difficulty=self.filter_difficulty,
             llm=self.filter_llm,
             count=self.count)
-        
-        # for file in files:
-        #     print(file)
 
         print(f"Found {len(files)} code snippets to analyse")
         
@@ -65,7 +53,7 @@ class DPR:
         
         # Execute the workflow
         results = workflow.execute(files)
-        
+
         # Report
         if results:
             report_gen = ReportGenerator()
