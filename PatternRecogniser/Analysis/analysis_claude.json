@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "llm_name": "claude",
+    "generation_timestamp": "2025-10-03T15:13:27.942856",
+    "reports_directory": "./Reports",
+    "total_records_analysed": 130
+  },
+  "total_analysis_time_seconds": 2187.92,
+  "total_analysis_time_minutes": 36.47,
+  "total_analysis_time_hours": 0.61,
+  "average_analysis_time_seconds": 16.83,
+  "min_analysis_time_seconds": 12.85,
+  "max_analysis_time_seconds": 26.24,
+  "success_rate_per_pattern": {
+    "Singleton": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Factory": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Builder": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Prototype": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Adapter": {
+      "success_rate": 1.0,
+      "total_count": 9,
+      "success_count": 9,
+      "failure_count": 0
+    },
+    "Decorator": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Facade": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Proxy": {
+      "success_rate": 0.91,
+      "total_count": 11,
+      "success_count": 10,
+      "failure_count": 1
+    },
+    "Observer": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Strategy": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Command": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "Iterator": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    },
+    "State": {
+      "success_rate": 1.0,
+      "total_count": 10,
+      "success_count": 10,
+      "failure_count": 0
+    }
+  },
+  "success_rate_by_difficulty": {
+    "E": {
+      "success_rate": 0.99,
+      "total_count": 130,
+      "success_count": 129,
+      "failure_count": 1,
+      "average_confidence": 0.93,
+      "average_time_seconds": 16.83
+    }
+  },
+  "success_rate_by_generated_llm": {
+    "grok4f": {
+      "success_rate": 0.99,
+      "total_count": 130,
+      "success_count": 129,
+      "failure_count": 1,
+      "average_confidence": 0.93,
+      "average_time_seconds": 16.83
+    }
+  },
+  "most_challenging_patterns": {
+    "top_most_challenging": [
+      {
+        "pattern": "Proxy",
+        "challenge_score": 0.27,
+        "success_rate": 0.91,
+        "average_time_seconds": 17.14,
+        "average_confidence": 0.88,
+        "total_attempts": 11,
+        "failure_count": 1
+      },
+      {
+        "pattern": "Factory",
+        "challenge_score": 0.23,
+        "success_rate": 1.0,
+        "average_time_seconds": 18.56,
+        "average_confidence": 0.9,
+        "total_attempts": 10,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Prototype",
+        "challenge_score": 0.23,
+        "success_rate": 1.0,
+        "average_time_seconds": 19.14,
+        "average_confidence": 0.93,
+        "total_attempts": 10,
+        "failure_count": 0
+      }
+    ],
+    "top_easiest": [
+      {
+        "pattern": "Strategy",
+        "challenge_score": 0.18,
+        "success_rate": 1.0,
+        "average_time_seconds": 15.08,
+        "average_confidence": 0.94,
+        "total_attempts": 10,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Iterator",
+        "challenge_score": 0.19,
+        "success_rate": 1.0,
+        "average_time_seconds": 15.84,
+        "average_confidence": 0.97,
+        "total_attempts": 10,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Command",
+        "challenge_score": 0.19,
+        "success_rate": 1.0,
+        "average_time_seconds": 15.47,
+        "average_confidence": 0.94,
+        "total_attempts": 10,
+        "failure_count": 0
+      }
+    ]
+  },
+  "own_vs_other_code_efficiency": {
+    "own_code_success_rate": 0.0,
+    "other_code_success_rate": 0.99
+  }
+}

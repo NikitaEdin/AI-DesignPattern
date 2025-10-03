@@ -1,7 +1,7 @@
 {
   "metadata": {
     "llm_name": "openai",
-    "generation_timestamp": "2025-10-02T15:27:26.432150",
+    "generation_timestamp": "2025-10-03T15:13:28.293568",
     "reports_directory": "./Reports",
     "total_records_analysed": 1560
   },
@@ -19,10 +19,10 @@
       "failure_count": 4
     },
     "Factory": {
-      "success_rate": 0.97,
-      "total_count": 119,
+      "success_rate": 0.96,
+      "total_count": 120,
       "success_count": 115,
-      "failure_count": 4
+      "failure_count": 5
     },
     "Builder": {
       "success_rate": 1.0,
@@ -90,5 +90,129 @@
       "success_count": 119,
       "failure_count": 0
     }
+  },
+  "success_rate_by_difficulty": {
+    "E": {
+      "success_rate": 1.0,
+      "total_count": 520,
+      "success_count": 518,
+      "failure_count": 2,
+      "average_confidence": 0.95,
+      "average_time_seconds": 23.76
+    },
+    "H": {
+      "success_rate": 0.97,
+      "total_count": 520,
+      "success_count": 504,
+      "failure_count": 16,
+      "average_confidence": 0.95,
+      "average_time_seconds": 28.35
+    },
+    "M": {
+      "success_rate": 1.0,
+      "total_count": 520,
+      "success_count": 518,
+      "failure_count": 2,
+      "average_confidence": 0.95,
+      "average_time_seconds": 25.46
+    }
+  },
+  "success_rate_by_generated_llm": {
+    "openai": {
+      "success_rate": 0.99,
+      "total_count": 390,
+      "success_count": 386,
+      "failure_count": 4,
+      "average_confidence": 0.95,
+      "average_time_seconds": 24.68
+    },
+    "claude": {
+      "success_rate": 0.98,
+      "total_count": 390,
+      "success_count": 384,
+      "failure_count": 6,
+      "average_confidence": 0.95,
+      "average_time_seconds": 28.48
+    },
+    "kimik2": {
+      "success_rate": 0.98,
+      "total_count": 390,
+      "success_count": 384,
+      "failure_count": 6,
+      "average_confidence": 0.95,
+      "average_time_seconds": 23.5
+    },
+    "grok4fast": {
+      "success_rate": 0.99,
+      "total_count": 390,
+      "success_count": 386,
+      "failure_count": 4,
+      "average_confidence": 0.95,
+      "average_time_seconds": 26.77
+    }
+  },
+  "most_challenging_patterns": {
+    "top_most_challenging": [
+      {
+        "pattern": "Singleton",
+        "challenge_score": 0.14,
+        "success_rate": 0.97,
+        "average_time_seconds": 30.5,
+        "average_confidence": 0.97,
+        "total_attempts": 122,
+        "failure_count": 4
+      },
+      {
+        "pattern": "Factory",
+        "challenge_score": 0.13,
+        "success_rate": 0.96,
+        "average_time_seconds": 25.98,
+        "average_confidence": 0.93,
+        "total_attempts": 120,
+        "failure_count": 5
+      },
+      {
+        "pattern": "Decorator",
+        "challenge_score": 0.13,
+        "success_rate": 0.94,
+        "average_time_seconds": 25.61,
+        "average_confidence": 0.96,
+        "total_attempts": 127,
+        "failure_count": 7
+      }
+    ],
+    "top_easiest": [
+      {
+        "pattern": "State",
+        "challenge_score": 0.1,
+        "success_rate": 1.0,
+        "average_time_seconds": 25.23,
+        "average_confidence": 0.96,
+        "total_attempts": 119,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Observer",
+        "challenge_score": 0.1,
+        "success_rate": 1.0,
+        "average_time_seconds": 24.6,
+        "average_confidence": 0.97,
+        "total_attempts": 120,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Iterator",
+        "challenge_score": 0.11,
+        "success_rate": 1.0,
+        "average_time_seconds": 26.83,
+        "average_confidence": 0.95,
+        "total_attempts": 120,
+        "failure_count": 0
+      }
+    ]
+  },
+  "own_vs_other_code_efficiency": {
+    "own_code_success_rate": 0.99,
+    "other_code_success_rate": 0.99
   }
 }

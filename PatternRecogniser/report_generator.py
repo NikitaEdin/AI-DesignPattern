@@ -72,10 +72,12 @@ class ReportGenerator:
 
             snippet_filename = os.path.basename(result.snippet_path)
             analysed_file_data = catalogue.parse_filename(snippet_filename)
+            analysed_llm = catalogue.LLM_SHORT_MAP.get(analysed_file_data.get('llm'))
+            
             row = {
                 'Date': result.analysis_started_at.strftime('%H:%M:%S %d-%m-%Y'),
                 'Analysing_LLM': analysing_llm.lower(),
-                'Generated_LLM': analysed_file_data.get('llm').lower(),
+                'Generated_LLM': analysed_llm.lower(),
                 'Snippet_name': snippet_filename,
                 'Identified pattern': result.identified_pattern,
                 'Confidence': result.confidence,

@@ -46,8 +46,9 @@ LLM_SHORT_MAP: Final[dict[str, str]] = {
 ############### UTILS ###############
 
 def get_llm_prefix(name:str) -> str:
+    name = name.lower()
     for prefix, provider in LLM_SHORT_MAP.items():
-        if provider == name:
+        if provider.lower() == name:
             return prefix
     
     return None

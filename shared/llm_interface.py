@@ -246,7 +246,7 @@ class LLMFactory:
         "grok": GrokInterface, 
         "qwen": QwenInterface, # limited to 50 requests per days
         "grok4fast": Grok4FastInterface, #free
-        "kimik2": KimiK2Interface # limited max tokens
+        "kimi": KimiK2Interface # limited max tokens
     }
 
     @staticmethod

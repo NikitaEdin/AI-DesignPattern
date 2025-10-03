@@ -25,7 +25,12 @@ class AnalysisGenerator:
         self.calculation_methods: List[Callable] = [
             self._calculate_total_analysis_time,
             self._calculate_average_analysis_time,
-            self._calculate_success_rate_per_pattern
+            self._calculate_success_rate_per_pattern,
+            
+            self._calculate_success_rate_by_difficulty,
+            self._calculate_success_rate_by_generated_llm,
+            self._calculate_most_challenging_patterns,
+            self._calculate_own_vs_other_code_efficiency
         ]
     
     def get_excel_reports(self) -> List[Path]:
@@ -93,8 +98,113 @@ class AnalysisGenerator:
         
         return {"success_rate_per_pattern": success_rates}
     
+
+        """Calculate analysis time statistics for each identified pattern"""
+        time_by_pattern = {}
+        
+        for pattern in DESIGN_PATTERNS:
+            pattern_df = df[str(df['Identified pattern']).lower() == pattern]
+            
+            if len(pattern_df) > 0:
+                time_by_pattern[pattern] = {
+                    "min_time_seconds": float(pattern_df['Analysis_time'].min()),
+                    "max_time_seconds": float(pattern_df['Analysis_time'].max()),
+                    "total_time_seconds": float(pattern_df['Analysis_time'].sum()),
+                    "sample_count": int(len(pattern_df))
+                }
+        
+        return {"analysis_time_by_pattern": time_by_pattern}
     
+    def _calculate_success_rate_by_difficulty(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Calculate success rate by pattern difficulty level"""
+        success_by_difficulty = {}
+        
+        for difficulty in df['Pattern_difficulty'].unique():
+            difficulty_df = df[df['Pattern_difficulty'] == difficulty]
+            
+            success_by_difficulty[str(difficulty)] = {
+                "success_rate": round(float(difficulty_df['Success'].mean()),2),
+                "total_count": int(len(difficulty_df)),
+                "success_count": int(difficulty_df['Success'].sum()),
+                "failure_count": int((~difficulty_df['Success']).sum()),
+                "average_confidence": round(float(difficulty_df['Confidence'].mean()),2),
+                "average_time_seconds": round(float(difficulty_df['Analysis_time'].mean()),2)
+            }
+        
+        return {"success_rate_by_difficulty": success_by_difficulty}
     
+    def _calculate_success_rate_by_generated_llm(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Calculate success rate for each code generator LLM"""
+        success_by_llm = {}
+        
+        for llm in df['Generated_LLM'].unique():
+            llm_df = df[df['Generated_LLM'] == llm]
+            
+            success_by_llm[str(llm)] = {
+                "success_rate": round(float(llm_df['Success'].mean()),2),
+                "total_count": int(len(llm_df)),
+                "success_count": int(llm_df['Success'].sum()),
+                "failure_count": int((~llm_df['Success']).sum()),
+                "average_confidence": round(float(llm_df['Confidence'].mean()),2),
+                "average_time_seconds": round(float(llm_df['Analysis_time'].mean()),2)
+            }
+        
+        return {"success_rate_by_generated_llm": success_by_llm}
+    
+    def _calculate_most_challenging_patterns(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Identify most challenging patterns based on multiple metrics"""
+        challenging_patterns = []
+        
+        for pattern in DESIGN_PATTERNS:
+            pattern_df = df[df['Identified pattern'] == pattern]
+            
+            if len(pattern_df) > 0:
+                # Calculate challenge score (lower success rate + higher time + lower confidence = more challenging)
+                success_rate = pattern_df['Success'].mean()
+                avg_time = pattern_df['Analysis_time'].mean()
+                avg_confidence = pattern_df['Confidence'].mean()
+                
+                # Normalize and combine metrics (higher score = more challenging)
+                challenge_score = (1 - success_rate) * 0.5 + (avg_time / df['Analysis_time'].max()) * 0.3 + (1 - avg_confidence) * 0.2
+                
+                challenging_patterns.append({
+                    "pattern": pattern,
+                    "challenge_score": round(float(challenge_score),2),
+                    "success_rate": round(float(success_rate),2),
+                    "average_time_seconds": round(float(avg_time),2),
+                    "average_confidence": round(float(avg_confidence),2),
+                    "total_attempts": int(len(pattern_df)),
+                    "failure_count": int((~pattern_df['Success']).sum())
+                })
+        
+        # Sort by challenge score (descending)
+        challenging_patterns.sort(key=lambda x: x['challenge_score'], reverse=True)
+        
+        return {
+            "most_challenging_patterns": {
+                "top_most_challenging": challenging_patterns[:3] if len(challenging_patterns) >= 3 else challenging_patterns,
+                "top_easiest": challenging_patterns[-3:][::-1] if len(challenging_patterns) >= 3 else []
+            }
+        }
+
+    def _calculate_own_vs_other_code_efficiency(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Compare efficiency when analyzing own code vs code from other LLMs"""
+        # own code vs other code
+        own_code_df = df[df['Analysing_LLM'] == df['Generated_LLM']]
+        other_code_df = df[df['Analysing_LLM'] != df['Generated_LLM']]
+        
+        # Calculate success rates
+        own_success_rate = own_code_df['Success'].mean() if len(own_code_df) > 0 else 0.0
+        other_success_rate = other_code_df['Success'].mean() if len(other_code_df) > 0 else 0.0
+        
+        return {
+            "own_vs_other_code_efficiency": {
+                "own_code_success_rate": round(float(own_success_rate),2),
+                "other_code_success_rate": round(float(other_success_rate),2)
+            }
+        }
+
+    ############################ END OF CALCULATION ############################
     def generate_analysis_for_llm(self, df: pd.DataFrame, llm_name: str) -> Dict[str, Any]:
         """
         Execute all calculation methods for a single LLM's data

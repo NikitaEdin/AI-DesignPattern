@@ -1,7 +1,7 @@
 {
   "metadata": {
     "llm_name": "grok4fast",
-    "generation_timestamp": "2025-10-02T15:27:26.141358",
+    "generation_timestamp": "2025-10-03T15:13:28.057889",
     "reports_directory": "./Reports",
     "total_records_analysed": 1560
   },
@@ -90,5 +90,129 @@
       "success_count": 113,
       "failure_count": 0
     }
+  },
+  "success_rate_by_difficulty": {
+    "E": {
+      "success_rate": 0.97,
+      "total_count": 520,
+      "success_count": 502,
+      "failure_count": 18,
+      "average_confidence": 0.99,
+      "average_time_seconds": 22.43
+    },
+    "H": {
+      "success_rate": 0.97,
+      "total_count": 520,
+      "success_count": 502,
+      "failure_count": 18,
+      "average_confidence": 0.97,
+      "average_time_seconds": 24.06
+    },
+    "M": {
+      "success_rate": 0.97,
+      "total_count": 520,
+      "success_count": 506,
+      "failure_count": 14,
+      "average_confidence": 0.98,
+      "average_time_seconds": 23.0
+    }
+  },
+  "success_rate_by_generated_llm": {
+    "grok4fast": {
+      "success_rate": 0.99,
+      "total_count": 390,
+      "success_count": 386,
+      "failure_count": 4,
+      "average_confidence": 0.98,
+      "average_time_seconds": 23.39
+    },
+    "openai": {
+      "success_rate": 0.99,
+      "total_count": 390,
+      "success_count": 387,
+      "failure_count": 3,
+      "average_confidence": 0.97,
+      "average_time_seconds": 24.35
+    },
+    "claude": {
+      "success_rate": 0.97,
+      "total_count": 390,
+      "success_count": 378,
+      "failure_count": 12,
+      "average_confidence": 0.98,
+      "average_time_seconds": 22.99
+    },
+    "ollama": {
+      "success_rate": 0.92,
+      "total_count": 390,
+      "success_count": 359,
+      "failure_count": 31,
+      "average_confidence": 0.98,
+      "average_time_seconds": 21.92
+    }
+  },
+  "most_challenging_patterns": {
+    "top_most_challenging": [
+      {
+        "pattern": "Decorator",
+        "challenge_score": 0.11,
+        "success_rate": 0.88,
+        "average_time_seconds": 21.59,
+        "average_confidence": 0.99,
+        "total_attempts": 135,
+        "failure_count": 16
+      },
+      {
+        "pattern": "Factory",
+        "challenge_score": 0.07,
+        "success_rate": 0.99,
+        "average_time_seconds": 28.87,
+        "average_confidence": 0.98,
+        "total_attempts": 121,
+        "failure_count": 1
+      },
+      {
+        "pattern": "Facade",
+        "challenge_score": 0.07,
+        "success_rate": 0.98,
+        "average_time_seconds": 24.23,
+        "average_confidence": 0.94,
+        "total_attempts": 116,
+        "failure_count": 2
+      }
+    ],
+    "top_easiest": [
+      {
+        "pattern": "State",
+        "challenge_score": 0.04,
+        "success_rate": 1.0,
+        "average_time_seconds": 21.01,
+        "average_confidence": 0.98,
+        "total_attempts": 113,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Command",
+        "challenge_score": 0.04,
+        "success_rate": 1.0,
+        "average_time_seconds": 20.63,
+        "average_confidence": 1.0,
+        "total_attempts": 118,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Builder",
+        "challenge_score": 0.04,
+        "success_rate": 1.0,
+        "average_time_seconds": 20.25,
+        "average_confidence": 1.0,
+        "total_attempts": 118,
+        "failure_count": 0
+      }
+    ]
+  },
+  "own_vs_other_code_efficiency": {
+    "own_code_success_rate": 0.99,
+    "other_code_success_rate": 0.96
   }
 }

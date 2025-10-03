@@ -72,12 +72,12 @@ def create_visualisation(data, output_path):
         ax1.text(rate - 0.02, bar.get_y() + bar.get_height()/2, 
                  f'{rate:.0%}', va='center', ha='right', fontweight='bold', color='white')
     
-    # Subplot 2: Total Records Analysed per Pattern
+    # Subplot 2: Pattern Detection Frequency
     ax2 = plt.subplot(2, 2, 2)
     bars2 = ax2.bar(patterns, total_counts, color='#3498db', alpha=0.8, edgecolor='black')
     ax2.set_xlabel('Design Pattern', fontweight='bold')
-    ax2.set_ylabel('Number of Records', fontweight='bold')
-    ax2.set_title('Records Analysed per Pattern', fontweight='bold')
+    ax2.set_ylabel('Detection Count', fontweight='bold')
+    ax2.set_title('Pattern Detection Frequency', fontweight='bold')
     ax2.tick_params(axis='x', rotation=45)
     ax2.grid(axis='y', alpha=0.3)
     # Add count labels on bars
