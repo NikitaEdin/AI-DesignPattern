@@ -210,9 +210,11 @@ class QwenInterface(OpenRouterInterface):
 # Free models
 class Grok4FastInterface(OpenRouterInterface):
     # Fast and high quality results, no limits, even after 1.5M tokens in a day.
-    """Interface for Grok 4 Fast (free) via OpenRouter"""
+    # 03/10/2025 - "x-ai/grok-4-fast:free" was removed from OpenReach
+
+    """Interface for Grok 4 Fast via OpenRouter"""
     def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
-        super().__init__(api_key, "x-ai/grok-4-fast:free", max_tokens, temperature)
+        super().__init__(api_key, "x-ai/grok-4-fast", max_tokens, temperature)
 
     def get_prefix(self):
         return "GROK4F"
