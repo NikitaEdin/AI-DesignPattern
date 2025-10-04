@@ -56,7 +56,7 @@ def create_visualisation(data, output_path):
     fig.suptitle(f'Design Pattern Analysis - {llm_name} Performance Report', 
                  fontsize=16, fontweight='bold')
     
-    # Subplot 1: Success Rate by Pattern (Horizontal Bar Chart)
+   # Subplot 1: Success Rate by Pattern (Horizontal Bar Chart)
     ax1 = plt.subplot(2, 2, 1)
     colors = ['#2ecc71' if sr == 1.0 else '#e74c3c' if sr < 0.95 else '#f39c12' for sr in success_rates]
     y_pos = np.arange(len(patterns))
@@ -65,26 +65,49 @@ def create_visualisation(data, output_path):
     ax1.set_yticklabels(patterns)
     ax1.set_xlabel('Success Rate', fontweight='bold')
     ax1.set_title('Success Rate by Design Pattern', fontweight='bold')
-    ax1.set_xlim([0.85, 1.01])
+    # Dynamic x-axis limits based on actual data
+    min_rate = min(success_rates)
+    x_min = max(0.0, min_rate - 0.05)  # 5% padding below minimum
+    ax1.set_xlim([x_min, 1.01])
     ax1.grid(axis='x', alpha=0.3)
     # Add percentage labels
     for i, (bar, rate) in enumerate(zip(bars, success_rates)):
         ax1.text(rate - 0.02, bar.get_y() + bar.get_height()/2, 
                  f'{rate:.0%}', va='center', ha='right', fontweight='bold', color='white')
     
-    # Subplot 2: Pattern Detection Frequency
+   # Subplot 2: Success Rate by Difficulty Level
     ax2 = plt.subplot(2, 2, 2)
-    bars2 = ax2.bar(patterns, total_counts, color='#3498db', alpha=0.8, edgecolor='black')
-    ax2.set_xlabel('Design Pattern', fontweight='bold')
-    ax2.set_ylabel('Detection Count', fontweight='bold')
-    ax2.set_title('Pattern Detection Frequency', fontweight='bold')
-    ax2.tick_params(axis='x', rotation=45)
-    ax2.grid(axis='y', alpha=0.3)
-    # Add count labels on bars
-    for bar in bars2:
-        height = bar.get_height()
-        ax2.text(bar.get_x() + bar.get_width()/2., height,
-                 f'{int(height)}', ha='center', va='bottom', fontweight='bold')
+    if "success_rate_by_difficulty" in data:
+        # Define order: Easy, Medium, Hard
+        difficulty_order = ['E', 'M', 'H']
+        difficulties = [d for d in difficulty_order if d in data["success_rate_by_difficulty"]]
+        diff_success_rates = [data["success_rate_by_difficulty"][d]["success_rate"] for d in difficulties]
+        diff_colors = ['#2ecc71', '#f39c12', '#e74c3c']  # Green for Easy, Orange for Medium, Red for Hard
+        
+        bars2 = ax2.bar(difficulties, diff_success_rates, color=diff_colors, alpha=0.8, edgecolor='black')
+        ax2.set_xlabel('Difficulty Level', fontweight='bold')
+        ax2.set_ylabel('Success Rate', fontweight='bold')
+        ax2.set_title('Success Rate by Difficulty', fontweight='bold')
+        ax2.set_ylim([0.9, 1.01])
+        ax2.grid(axis='y', alpha=0.3)
+        
+        # Add percentage labels on bars
+        for bar, rate in zip(bars2, diff_success_rates):
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height,
+                     f'{rate:.1%}', ha='center', va='bottom', fontweight='bold')
+    else:
+        # Fallback to total counts if difficulty data not available
+        bars2 = ax2.bar(patterns, total_counts, color='#3498db', alpha=0.8, edgecolor='black')
+        ax2.set_xlabel('Design Pattern', fontweight='bold')
+        ax2.set_ylabel('Detection Count', fontweight='bold')
+        ax2.set_title('Pattern Detection Frequency', fontweight='bold')
+        ax2.tick_params(axis='x', rotation=45)
+        ax2.grid(axis='y', alpha=0.3)
+        for bar in bars2:
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height,
+                     f'{int(height)}', ha='center', va='bottom', fontweight='bold')
     
     # Subplot 3: Success vs Failure Counts (Stacked Bar)
     ax3 = plt.subplot(2, 2, 3)
@@ -98,49 +121,65 @@ def create_visualisation(data, output_path):
     ax3.legend()
     ax3.grid(axis='y', alpha=0.3)
     
-    # Subplot 4: Summary Statistics (Text Box)
+    # Subplot 4: Time by Code Generator
     ax4 = plt.subplot(2, 2, 4)
-    ax4.axis('off')
     
-    # Get timestamp if available
-    timestamp = data["metadata"].get("generation_timestamp", "N/A")
-    
-    summary_text = f"""
-ANALYSIS SUMMARY
-{'=' * 40}
-
-LLM Model: {llm_name}
-Generated: {timestamp}
-Total Records: {data['metadata']['total_records_analysed']:,}
-
-TIMING STATISTICS:
-  • Total Time: {data['total_analysis_time_hours']:.2f} hours
-  • Average Time: {data['average_analysis_time_seconds']:.2f} sec
-  • Min Time: {data['min_analysis_time_seconds']:.2f} sec
-  • Max Time: {data['max_analysis_time_seconds']:.2f} sec
-
-PATTERN STATISTICS:
-  • Total Patterns: {len(patterns)}
-  • Perfect Success: {sum(1 for sr in success_rates if sr == 1.0)} patterns
-  • Total Failures: {sum(failure_counts)} records
-  • Overall Success Rate: {sum(success_counts) / sum(total_counts):.1%}
-
-PATTERNS WITH ISSUES:"""
-    
-    # Add patterns with failures
-    patterns_with_failures = [(p, failure_counts[i], success_rates[i]) 
-                              for i, p in enumerate(patterns) if failure_counts[i] > 0]
-    patterns_with_failures.sort(key=lambda x: x[1], reverse=True)
-    
-    if patterns_with_failures:
-        for pattern, failures, rate in patterns_with_failures:
-            summary_text += f"\n  • {pattern}: {failures} failures ({rate:.0%})"
+    if "success_rate_by_generated_llm" in data:
+        generators = list(data["success_rate_by_generated_llm"].keys())
+        gen_times = [data["success_rate_by_generated_llm"][g]["average_time_seconds"] for g in generators]
+        
+        # Sort by time
+        sorted_indices = sorted(range(len(gen_times)), key=lambda i: gen_times[i], reverse=True)
+        sorted_generators = [generators[i] for i in sorted_indices]
+        sorted_times = [gen_times[i] for i in sorted_indices]
+        
+        # Color code by time (relative to range)
+        if len(sorted_times) > 1:
+            max_time = max(sorted_times)
+            min_time = min(sorted_times)
+            time_range = max_time - min_time
+            
+            colors_gen = []
+            for t in sorted_times:
+                if time_range > 0:
+                    normalized = (t - min_time) / time_range
+                    if normalized > 0.66:
+                        colors_gen.append('#e74c3c')  # Red - slowest
+                    elif normalized > 0.33:
+                        colors_gen.append('#f39c12')  # Orange - medium
+                    else:
+                        colors_gen.append('#2ecc71')  # Green - fastest
+                else:
+                    colors_gen.append('#3498db')  # All same
+        else:
+            colors_gen = ['#3498db'] * len(sorted_times)
+        
+        y_pos = np.arange(len(sorted_generators))
+        bars4 = ax4.barh(y_pos, sorted_times, color=colors_gen, alpha=0.8, edgecolor='black')
+        ax4.set_yticks(y_pos)
+        ax4.set_yticklabels(sorted_generators)
+        ax4.set_xlabel('Average Time (seconds)', fontweight='bold')
+        ax4.set_title(f'{llm_name}: Analysis Time by Code Generator', fontweight='bold')
+        ax4.grid(axis='x', alpha=0.3)
+        
+        # Add time labels
+        for bar, time in zip(bars4, sorted_times):
+            ax4.text(bar.get_width() + 0.1, bar.get_y() + bar.get_height()/2,
+                    f'{time:.2f}s', va='center', ha='left', fontweight='bold', fontsize=9)
+        
+        # Add insight text if there's a notable difference
+        if len(sorted_times) > 1 and time_range > 0:
+            time_diff = max_time - min_time
+            if time_diff > 1.0:  # More than 1 second difference
+                insight_text = f"Difference: {time_diff:.2f}s ({(time_diff/min_time)*100:.1f}% variation)"
+                ax4.text(0.98, 0.02, insight_text, transform=ax4.transAxes,
+                        ha='right', va='bottom', fontsize=8, style='italic',
+                        bbox=dict(boxstyle='round', facecolor='yellow', alpha=0.3))
     else:
-        summary_text += "\n  • None - Perfect Performance!"
-    
-    ax4.text(0.1, 0.95, summary_text, transform=ax4.transAxes, 
-             fontsize=10, verticalalignment='top', fontfamily='monospace',
-             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.3))
+        ax4.text(0.5, 0.5, 'Code generator time data not available', 
+                transform=ax4.transAxes, ha='center', va='center',
+                fontsize=12, style='italic')
+        ax4.axis('off')
     
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
@@ -246,7 +285,7 @@ def create_summary_visualisation(data_list, output_path):
     ax4.set_xticklabels(patterns, rotation=45, ha='right')
     ax4.set_ylabel('Success Rate', fontweight='bold')
     ax4.set_title('Pattern-by-Pattern Comparison', fontweight='bold')
-    ax4.set_ylim([0.85, 1.02])
+    ax4.set_ylim([0.80, 1.02])
     ax4.legend(loc='lower right')
     ax4.grid(alpha=0.3)
     ax4.axhline(y=1.0, color='green', linestyle='--', alpha=0.3, label='Perfect Score')
