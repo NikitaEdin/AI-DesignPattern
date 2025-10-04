@@ -1,7 +1,7 @@
 {
   "metadata": {
     "llm_name": "openai",
-    "generation_timestamp": "2025-10-03T15:13:28.293568",
+    "generation_timestamp": "2025-10-04T18:40:36.744158",
     "reports_directory": "./Reports",
     "total_records_analysed": 1560
   },
@@ -13,10 +13,10 @@
   "max_analysis_time_seconds": 78.07,
   "success_rate_per_pattern": {
     "Singleton": {
-      "success_rate": 0.97,
-      "total_count": 122,
+      "success_rate": 0.98,
+      "total_count": 120,
       "success_count": 118,
-      "failure_count": 4
+      "failure_count": 2
     },
     "Factory": {
       "success_rate": 0.96,
@@ -37,28 +37,28 @@
       "failure_count": 0
     },
     "Adapter": {
-      "success_rate": 1.0,
-      "total_count": 115,
+      "success_rate": 0.96,
+      "total_count": 120,
       "success_count": 115,
-      "failure_count": 0
+      "failure_count": 5
     },
     "Decorator": {
-      "success_rate": 0.94,
-      "total_count": 127,
+      "success_rate": 1.0,
+      "total_count": 120,
       "success_count": 120,
-      "failure_count": 7
+      "failure_count": 0
     },
     "Facade": {
-      "success_rate": 0.99,
-      "total_count": 121,
+      "success_rate": 1.0,
+      "total_count": 120,
       "success_count": 120,
-      "failure_count": 1
+      "failure_count": 0
     },
     "Proxy": {
-      "success_rate": 1.0,
-      "total_count": 116,
+      "success_rate": 0.97,
+      "total_count": 120,
       "success_count": 116,
-      "failure_count": 0
+      "failure_count": 4
     },
     "Observer": {
       "success_rate": 1.0,
@@ -85,10 +85,10 @@
       "failure_count": 0
     },
     "State": {
-      "success_rate": 1.0,
-      "total_count": 119,
+      "success_rate": 0.99,
+      "total_count": 120,
       "success_count": 119,
-      "failure_count": 0
+      "failure_count": 1
     }
   },
   "success_rate_by_difficulty": {
@@ -155,42 +155,33 @@
     "top_most_challenging": [
       {
         "pattern": "Singleton",
-        "challenge_score": 0.14,
-        "success_rate": 0.97,
-        "average_time_seconds": 30.5,
+        "challenge_score": 0.13,
+        "success_rate": 0.98,
+        "average_time_seconds": 30.49,
         "average_confidence": 0.97,
-        "total_attempts": 122,
-        "failure_count": 4
+        "total_attempts": 120,
+        "failure_count": 2
       },
       {
         "pattern": "Factory",
         "challenge_score": 0.13,
         "success_rate": 0.96,
-        "average_time_seconds": 25.98,
+        "average_time_seconds": 25.96,
         "average_confidence": 0.93,
         "total_attempts": 120,
         "failure_count": 5
       },
       {
-        "pattern": "Decorator",
+        "pattern": "Adapter",
         "challenge_score": 0.13,
-        "success_rate": 0.94,
-        "average_time_seconds": 25.61,
-        "average_confidence": 0.96,
-        "total_attempts": 127,
-        "failure_count": 7
+        "success_rate": 0.96,
+        "average_time_seconds": 25.79,
+        "average_confidence": 0.93,
+        "total_attempts": 120,
+        "failure_count": 5
       }
     ],
     "top_easiest": [
-      {
-        "pattern": "State",
-        "challenge_score": 0.1,
-        "success_rate": 1.0,
-        "average_time_seconds": 25.23,
-        "average_confidence": 0.96,
-        "total_attempts": 119,
-        "failure_count": 0
-      },
       {
         "pattern": "Observer",
         "challenge_score": 0.1,
@@ -201,13 +192,22 @@
         "failure_count": 0
       },
       {
-        "pattern": "Iterator",
-        "challenge_score": 0.11,
+        "pattern": "Decorator",
+        "challenge_score": 0.1,
         "success_rate": 1.0,
-        "average_time_seconds": 26.83,
-        "average_confidence": 0.95,
+        "average_time_seconds": 25.45,
+        "average_confidence": 0.97,
         "total_attempts": 120,
         "failure_count": 0
+      },
+      {
+        "pattern": "State",
+        "challenge_score": 0.11,
+        "success_rate": 0.99,
+        "average_time_seconds": 25.2,
+        "average_confidence": 0.96,
+        "total_attempts": 120,
+        "failure_count": 1
       }
     ]
   },

@@ -33,6 +33,10 @@ class AnalysisGenerator:
             self._calculate_own_vs_other_code_efficiency
         ]
     
+    def extract_expected_pattern(self, snippet_name: str) -> str:
+        """ Extract expected pattern from snippet name: 'Decorator_0_E_GROK4F.py' -> 'Decorator' """
+        return snippet_name.split('_')[0]
+
     def get_excel_reports(self) -> List[Path]:
         """ Get all Excel report files from the reports directory """
         if not os.path.exists(self.reports_dir):
@@ -85,9 +89,12 @@ class AnalysisGenerator:
         """Calculate success rates for each design pattern."""
         success_rates = {}
         
+        # Add expected pattern column for analysis
+        df['Expected_pattern'] = df['Snippet_name'].apply(self.extract_expected_pattern)
+
         for pattern in DESIGN_PATTERNS:
-            pattern_df = df[df['Identified pattern'] == pattern]
-            
+            pattern_df = df[df['Expected_pattern'] == pattern]
+
             if len(pattern_df) > 0:
                 success_rates[pattern] = {
                     "success_rate": round(pattern_df['Success'].mean(), 2),
@@ -118,7 +125,7 @@ class AnalysisGenerator:
     def _calculate_success_rate_by_difficulty(self, df: pd.DataFrame) -> Dict[str, Any]:
         """Calculate success rate by pattern difficulty level"""
         success_by_difficulty = {}
-        
+
         for difficulty in df['Pattern_difficulty'].unique():
             difficulty_df = df[df['Pattern_difficulty'] == difficulty]
             
@@ -155,8 +162,11 @@ class AnalysisGenerator:
         """Identify most challenging patterns based on multiple metrics"""
         challenging_patterns = []
         
+        # Add expected pattern column
+        df['Expected_pattern'] = df['Snippet_name'].apply(self.extract_expected_pattern)
+
         for pattern in DESIGN_PATTERNS:
-            pattern_df = df[df['Identified pattern'] == pattern]
+            pattern_df = df[df['Expected_pattern'] == pattern]
             
             if len(pattern_df) > 0:
                 # Calculate challenge score (lower success rate + higher time + lower confidence = more challenging)

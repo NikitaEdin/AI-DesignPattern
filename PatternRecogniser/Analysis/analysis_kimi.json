@@ -1,7 +1,7 @@
 {
   "metadata": {
     "llm_name": "kimi",
-    "generation_timestamp": "2025-10-03T15:13:28.187869",
+    "generation_timestamp": "2025-10-04T18:40:36.597817",
     "reports_directory": "./Reports",
     "total_records_analysed": 1950
   },
@@ -13,10 +13,10 @@
   "max_analysis_time_seconds": 31.41,
   "success_rate_per_pattern": {
     "Singleton": {
-      "success_rate": 0.99,
-      "total_count": 152,
+      "success_rate": 1.0,
+      "total_count": 150,
       "success_count": 150,
-      "failure_count": 2
+      "failure_count": 0
     },
     "Factory": {
       "success_rate": 0.98,
@@ -31,22 +31,22 @@
       "failure_count": 0
     },
     "Prototype": {
-      "success_rate": 0.99,
-      "total_count": 151,
+      "success_rate": 1.0,
+      "total_count": 150,
       "success_count": 150,
-      "failure_count": 1
+      "failure_count": 0
     },
     "Adapter": {
-      "success_rate": 0.99,
-      "total_count": 145,
+      "success_rate": 0.96,
+      "total_count": 150,
       "success_count": 144,
-      "failure_count": 1
+      "failure_count": 6
     },
     "Decorator": {
-      "success_rate": 0.97,
-      "total_count": 155,
+      "success_rate": 1.0,
+      "total_count": 150,
       "success_count": 150,
-      "failure_count": 5
+      "failure_count": 0
     },
     "Facade": {
       "success_rate": 0.99,
@@ -55,10 +55,10 @@
       "failure_count": 1
     },
     "Proxy": {
-      "success_rate": 0.99,
-      "total_count": 146,
+      "success_rate": 0.97,
+      "total_count": 150,
       "success_count": 145,
-      "failure_count": 1
+      "failure_count": 5
     },
     "Observer": {
       "success_rate": 1.0,
@@ -67,10 +67,10 @@
       "failure_count": 0
     },
     "Strategy": {
-      "success_rate": 0.97,
-      "total_count": 152,
+      "success_rate": 0.99,
+      "total_count": 150,
       "success_count": 148,
-      "failure_count": 4
+      "failure_count": 2
     },
     "Command": {
       "success_rate": 1.0,
@@ -79,10 +79,10 @@
       "failure_count": 0
     },
     "Iterator": {
-      "success_rate": 1.0,
-      "total_count": 149,
+      "success_rate": 0.99,
+      "total_count": 150,
       "success_count": 149,
-      "failure_count": 0
+      "failure_count": 1
     },
     "State": {
       "success_rate": 1.0,
@@ -154,41 +154,50 @@
   "most_challenging_patterns": {
     "top_most_challenging": [
       {
+        "pattern": "Adapter",
+        "challenge_score": 0.14,
+        "success_rate": 0.96,
+        "average_time_seconds": 10.73,
+        "average_confidence": 0.92,
+        "total_attempts": 150,
+        "failure_count": 6
+      },
+      {
         "pattern": "Factory",
         "challenge_score": 0.13,
         "success_rate": 0.98,
-        "average_time_seconds": 10.92,
+        "average_time_seconds": 10.89,
         "average_confidence": 0.93,
         "total_attempts": 150,
         "failure_count": 3
       },
       {
-        "pattern": "Strategy",
+        "pattern": "Proxy",
         "challenge_score": 0.13,
         "success_rate": 0.97,
-        "average_time_seconds": 11.18,
-        "average_confidence": 0.95,
-        "total_attempts": 152,
-        "failure_count": 4
-      },
-      {
-        "pattern": "Prototype",
-        "challenge_score": 0.12,
-        "success_rate": 0.99,
-        "average_time_seconds": 11.01,
-        "average_confidence": 0.94,
-        "total_attempts": 151,
-        "failure_count": 1
+        "average_time_seconds": 10.54,
+        "average_confidence": 0.92,
+        "total_attempts": 150,
+        "failure_count": 5
       }
     ],
     "top_easiest": [
       {
-        "pattern": "Iterator",
+        "pattern": "Decorator",
         "challenge_score": 0.1,
         "success_rate": 1.0,
         "average_time_seconds": 9.91,
         "average_confidence": 0.96,
-        "total_attempts": 149,
+        "total_attempts": 150,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Singleton",
+        "challenge_score": 0.1,
+        "success_rate": 1.0,
+        "average_time_seconds": 10.06,
+        "average_confidence": 0.99,
+        "total_attempts": 150,
         "failure_count": 0
       },
       {
@@ -196,15 +205,6 @@
         "challenge_score": 0.11,
         "success_rate": 1.0,
         "average_time_seconds": 11.1,
-        "average_confidence": 0.96,
-        "total_attempts": 150,
-        "failure_count": 0
-      },
-      {
-        "pattern": "Command",
-        "challenge_score": 0.11,
-        "success_rate": 1.0,
-        "average_time_seconds": 10.53,
         "average_confidence": 0.96,
         "total_attempts": 150,
         "failure_count": 0
