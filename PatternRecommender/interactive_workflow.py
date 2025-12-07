@@ -8,6 +8,8 @@ from typing import Dict, Any
 from shared.llm_interface import LLMInterface
 from workflow_interface import WorkflowInterface
 from code_analyser import CodeAnalyser
+from conversation_manager import ConversationManager
+
 class InteractiveWorkflow(WorkflowInterface):
     """
     Interactive conversational apporach
@@ -24,17 +26,21 @@ class InteractiveWorkflow(WorkflowInterface):
         
         # Init
         self.analyser = CodeAnalyser(llm_interface)
-
+        self.conversation_manager = ConversationManager(llm_interface)
 
     def execute(self, code_snippet, filename):
         # Stage 1: Analyse code
-        print(f'Stage 1: Analysing code...')
+        print(f"\nStage 1: Analysing code...\n{'=' * 60}")
+
         analysis = self.analyser.analyse(code_snippet)
         self.analyser.display_analysis(analysis)
 
 
-       
-        return []
+        # Stage 2: Interactive conversation
+        print(f"\nStage 2: Interactive conversation...\n{'=' * 60}")
+        print("\nType your answers to help me understand your code better.\nType 'skip' to skip a question, or 'done' to finish early.\n")
+
+        insights = self.conversation_manager.conduct_conversation(code_snippet, analysis)
 
     def _handle_code_generation(
             self, original_code: str, 
