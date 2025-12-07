@@ -106,6 +106,17 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
             print(f'[Error] Failed to reach file: {str(e)}', file=sys.stderr)
             return None
 
+    def get_output_path(self, input_filename: str, suffix: str = '_result') -> Path:
+        """Get output path with suffix"""
+        stem = Path(input_filename).stem  # without extension
+        
+        if suffix == '_log':
+            output_filename = f"{stem}_log.txt"
+        else:
+            output_filename = f"{stem}{suffix}.py"
+        
+        return self.OUTPUT_DIR / output_filename
+
     # Saving
     def save_output(self, output_path: Path, code: str) -> bool:
         """Save to file"""
