@@ -9,6 +9,7 @@ from shared.llm_interface import LLMInterface
 from workflow_interface import WorkflowInterface
 from code_analyser import CodeAnalyser
 from conversation_manager import ConversationManager
+from recommendation_generator import RecommendationGenerator
 
 class InteractiveWorkflow(WorkflowInterface):
     """
@@ -27,6 +28,8 @@ class InteractiveWorkflow(WorkflowInterface):
         # Init
         self.analyser = CodeAnalyser(llm_interface)
         self.conversation_manager = ConversationManager(llm_interface)
+        self.recommendation_generation = RecommendationGenerator(llm_interface)
+
 
     def execute(self, code_snippet, filename):
         # Stage 1: Analyse code
@@ -41,6 +44,15 @@ class InteractiveWorkflow(WorkflowInterface):
         print("\nType your answers to help me understand your code better.\nType 'skip' to skip a question, or 'done' to finish early.\n")
 
         insights = self.conversation_manager.conduct_conversation(code_snippet, analysis)
+
+
+        # Stage 3: Generation recommendation
+        print(f"\nStage 3: Generating recommendation...\n{'=' * 60}")
+        recommendation = self.recommendation_generation.generate_recommendation(
+            code_snippet, analysis, insights
+        )
+        print(recommendation)
+
 
     def _handle_code_generation(
             self, original_code: str, 

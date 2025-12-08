@@ -46,7 +46,6 @@ Focus on:
 4. Recognising good practices
 """
     
-
     def create_question_prompt(self, code_snippet: str,
                                analysis: Dict[str, Any],
                                insights: List[Dict[str, str]]) -> str:
@@ -116,3 +115,60 @@ Code snippet for reference:
 {code_snippet}
 
 """
+    
+
+    def create_recommendation_prompt(
+        self,
+        code_snippet: str,
+        analysis: Dict[str, Any],
+        insights: List[Dict[str, str]]
+    ) -> str:
+        """Create prompt for recommendation"""
+        
+        context = ""
+        if insights:
+            context = "\n\nInsights from conversation:\n"
+            for insight in insights:
+                context += f"Q: {insight['question']}\nA: {insight['answer']}\n"
+        
+        return f"""
+You are an expert in code recommendation for improving code using design patterns.
+
+Available Design Patterns:
+{", ".join(DESIGN_PATTERNS)}
+
+ANALYSIS:
+- Current Pattern: {analysis.get('current_pattern', 'None')}
+- Confidence: {analysis.get('confidence', 0.0)}
+- Purpose: {analysis.get('purpose', 'Unknown')}
+- Issues: {', '.join(analysis.get('issues', ['None']))}
+- Strengths: {', '.join(analysis.get('strengths', ['None']))}
+
+CONTEXT:
+{context}
+
+CONSIDER ALL OPTIONS:
+1. Keep current pattern (if appropriate).
+2. Improve current implementation (if pattern is right but flawed).
+3. Switch to different pattern (if better suited).
+4. Add design pattern (if would benefit).
+5. Remove design pattern (if adds complexity).
+6. No changes needed (if fine as-is).
+
+
+Provide recommendation in this EXACT format:
+
+RECOMMENDATION: [KEEP_CURRENT / IMPROVE_CURRENT / CHANGE_PATTERN / ADD_PATTERN / REMOVE_PATTERN / NO_CHANGE]
+PATTERN: [Pattern name or "None"]
+CONFIDENCE: [0.0-1.0]
+
+RATIONALE:
+[Briefly explain why this recommendation makes sense]
+
+BENEFITS:
+[Expected improvements - short]
+
+Be pragmatic: Not every code needs a design pattern. Favour simplicity unless complexity is justified.
+"""
+
+
