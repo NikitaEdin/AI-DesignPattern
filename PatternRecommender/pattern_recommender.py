@@ -24,8 +24,6 @@ def display_results(recommendation: Dict[str, Any]) -> None:
     
     if recommendation.get('benefits'):
         print(f"\nBenefits:\n{recommendation['benefits']}")
-    
-    print("\n" + "="*60 + "\n")
 
 def main():
     try:
@@ -65,14 +63,20 @@ def main():
         recommendation = workflow.execute(code_content, file_path.name)
 
         # Display results
-        # display_results(recommendation)
+        display_results(recommendation)
 
-        # Save code (if any)        
-        # TODO: save code to file
-
-
+        # Save code (if any)       
+        code_generated = recommendation.get('code_generated', False)
+        
+        if code_generated and recommendation.get('recommended_code'):
+            cli.save_output(result_path, recommendation['recommended_code'])
+            print(f'[Success] Generated code saved to: {result_path.name}')
+    
+        if not code_generated:
+            # If no code generated, inform user
+            print("\n" + "="*60 + "\nNOTE: Code generation was declined by user" + "\n" + "="*60)
+        
         return 0
-
 
     except Exception as e:
         print(f"[Error] {str(e)}", file=sys.stderr)

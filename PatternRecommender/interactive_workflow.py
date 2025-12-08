@@ -10,6 +10,7 @@ from workflow_interface import WorkflowInterface
 from code_analyser import CodeAnalyser
 from conversation_manager import ConversationManager
 from recommendation_generator import RecommendationGenerator
+from code_generator import CodeGenerator
 
 class InteractiveWorkflow(WorkflowInterface):
     """
@@ -29,6 +30,7 @@ class InteractiveWorkflow(WorkflowInterface):
         self.analyser = CodeAnalyser(llm_interface)
         self.conversation_manager = ConversationManager(llm_interface)
         self.recommendation_generation = RecommendationGenerator(llm_interface)
+        self.code_generator = CodeGenerator(llm_interface)
 
 
     def execute(self, code_snippet, filename):
@@ -51,8 +53,15 @@ class InteractiveWorkflow(WorkflowInterface):
         recommendation = self.recommendation_generation.generate_recommendation(
             code_snippet, analysis, insights
         )
-        print(recommendation)
+        
+        # Stage 4: Generate code (if approved)
+        code_generated = self._handle_code_generation(
+            code_snippet, recommendation, filename
+        )
 
+        # Results
+        recommendation['code_generated'] = code_generated
+        return recommendation
 
     def _handle_code_generation(
             self, original_code: str, 
@@ -60,15 +69,16 @@ class InteractiveWorkflow(WorkflowInterface):
         """Handle code generation (+ user approval)"""
 
         if not recommendation.get('should_modify', False):
-            print("Stage 4: No changes recommended")
+            print("No changes recommended")
             print("[Info] Code modification not approved by user. Skipping code generation.")
             recommendation['recommended_code'] = original_code
             return False
         
         # Display recommendation
-        print("Stage 4: Recommendation Summary")
-        self.recommendation_generation.display_recommendation(recommendation)
+        self.recommendation_generation.display_recommendation_summary(recommendation)
 
+
+        print(f"\nStage 4: Generating code...\n{'=' * 60}")
         # Request user approval for code generation
         if self.code_generator.request_user_approval():
             improved_code = self.code_generator.generate_improved_code(

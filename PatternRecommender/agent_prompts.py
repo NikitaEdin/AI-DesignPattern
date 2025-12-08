@@ -116,7 +116,6 @@ Code snippet for reference:
 
 """
     
-
     def create_recommendation_prompt(
         self,
         code_snippet: str,
@@ -171,4 +170,38 @@ BENEFITS:
 Be pragmatic: Not every code needs a design pattern. Favour simplicity unless complexity is justified.
 """
 
+    def create_code_generation_prompt(
+            self, original_code: str, recommendation: Dict[str, Any], filename:str
+    ) -> str:
+        """Prompt for generating new or improved code"""
+        return f"""
+You're an expert writing clean and professional code by utilising design patterns improvements.
 
+ORIGINAL FILE: {filename}
+
+RECOMMENDATION:
+- Type: {recommendation.get('recommendation_type', 'Unknown')}
+- Pattern: {recommendation.get('suggested_pattern', 'None')}
+- Rationale: {recommendation.get('rationale', 'N/A')}
+
+ORIGINAL CODE:
+```python
+{original_code}
+```
+
+TASK: Generate the improved version following the recommendation.
+
+REQUIREMENTS:
+1. Implement the suggested pattern correctly.
+2. Preserve all functionality.
+3. Maintain readability and best practices.
+4. Add clear comments explaining pattern usage.
+5. Include docstrings for classes and methods.
+
+Provide ONLY the complete Python code in triple backticks:
+
+```python
+# Your improved code here
+```
+
+"""

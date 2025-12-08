@@ -123,7 +123,7 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
         try:
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(code)
-            print(f'[Info] Recommended code saved to: ./Output/{output_path.name}')
+            print(f'[Info] File saved to: ./Output/{output_path.name}')
             return True
         except Exception as e:
             print(f'[Error] Could not save output file: {str(e)}', file=sys.stderr)
