@@ -16,7 +16,7 @@ class InteractiveWorkflow(WorkflowInterface):
     """
     Interactive conversational apporach
 
-    Stages:
+    Phases:
     1. Analyse code structure and patterns
     2. Conduct interactive conversation (to better understand)
     3. Generate recommendation
@@ -34,27 +34,27 @@ class InteractiveWorkflow(WorkflowInterface):
 
 
     def execute(self, code_snippet, filename):
-        # Stage 1: Analyse code
-        print(f"\nStage 1: Analysing code...\n{'=' * 60}")
+        # Phase 1: Analyse code
+        print(f"\Phase 1: Analysing code...\n{'=' * 60}")
 
         analysis = self.analyser.analyse(code_snippet)
         self.analyser.display_analysis(analysis)
 
 
-        # Stage 2: Interactive conversation
-        print(f"\nStage 2: Interactive conversation...\n{'=' * 60}")
+        # Phase 2: Interactive conversation
+        print(f"\nPhase 2: Interactive conversation...\n{'=' * 60}")
         print("\nType your answers to help me understand your code better.\nType 'skip' to skip a question, or 'done' to finish early.\n")
 
         insights = self.conversation_manager.conduct_conversation(code_snippet, analysis)
 
 
-        # Stage 3: Generation recommendation
-        print(f"\nStage 3: Generating recommendation...\n{'=' * 60}")
+        # Phase 3: Generation recommendation
+        print(f"\nPhase 3: Generating recommendation...\n{'=' * 60}")
         recommendation = self.recommendation_generation.generate_recommendation(
             code_snippet, analysis, insights
         )
         
-        # Stage 4: Generate code (if approved)
+        # Phase 4: Generate code (if approved)
         code_generated = self._handle_code_generation(
             code_snippet, recommendation, filename
         )
@@ -78,7 +78,7 @@ class InteractiveWorkflow(WorkflowInterface):
         self.recommendation_generation.display_recommendation_summary(recommendation)
 
 
-        print(f"\nStage 4: Generating code...\n{'=' * 60}")
+        print(f"\nPhase 4: Generating code...\n{'=' * 60}")
         # Request user approval for code generation
         if self.code_generator.request_user_approval():
             improved_code = self.code_generator.generate_improved_code(
