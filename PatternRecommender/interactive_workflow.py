@@ -20,7 +20,7 @@ class InteractiveWorkflow(WorkflowInterface):
     1. Analyse code structure and patterns
     2. Conduct interactive conversation (to better understand)
     3. Generate recommendation
-    4. Generated improved code (if approved)
+    4. Generate improved code (if approved)
     """
 
     def __init__(self, llm_interface: LLMInterface):

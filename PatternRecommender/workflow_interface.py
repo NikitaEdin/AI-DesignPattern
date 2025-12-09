@@ -21,6 +21,7 @@ class AnalysisResult:
 
 
 # dataclass for Recommendation results
+@dataclass
 class RecommendationResult:
     """Data class for recommendation results"""
     recommendation_type: str
