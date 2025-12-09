@@ -35,7 +35,7 @@ class InteractiveWorkflow(WorkflowInterface):
 
     def execute(self, code_snippet, filename):
         # Phase 1: Analyse code
-        print(f"\Phase 1: Analysing code...\n{'=' * 60}")
+        print(f"\nPhase 1: Analysing code...\n{'=' * 60}")
 
         analysis = self.analyser.analyse(code_snippet)
         self.analyser.display_analysis(analysis)

@@ -1,0 +1,6 @@
+"codesnippet_1.py" is Singleton but should be Observer
+"codesnippet_2.py" is Observer and shouldn't be changed.
+    Note: by default it will try to improve, but might keep current/unchanged based on question answers.
+
+"codesnippet_3.py" is overengineered Strategy pattern, should be simplified/dropped.
+"codesnippet_4.py" is simplified code, no pattern is needed

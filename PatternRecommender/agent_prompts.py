@@ -151,7 +151,7 @@ CONSIDER ALL OPTIONS:
 2. Improve current implementation (if pattern is right but flawed).
 3. Switch to different pattern (if better suited).
 4. Add design pattern (if would benefit).
-5. Remove design pattern (if adds complexity).
+5. Remove design pattern (if adds complexity or over-engineered for its scale/purpose).
 6. No changes needed (if fine as-is).
 
 
@@ -167,7 +167,13 @@ RATIONALE:
 BENEFITS:
 [Expected improvements - short]
 
+CONSIDERATIONS:
 Be pragmatic: Not every code needs a design pattern. Favour simplicity unless complexity is justified.
+
+META-EVALUATION GUIDELINES:
+1. Complexity Check: If the code's primary purpose is singular, fixed, and under 20 lines, the default recommendation is NO_CHANGE.
+2. Principle Check: Only recommend a pattern (like Strategy or Observer) if the resulting code is demonstrably easier to extend (OCP) *and* the code is expected to change frequently or handle multiple, distinct algorithms in the future.
+3. Over-Engineering Penalty: If the suggested pattern adds more than 50% boilerplate code (interfaces, abstract classes, context managers) to solve the simple problem, reject the pattern.
 """
 
     def create_code_generation_prompt(
