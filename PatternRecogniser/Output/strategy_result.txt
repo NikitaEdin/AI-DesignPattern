@@ -1,0 +1,33 @@
+File: Input\strategy.py
+Workflow: WorkflowType.SINGLE_PROMPT
+Analysis Time: 34.72s
+Analysis Started: 2026-02-04 22:03:38 UTC
+
+Identified Pattern: Strategy
+Confidence: 90.00%
+
+Explanation:
+The Order class delegates the discount calculation to interchangeable callables (ten_percent_discount, on_sale_discount) injected at runtime; DiscountBobValidator only enforces constraints on these strategies. This pluggable family of algorithms is the hallmark of the Strategy pattern.
+
+Evaluation Pass: YES
+
+Evaluation Feedback:
+1. Pattern correctness – the code is **not** a Strategy implementation.  
+   - Strategy requires a common *interface/abstraction* (usually an ABC or protocol) that all concrete strategies implement.  
+   - Here there is no such abstraction; the code merely accepts any `Callable[[Order], float]`.  
+   - The class that “uses” the algorithm (`Order`) does not hold a reference to a *Strategy* object; it holds a raw callable.  
+   - Changing the algorithm therefore does not involve substituting a different *Strategy instance*, only a different function.
+
+2. Quality of explanation – the answer repeats the popular “interchangeable algorithms” slogan but ignores the structural obligations of the pattern (context, strategy interface, concrete strategies). It also mis-characterises `DiscountBobValidator` as “only enforcing constraints”; the validator is actually a *descriptor* that shadows the attribute, which is an unrelated mechanism.
+
+3. Confidence – 0.9 is far too high for a pattern whose defining structure is missing.
+
+4. Key characteristics missed – no mention of the missing Context/Strategy separation, interface/protocol, or the fact that the descriptor is an implementation detail unrelated to Strategy.
+
+5. What was done well – the reviewer correctly noticed that different discount functions can be plugged in at runtime, which is *one* symptom that Strategy *might* be intended, but stopped at the surface level.
+
+To turn the snippet into a genuine Strategy:
+- Introduce a `DiscountStrategy` protocol or ABC with a `calculate(order: Order) -> float` method.  
+- Make `ten_percent_discount` and `on_sale_discount` classes that implement that protocol.  
+- Let `Order` hold a reference to a `DiscountStrategy` instance, not to a raw callable.
+

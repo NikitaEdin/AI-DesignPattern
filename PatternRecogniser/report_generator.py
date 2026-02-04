@@ -149,38 +149,21 @@ class ReportGenerator:
             output_path = os.path.join('Output', output_filename)
             
             with open(output_path, 'w', encoding='utf-8') as f:
-                f.write("="*80 + "\n")
-                f.write("DESIGN PATTERN ANALYSIS RESULT\n")
-                f.write("="*80 + "\n\n")
-                
                 f.write(f"File: {result.snippet_path}\n")
                 f.write(f"Workflow: {result.workflow_type}\n")
                 f.write(f"Analysis Time: {result.analysis_time:.2f}s\n")
                 f.write(f"Analysis Started: {result.analysis_started_at.strftime('%Y-%m-%d %H:%M:%S UTC')}\n\n")
                 
-                f.write("-"*80 + "\n")
-                f.write("IDENTIFICATION\n")
-                f.write("-"*80 + "\n")
                 f.write(f"Identified Pattern: {result.identified_pattern}\n")
                 f.write(f"Confidence: {result.confidence:.2%}\n\n")
                 
-                f.write("Explanation:\n")
-                f.write(result.explanation + "\n\n")
+                f.write(f"Explanation:\n")
+                f.write(f"{result.explanation}\n\n")
                 
-                f.write("-"*80 + "\n")
-                f.write("EVALUATION\n")
-                f.write("-"*80 + "\n")
                 f.write(f"Evaluation Pass: {'YES' if result.evaluation_pass else 'NO'}\n\n")
-                f.write("Evaluation Feedback:\n")
-                f.write(result.evaluation_feedback + "\n\n")
                 
-                if result.error:
-                    f.write("-"*80 + "\n")
-                    f.write("ERROR\n")
-                    f.write("-"*80 + "\n")
-                    f.write(result.error + "\n\n")
-                
-                f.write("="*80 + "\n")
+                f.write(f"Evaluation Feedback:\n")
+                f.write(f"{result.evaluation_feedback}\n\n")
             
             saved_paths.append(output_path)
             print(f"Result {idx}/{len(results)} saved to: {output_path}")

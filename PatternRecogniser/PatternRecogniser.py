@@ -25,7 +25,6 @@ class DPR:
         if args.input_path:
             print(f'Loading custom input file: {args.input_path}')
             files = self.filemanager.locate_custom_snippet(args.input_path)
-            print(files)
             DPR.custom_input_mode = True
         else:
             # filters
