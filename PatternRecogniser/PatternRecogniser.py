@@ -42,7 +42,6 @@ class DPR:
                 count=self.count)
 
         print(f"Found {len(files)} code snippets to analyse")
-        print(f'Loading custom input file: {files[0]}')
         
         if not files:
             print("No code snippets found matching the criteria.")

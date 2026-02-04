@@ -73,7 +73,7 @@ class SingleWorkflow(WorkflowInterface):
                 evaluation_data = self._evaluate(snippet, analysis_data)
 
                 # Evaluation pass? return result
-                if evaluation_data.get('evaluation_pass, False'):
+                if evaluation_data.get('evaluation_pass', False):
                     # Combine results
                     combined_data = {**analysis_data, **evaluation_data}
                     analysis_time = time.time() - start_time

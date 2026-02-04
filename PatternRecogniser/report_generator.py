@@ -170,7 +170,7 @@ class ReportGenerator:
                 f.write("-"*80 + "\n")
                 f.write("EVALUATION\n")
                 f.write("-"*80 + "\n")
-                f.write(f"Evaluation Pass: {'✓ Yes' if result.evaluation_pass else '✗ No'}\n\n")
+                f.write(f"Evaluation Pass: {'YES' if result.evaluation_pass else 'NO'}\n\n")
                 f.write("Evaluation Feedback:\n")
                 f.write(result.evaluation_feedback + "\n\n")
                 
