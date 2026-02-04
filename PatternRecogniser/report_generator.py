@@ -127,3 +127,64 @@ class ReportGenerator:
             # TODO: create backup in case of failure
 
             return self._create_excel(dataframe, filepath)
+
+    # Custom input report handling
+    def save_custom_results(self, results: list[AnalysisResult]):
+        """Save analysis results for custom input to /Output/<filename>_result.txt"""
+        
+        if not results:
+            print("No results to save")
+            return []
+        
+        # Create output folder (if needed)
+        os.makedirs('Output', exist_ok=True)
+        
+        saved_paths = []
+        
+        for idx, result in enumerate(results, 1):
+            # Extract filename (no extension)
+            input_filename = os.path.splitext(os.path.basename(result.snippet_path))[0]
+            
+            output_filename = f'{input_filename}_result.txt'
+            output_path = os.path.join('Output', output_filename)
+            
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write("="*80 + "\n")
+                f.write("DESIGN PATTERN ANALYSIS RESULT\n")
+                f.write("="*80 + "\n\n")
+                
+                f.write(f"File: {result.snippet_path}\n")
+                f.write(f"Workflow: {result.workflow_type}\n")
+                f.write(f"Analysis Time: {result.analysis_time:.2f}s\n")
+                f.write(f"Analysis Started: {result.analysis_started_at.strftime('%Y-%m-%d %H:%M:%S UTC')}\n\n")
+                
+                f.write("-"*80 + "\n")
+                f.write("IDENTIFICATION\n")
+                f.write("-"*80 + "\n")
+                f.write(f"Identified Pattern: {result.identified_pattern}\n")
+                f.write(f"Confidence: {result.confidence:.2%}\n\n")
+                
+                f.write("Explanation:\n")
+                f.write(result.explanation + "\n\n")
+                
+                f.write("-"*80 + "\n")
+                f.write("EVALUATION\n")
+                f.write("-"*80 + "\n")
+                f.write(f"Evaluation Pass: {'✓ Yes' if result.evaluation_pass else '✗ No'}\n\n")
+                f.write("Evaluation Feedback:\n")
+                f.write(result.evaluation_feedback + "\n\n")
+                
+                if result.error:
+                    f.write("-"*80 + "\n")
+                    f.write("ERROR\n")
+                    f.write("-"*80 + "\n")
+                    f.write(result.error + "\n\n")
+                
+                f.write("="*80 + "\n")
+            
+            saved_paths.append(output_path)
+            print(f"Result {idx}/{len(results)} saved to: {output_path}")
+        
+        return saved_paths
+
+

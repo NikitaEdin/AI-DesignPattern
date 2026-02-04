@@ -7,6 +7,8 @@ from workflow_interface import AnalysisResult, WorkflowInterface
 from shared.llm_interface import LLMInterface
 
 
+max_attempts = 3
+
 class SingleWorkflow(WorkflowInterface):
     def __init__(self, llm_interface: LLMInterface,  max_retries: int = 3):
         super().__init__(llm_interface)
@@ -55,25 +57,48 @@ class SingleWorkflow(WorkflowInterface):
 
     def _analyse_single_snippet(self, snippet: CodeSnippet) -> AnalysisResult:
         """Analyse single code snippet suing two-stage process (identify and evaluate)"""
+        start_time = time.time()
+        last_error = None
 
-        try:
-            # Pattern analysis
-            analysis_data = self._analyse_pattern(snippet)
 
-            if analysis_data.get('error'):
-                return self.create_error_result(snippet, analysis_data['error'])
+        for attempt in range(max_attempts):
+            try:
+                # Pattern analysis
+                analysis_data = self._analyse_pattern(snippet)
+                if analysis_data.get('error'):
+                    last_error = analysis_data['error']
+                    continue # try again
 
-            # Evaluation
-            evaluation_data = self._evaluate(snippet, analysis_data)
-            
-            # Combine results
-            combined_data = {**analysis_data, **evaluation_data}
-            return self.create_success_result(snippet, combined_data)
+                # Evaluation (verify correctness & confidence))
+                evaluation_data = self._evaluate(snippet, analysis_data)
 
-        except Exception as e:
-            error = f"Unexpected error during analysis: {str(e)}"
-            print(f"Error: {error}")
-            return None
+                # Evaluation pass? return result
+                if evaluation_data.get('evaluation_pass, False'):
+                    # Combine results
+                    combined_data = {**analysis_data, **evaluation_data}
+                    analysis_time = time.time() - start_time
+                    return self.create_success_result(snippet, combined_data, analysis_time)
+                
+                # Evaluation failed? retry
+                if attempt < max_attempts - 1:
+                    print(f"  Evaluation failed, retrying... (Attempt {attempt + 1}/{max_attempts})")
+                    continue
+                else:
+                    # Last attempt failed - return result
+                    combined_data = {**analysis_data, **evaluation_data}
+                    analysis_time = time.time() - start_time
+                    return self.create_success_result(snippet, combined_data, analysis_time)
+
+            except Exception as e:
+                last_error = f'Unexpected error during analysis: {str(e)}'
+                print(f"Error: {last_error}")
+                if attempt == max_attempts - 1:
+                    analysis_time = time.time() - start_time
+                    return None
+                
+        # All attempts failed - return error result
+        analysis_time = time.time() - start_time
+        return None
 
 
     def _analyse_pattern(self, snippet: CodeSnippet) -> Dict[str, Any]:

@@ -10,6 +10,7 @@ from cli import create_argument_parser, validate_arguments
 from file_manager import FileManager
 
 class DPR:
+    custom_input_mode = False
 
     def __init__(self):
         self.filemanager = FileManager()
@@ -20,20 +21,28 @@ class DPR:
         # llm to use for analysis
         self.llm = args.llm
 
-        # filters
-        self.count = args.count
-        self.filter_pattern = args.filter_pattern
-        self.filter_difficulty = args.filter_difficulty
-        self.filter_llm = args.filter_llm
-        
-        # Get code snippets
-        files = self.filemanager.locate_snippets(
-            design_pattern=self.filter_pattern, 
-            difficulty=self.filter_difficulty,
-            llm=self.filter_llm,
-            count=self.count)
+        # Check if custom file provided
+        if args.input_path:
+            print(f'Loading custom input file: {args.input_path}')
+            files = self.filemanager.locate_custom_snippet(args.input_path)
+            print(files)
+            DPR.custom_input_mode = True
+        else:
+            # filters
+            self.count = args.count
+            self.filter_pattern = args.filter_pattern
+            self.filter_difficulty = args.filter_difficulty
+            self.filter_llm = args.filter_llm
+            
+            # Get code snippets
+            files = self.filemanager.locate_snippets(
+                design_pattern=self.filter_pattern, 
+                difficulty=self.filter_difficulty,
+                llm=self.filter_llm,
+                count=self.count)
 
         print(f"Found {len(files)} code snippets to analyse")
+        print(f'Loading custom input file: {files[0]}')
         
         if not files:
             print("No code snippets found matching the criteria.")
@@ -57,7 +66,10 @@ class DPR:
         # Report
         if results:
             report_gen = ReportGenerator()
-            report_gen.save_results(results, llm_interface)
+            if DPR.custom_input_mode:
+                report_gen.save_custom_results(results)
+            else:
+                report_gen.save_results(results, llm_interface)
 
 
 def main(argv=None):

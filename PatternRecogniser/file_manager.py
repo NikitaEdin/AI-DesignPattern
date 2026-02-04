@@ -135,4 +135,21 @@ class FileManager:
         print(len(code_snippets))
         return code_snippets
 
-                    
+    def locate_custom_snippet(self, filepath: str) -> List[CodeSnippet]:
+        """Load custom code snippet"""
+        
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        filename = os.path.basename(filepath)
+        
+        snippet = CodeSnippet(
+            filepath=filepath,
+            filename=filename,
+            content=content,  
+            design_pattern='Unknown',  # pattern unknown
+            difficulty='Unknown',      
+            llm='Unknown')                  
+        
+        return [snippet]
+
