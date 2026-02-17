@@ -131,7 +131,7 @@ TASK: Analyse the code snippet and identify which design pattern (if any) is imp
 You're limited to these specific design patterns:
 {", ".join(DESIGN_PATTERNS)}
 
-Analyse the followign code snippet and identify any design pattern it implements;
+Analyse the following code snippet and identify any design pattern it implements;
 
 ```
 {code_snippet}
@@ -154,7 +154,7 @@ Focus on:
 
         return f"""
 You are a code reviewer specialising in design patterns. 
-TASK: Evaluate the following Python code snippet and assess the quality  and accuracy of a design pattern identification.
+TASK: Evaluate the following Python code snippet and assess the quality and accuracy of a design pattern identification.
 
 Original code:
 ```

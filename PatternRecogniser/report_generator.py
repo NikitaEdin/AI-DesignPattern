@@ -52,7 +52,7 @@ class ReportGenerator:
         filename = f'report_{llm_name}.xlsx'
         filepath = os.path.join(self.base_report_dir, filename)
 
-        # Conver results to DataFrame
+        # Convert results to DataFrame
         dataframe = self._results_to_dataframe(results, llm_name)
 
         # Save to Excel

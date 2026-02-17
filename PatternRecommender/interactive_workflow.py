@@ -37,6 +37,7 @@ class InteractiveWorkflow(WorkflowInterface):
         # Phase 1: Analyse code
         print(f"\nPhase 1: Analysing code...\n{'=' * 60}")
 
+        # 'one-shot' analysis for design pattern, strengths, weaknesses
         analysis = self.analyser.analyse(code_snippet)
         self.analyser.display_analysis(analysis)
 
@@ -46,7 +47,6 @@ class InteractiveWorkflow(WorkflowInterface):
         print("\nType your answers to help me understand your code better.\nType 'skip' to skip a question, or 'done' to finish early.\n")
 
         insights = self.conversation_manager.conduct_conversation(code_snippet, analysis)
-
 
         # Phase 3: Generation recommendation
         print(f"\nPhase 3: Generating recommendation...\n{'=' * 60}")
