@@ -76,3 +76,7 @@ Curated collection of validated snippets (CodeSnippets) stratified by pattern an
 
 ### Design Pattern Recogniser
 LLM-powered static analysis tool (PatternRecogniser) employing single-prompt or multi-layered workflows to detect patterns, generating reports, charts (PatternRecogniser/Charts/), and Excel outputs (PatternRecogniser/Reports/). Supports CLI usage for batch/custom analysis.
+
+## Documentation
+
+For detailed technical documentation on each module, see [Documentation/README.md](Documentation/README.md). This includes API references, CLI usage, and integration guides.
