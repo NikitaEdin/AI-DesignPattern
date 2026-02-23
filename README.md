@@ -4,9 +4,10 @@
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 
 
-# LLM Efficiency in Code Design Pattern Identification
-Honours research conducted by Nikita Lanetsky at Edinburgh Napier University.<br>
-AI-driven static analysis for design pattern recognition, emphasising the the latest state of LLM and their efficiency.
+# Evaluating the Efficacy of Large Language Models in Design Pattern Recognition
+Honours Research Project by Nikita Lanetsky, Edinburgh Napier University.
+
+This project employs AI-driven static analysis to assess design pattern recognition, with a focus on the capabilities and efficiency of state-of-the-art Large Language Models (LLMs).
 
 > [!NOTE]  
 Project setup and usage details will be shared upon completion, as the project is undergoing frequent updates and modifications.
@@ -23,37 +24,43 @@ Project setup and usage details will be shared upon completion, as the project i
 
 ## Introduction
 ### Abstract
-This Honours project researches the ability and efficiency of the current state of Large Language Models (LLMs) in identifying implemented design patterns within source code.<br>
-The research aims to evaluate four prominent top-leading LLM platforms - Grok, OpenAI, Claude, and the recent rise of Kimi K2 - Through systemic testing using algorithmically generated and evaluated code samples containing various level of complexity in code and design patterns.
+
+This Honours project evaluates the proficiency and efficiency of contemporary Large Language Models (LLMs) in detecting implemented design patterns in source code.<br>The study systematically benchmarks leading LLMs, such as Grok (xAI), GPT-series (OpenAI), Claude (Anthropic), and Kimi K2 (Moonshot) - using algorithmically generated code samples of varying complexity.
 
 > [!NOTE]
-> **Researcher Qualifications**: Anthropic Certified in Agentic AI & NVIDIA Certified in RAG Agents with LLMs
+> **Researcher Qualifications**: Anthropic Certified in Agentic AI & NVIDIA Certified in RAG Agents with LLMs.
 
 ### Research Objectives
  **Primary Objective**:
-- Quantify and compare the accuracy and efficiency of different LLMs in recognising common software design patterns in code implementations.
+- Quantify and compare the accuracy and efficiency of leading LLMs in recognising common software design patterns within code implementations.
 
-**Secondary Objectives**: 
-- Analyse pattern recognition performance across different code complexities.
-- Evaluate the impact of single and multi-layered algorithems on identification accuracy.
-- Develop benchmarking methodologies for LLM code analysis capabilities.
+**Secondary Objectives**:
+- Analyse pattern recognition performance across varying code complexities.
+- Assess the impact of single-prompt versus multi-layered workflows on identification accuracy.
+- Establish standardised benchmarking methodologies for LLM-based code analysis.
+
+**Additional Objectives**:
+- Generate summarising charts/graphs to visualise gathered data and trends.
 
 ## Methodology/Research Setup
 
 ### Design Patterns Under Investigation
-13 Patterns in total.
 
-- **Creational Patterns**: Singleton, Factory, Builder, Prototype.
-- **Structural Patterns**: Adapter, Decorator, Facade, Proxy.
-- **Behavioural Patterns**: Observer, Strategy, Command, Iterator, State.
+The study examines 13 GoF design patterns, categorised as follows:
+
+| Category     | Patterns                          |
+|--------------|-----------------------------------|
+| **Creational** | Singleton, Factory, Builder, Prototype |
+| **Structural** | Adapter, Decorator, Facade, Proxy |
+| **Behavioural** | Observer, Strategy, Command, Iterator, State |
 
 
 ### Chosen LLMs/Models
-As of Q4 2025, the best LLMs for code generation and analysis are [Claude](https://claude.ai/) by [Anthropic](https://www.anthropic.com/), [Kimi K2](https://kimik2.com/) by [Moonshot](https://www.moonshot.ai/) and [ChatGPT](https://chatgpt.com/) by [OpenAI](https://openai.com/).
+The evaluation incorporates leading LLMs as of Q4 2025: Claude (Anthropic), Kimi K2 (Moonshot), GPT-series (OpenAI), and Grok (xAI).
+
 
 ### Programming Languages
-The primary aim is to focus on `Python` and slowly expand towards other languages, such as `Java` and `C#`.
+The primary aim is to focus on `Python` and slowly expand towards other languages, such as `Java` and `C#`.<br>
+As of Q1 2026, the additional expantion to other languages is out of scope of the project, but the project supports it.
 
-> [!IMPORTANT]  
-> The study primarily focuses on Python implementations. If time permits, the research may expand to include Java and C# to assess language-specific performance variations.
 
