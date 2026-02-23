@@ -15,6 +15,19 @@ class FileManager:
         self.base_output_dir = base_output_dir
         self.ensure_base_directory()
 
+    def set_output_directory(self, output_location: str):
+        """
+        Set the output directory based on the specified location.
+        
+        Args:
+            output_location (str): 'dataset' for ../CodeSnippets, 'output' for ../CodeGenerationOutputs
+        """
+        if output_location == "output":
+            self.base_output_dir = "../CodeGenerationOutputs"
+        else:
+            self.base_output_dir = "../CodeSnippets"
+        self.ensure_base_directory()
+
     def ensure_base_directory(self):
         """Ensure base output directory exists"""
         os.makedirs(self.base_output_dir, exist_ok=True)

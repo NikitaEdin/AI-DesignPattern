@@ -7,9 +7,10 @@ from file_manager import FileManager
 class CodeGenerator:
     """ Main class for code generation using design patterns """
 
-    def __init__(self):
+    def __init__(self, output_location: str = "dataset"):
         # File Manager
         self.file_manager = FileManager()
+        self.file_manager.set_output_directory(output_location)
 
         # Common design patterns
         self.design_patterns = [
@@ -211,16 +212,23 @@ kimi - Kimi K2
         help="Number of code snippets to generate (default: 1)"
     )
     
-    # parser.add_argument(
-    #     "--llm", "-l",
-    #     default="ollama",
-    #     help="LLM provider to use (default: ollama)"
-    # )
+    parser.add_argument(
+        "--llm", "-l",
+        default="grok",
+        help="LLM provider to use (default: grok). Available: grok, openai, claude, kimi"
+    )
     
     parser.add_argument(
         "--difficulty", "-d",
         default="M",
         help="Difficulty level: E(asy), M(edium), H(ard) (default: M)"
+    )
+    
+    parser.add_argument(
+        "--output", "-o",
+        default="dataset",
+        choices=["dataset", "output"],
+        help="Output location: 'dataset' for ../CodeSnippets, 'output' for ../CodeGenerationOutputs (default: dataset)"
     )
 
     return parser
@@ -231,7 +239,7 @@ def main(argv=None):
     parser = create_argument_parser()
     args = parser.parse_args(argv)
 
-    app = CodeGenerator()
+    app = CodeGenerator(args.output)
     app.run(args)
 
 if __name__ == "__main__":
