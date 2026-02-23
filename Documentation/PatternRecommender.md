@@ -1,4 +1,4 @@
-# PatternRecommender Subproject Documentation
+# PatternRecommender Module Documentation
 
 > [!NOTE]  
 > This documentation was AI-generated using grok-4.1.fast on 22-02-2026. Analysis included listing folder structure recursively, reviewing add_shared.py, Input/codesnippet_1.py (Singleton pull example), Output/codesnippet_1_result.py (Observer push refactor), and inferring purpose/architecture from examples. All content has been manually verified, evaluated, and fixed for accuracy with the actual project.
@@ -87,7 +87,3 @@ Supports agentic extensibility (prompts in agent_prompts.py).
 - Code reviews: "This Singleton should be Observer."
 - Legacy refactor: Auto-upgrade polling to pub-sub.
 - Education: Pattern evolution examples.
-
-## Dependencies
-- `shared/llm_interface.py` (LLMFactory).
-- `shared/` modules (prompts/utils).

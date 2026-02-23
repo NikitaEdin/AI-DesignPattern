@@ -1,4 +1,4 @@
-# PatternRecogniser (Third Pillar) Documentation
+# PatternRecogniser (Third Pillar) Module Documentation
 
 > [!NOTE]  
 >  This documentation was AI-generated using grok-4.1.fast on 22-02-2026. Analysis included listing folder structure recursively, reading and analysing all Python scripts (add_shared.py, PatternRecogniser.py, catalogue.py, cli.py, file_manager.py, single_workflow.py, workflow_interface.py, report_generator.py), reviewing non-code outputs, and verifying architecture/data flow.
@@ -77,8 +77,8 @@ CodeSnippets/ → FileManager (filter) → Workflow (LLM identify + eval w/ retr
 ## Usage Examples
 
 ```bash
-# Analyse all Singleton (M, Claude-generated) w/ Ollama
-python PatternRecogniser/PatternRecogniser.py --llm ollama --filter-pattern Singleton --filter-difficulty M --filter-llm claude
+# Analyse all Singleton (M, Claude-generated) w/ Grok
+python PatternRecogniser/PatternRecogniser.py --llm grok --filter-pattern Singleton --filter-difficulty M --filter-llm claude
 
 # Custom file (Facade example)
 python PatternRecogniser/PatternRecogniser.py --llm claude --input facade.py

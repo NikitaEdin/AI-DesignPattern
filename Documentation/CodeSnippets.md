@@ -1,4 +1,4 @@
-# CodeSnippets (Second Pillar) Documentation
+# CodeSnippets (Second Pillar) Module Documentation
 
 > [!NOTE]  
 > This documentation was AI-generated using grok-4.1.fast on 22-02-2026. Analysis included reviewing folder structure, naming conventions, and LLM prefixes from `shared/llm_interface.py`. 
