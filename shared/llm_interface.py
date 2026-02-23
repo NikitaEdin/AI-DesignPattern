@@ -28,6 +28,8 @@ class LLMInterface(ABC):
 
 #### Direct AI Providers ####
 
+# Note: Ollama is deprecated in favour of OpenRouter
+@DeprecationWarning
 class OllamaInterface(LLMInterface):
     """Ollama LLM interface"""
 
@@ -240,7 +242,6 @@ class LLMFactory:
     # Registery of available providers
     _providers: Dict[str, Type[LLMInterface]] = {
         # Direct providers
-        "ollama": OllamaInterface,
         "openai": OpenAIInterface,
         "claude": ClaudeInterface,
 

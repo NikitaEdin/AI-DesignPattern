@@ -177,7 +177,7 @@ def create_argument_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-python main_CG.py --pattern Singleton --count 5 --llm ollama --difficulty M
+python main_CG.py --pattern Singleton --count 5 --llm grok --difficulty M
 python main_CG.py --pattern Factory --count 3 --llm openAI --difficulty H
 
 Available Design Patterns:
@@ -191,7 +191,7 @@ M = Medium (standard implementation with features)
 H = Hard (complex implementation with advanced features)
 
 LLM Providers:
-ollama - Local Ollama
+grok - Grok-code-fast-1
 openai - OpenAI GPT  
 claude - Anthorpic Claude
 kimi - Kimi K2
@@ -211,11 +211,11 @@ kimi - Kimi K2
         help="Number of code snippets to generate (default: 1)"
     )
     
-    parser.add_argument(
-        "--llm", "-l",
-        default="ollama",
-        help="LLM provider to use (default: ollama)"
-    )
+    # parser.add_argument(
+    #     "--llm", "-l",
+    #     default="ollama",
+    #     help="LLM provider to use (default: ollama)"
+    # )
     
     parser.add_argument(
         "--difficulty", "-d",

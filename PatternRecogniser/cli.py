@@ -37,7 +37,7 @@ Difficulty Levels:
  H = Hard (complex implementation with advanced features)
 
 LLM Providers:
- ollama - Local Ollama
+ grok - Grok-code-fast-1
  openai - OpenAI GPT  
  claude - Anthorpic Claude
  grok - xAI Grok 4 Fast
