@@ -217,9 +217,9 @@ FEEDBACK: [Constructive feedback on the analysis, including what was done well a
             lines = response.strip().split('\n')
 
             for i, line in enumerate(lines):
-                if line.upper().startswith('EVALUATION:'):
+                if line.lstrip().upper().startswith('EVALUATION:'):
                     result['evaluation_pass'] = line.split(":", 1)[1].strip().upper()
-                elif line.upper().startswith('FEEDBACK'):
+                elif line.lstrip().upper().startswith('FEEDBACK'):
                     result['evaluation_feedback'] = '\n'.join(lines[i:]).split(':', 1)[1].strip()
                     break
         except Exception as e:

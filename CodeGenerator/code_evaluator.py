@@ -86,9 +86,9 @@ FEEDBACK: The code correctly implements the Singleton pattern by ensuring only o
             evaluation, feedback = None, None
             
             for i, line in enumerate(lines):
-                if line.upper().startswith('EVALUATION:'):
+                if line.lstrip().upper().startswith('EVALUATION:'):
                     evaluation = line.split(':', 1)[1].strip().upper()
-                elif line.upper().startswith('FEEDBACK:'):
+                elif line.lstrip().upper().startswith('FEEDBACK:'):
                     feedback = '\n'.join(lines[i:]).split(':', 1)[1].strip()
                     break
                     
