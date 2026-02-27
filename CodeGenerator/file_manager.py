@@ -4,14 +4,16 @@ File Manager Module
 Handles file operations inlcuding directory creation, file naming, ID management, and saving code snippets
 """
 
-import os, re, json
-from typing import Dict, List, Tuple, Optional
-from datetime import datetime
+import os, re
+from typing import Dict, List, Optional
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 class FileManager:
     """Manages file operations for code snippets"""
 
-    def __init__(self, base_output_dir: str = "../CodeSnippets"):
+    def __init__(self, base_output_dir: str = PROJECT_ROOT / "CodeSnippets"):
         self.base_output_dir = base_output_dir
         self.ensure_base_directory()
 
@@ -23,9 +25,9 @@ class FileManager:
             output_location (str): 'dataset' for ../CodeSnippets, 'output' for ../CodeGenerationOutputs
         """
         if output_location == "output":
-            self.base_output_dir = "../CodeGenerationOutputs"
+            self.base_output_dir = PROJECT_ROOT / "CodeGenerationOutputs"
         else:
-            self.base_output_dir = "../CodeSnippets"
+            self.base_output_dir = PROJECT_ROOT / "CodeSnippets"
         self.ensure_base_directory()
 
     def ensure_base_directory(self):
