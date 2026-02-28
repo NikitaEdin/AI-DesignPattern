@@ -50,7 +50,7 @@ You are a code reviewer specialising in design patterns.
 TASK: Evaluate the following Python code snippet to determine if it correctly implements the {design_pattern} design pattern, *without ever disclosing the pattern name**.
 
 Design Pattern: {design_pattern}
-Exepected Difficulty: {difficulty_desc}
+Expected Difficulty: {difficulty_desc}
 
 Code to evaluate:
 ```python
