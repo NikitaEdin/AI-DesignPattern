@@ -56,6 +56,32 @@ if __name__ == "__main__":
         self.assertGreater(len(code), 0)
         self.assertEqual(2, mock_llm.generate_response.call_count)
 
+
+    def test_generate_evaluation_failure(self):
+        """Test code generation that produces code which fails evaluation due to missing components"""
+        mock_llm = MagicMock()
+        mock_llm.get_prefix.return_value = "TEST"
+        code_response = f"""```python{self.VALID_CODE}```"""
+        mock_llm.generate_response.side_effect = [code_response, self.EVAL_FAIL_RESPONSE]
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        code, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+        self.assertFalse(is_valid)
+        self.assertIn("Missing key components", feedback)
+        self.assertEqual(2, mock_llm.generate_response.call_count)
+
+
+    def test_generate_no_valid_code(self):
+        """Test code generation that fails to produce any valid code, resulting in retries and eventual failure"""
+        mock_llm = MagicMock()
+        mock_llm.generate_response.return_value = self.NO_CODE_RESPONSE
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        code, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+        self.assertFalse(is_valid)
+        self.assertEqual("", code)
+        self.assertIn("Failed to generate a valid Python code snippet", feedback)
+        self.assertEqual(1, mock_llm.generate_response.call_count)
+
+
 if __name__ == "__main__":
     unittest.main()
 
