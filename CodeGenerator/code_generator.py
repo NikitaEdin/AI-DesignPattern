@@ -142,14 +142,18 @@ FORMAT EXAMPLE:
     def _extract_python_code(self, response: str) -> str:
         """ Extract Python code from LLM response """
         # Look code blocks first
-        code_block_pattern = r'```(?:python)?\s*\n(.*?)\n```'
-        matches = re.findall(code_block_pattern, response, re.DOTALL)
+        code_block_pattern = r'```(?:python3?|py)?\s*\n(.*?)\n```'
+        matches = re.findall(code_block_pattern, response, re.DOTALL | re.IGNORECASE)
 
         if matches:
             return matches[0].strip()
         
-        # If no code blocks found, try extract Python-like content
-        # TODO: More sophisticated extraction if needed
+        # Fallback: strip fences if model forgot lang tag but kept backticks
+        stripped = response.strip()
+        if stripped.startswith('```') and stripped.endswith('```'):
+            stripped = re.sub(r'^```[^\n]*\n?', '', stripped)
+            stripped = re.sub(r'\n?```$', '', stripped)
+            return stripped.strip()
 
         # If no code block, assume entire response is code
         return response.strip()
