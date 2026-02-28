@@ -62,7 +62,7 @@ NO_CODE_RESPONSE = ""
 WRAPPED_SINGLETON_CODE = f"```python{SINGLETON_CODE}```"
 WRAPPED_OBSERVER_CODE = f"```python{OBSERVER_CODE}```"
 
-
+# ----------------------
 # Unit tests for the CodeSnippetGenerator class, focusing on code generation and evaluation logic
 class TestCodeSnippetGenerator(unittest.TestCase):
     """Unit tests for the CodeSnippetGenerator class, focusing on code generation and evaluation logic"""
@@ -106,6 +106,8 @@ class TestCodeSnippetGenerator(unittest.TestCase):
         self.assertIn("Failed to generate a valid Python code snippet", feedback)
         self.assertEqual(1, mock_llm.generate_response.call_count)
 
+# ----------------------
+# Retry logic tests for the CodeSnippetGenerator class
 class TestRetryBehaviour(unittest.TestCase):
     """ Test the retry behaviour of the CodeGenerator """
 
@@ -120,7 +122,7 @@ class TestRetryBehaviour(unittest.TestCase):
             EVAL_PASS_RESPONSE  
         ]
         generator = CodeSnippetGenerator(mock_llm, max_retries=2)
-        code, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+        code, is_valid, _ = generator.generate_code_snippet("Singleton", "E")
 
         self.assertTrue(is_valid)
         self.assertIn("ConfigManager", code)
@@ -142,18 +144,166 @@ class TestRetryBehaviour(unittest.TestCase):
 
 
     def test_retry_after_eval_fail(self):
+        """First generation returns code that fails evaluation, second generation returns code that passes - testing retry logic after evaluation failure"""
         mock_llm = _mock_llm()
         mock_llm.generate_response.side_effect = [
             WRAPPED_SINGLETON_CODE,  # First generation: attempt returns code
             EVAL_FAIL_RESPONSE,      # First evaluation: fails
             WRAPPED_SINGLETON_CODE,  # Second generation: attempt returns code again
-            EVAL_PASS_RESPONSE       # Second evaluation: fails
+            EVAL_PASS_RESPONSE       # Second evaluation: passes
         ]
         generator = CodeSnippetGenerator(mock_llm, max_retries=2)
-        code, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+        _, is_valid, _ = generator.generate_code_snippet("Singleton", "E")
 
         self.assertTrue(is_valid)
         self.assertEqual(4, mock_llm.generate_response.call_count)
+
+
+# ----------------------
+# Feedback content
+class TestFeedbackContent(unittest.TestCase):
+    """ Test the content of feedback messages returned by the CodeGenerator """
+    def test_pass_feedback_is_returned(self):
+        """Feeedback from a PASS evaluation is correctly returned in the final feedback message"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_PASS_RESPONSE]
+
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        _, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+
+        self.assertTrue(is_valid)
+        self.assertIn("Correctly implements", feedback)
+
+    def test_fail_feedback_is_returned(self):
+        """Feedback from a FAIL evaluation is correct returned"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_FAIL_RESPONSE]
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        _, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+
+        self.assertFalse(is_valid)
+        self.assertIn("Fails to properly implement", feedback)
+
+
+# -----------
+# Different patterns and difficulties
+class TestPatternsAndDifficulties(unittest.TestCase):
+    """Test code generation for different design patterns and difficulty levels"""
+
+    def test_observer_pattern_easy(self):
+        """Test code generation for the Observer pattern at Easy difficulty level"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [WRAPPED_OBSERVER_CODE, EVAL_PASS_RESPONSE]
+
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        code, is_valid, _ = generator.generate_code_snippet("Observer", "E")
+
+        self.assertTrue(is_valid)
+        self.assertIn("EventSystem", code)
+        self.assertGreater(len(code), 0)
+        self.assertEqual(2, mock_llm.generate_response.call_count)
+
+    def test_hard_difficulty_pattern(self):
+        """Verify difficult parameter influcences the prompt sent to LLM"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [WRAPPED_OBSERVER_CODE, EVAL_PASS_RESPONSE]
+
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        generator.generate_code_snippet("Singleton", "H")
+
+        # get actual prompt sent to LLM on first attempt
+        first_call_args = mock_llm.generate_response.call_args_list[0]
+        prompt_text = str(first_call_args)
+        # difficulty token should appear prompt
+        self.assertIn("Difficulty Level: H", prompt_text)
+
+# -----------
+# Return-value testing
+class TestReturnValueContract(unittest.TestCase):
+    """Validate generate_code_snippet returns 3-tuple (code, is_valid, feedback)"""
+
+    def _assert_tuple_contract(self, result):
+        """Util method to assert return value of generate_code_snippet"""
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(3, len(result))
+        code, is_valid, feedback = result
+        self.assertIsInstance(code, str)
+        self.assertIsInstance(is_valid, bool)
+        self.assertIsInstance(feedback, str)
+
+    def test_contract_on_success(self):
+        """Test return value on successful gen and eval"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_PASS_RESPONSE]
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        self._assert_tuple_contract(generator.generate_code_snippet("Singleton", "E"))
+
+    def test_contract_on_eval_failure(self):
+        """Test return value on generated code that fails evaluation"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_FAIL_RESPONSE]
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        self._assert_tuple_contract(generator.generate_code_snippet("Singleton", "E"))
+
+    def test_contract_on_no_code(self):
+        """Test return value when generation fails to produce code, resulting in a failure response"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.return_value = ""
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        self._assert_tuple_contract(generator.generate_code_snippet("Singleton", "E"))
+
+
+# -----------
+# Edge-case inputs
+
+class TestEdgeCaseInputs(unittest.TestCase):
+    """Stress generator with unusual but plausible inputs"""
+
+    def test_empty_pattern_string(self):
+        """Test generator with empty pattern - should not raise and should default to Singleton pattern"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.return_value = ""
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        try:
+            _, _, _ = generator.generate_code_snippet("", "E")
+        except Exception as exc:
+            self.fail(f"generate_code_snippet raised unexpectedly with empty pattern: {exc}")
+
+    def test_unknown_difficulty_level(self):
+        """Test generator with unknown difficulty - should not raise and should default to medium"""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_PASS_RESPONSE]
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        try:
+            _, _, feedback = generator.generate_code_snippet("Singleton", "UNKNOWN")
+        except Exception as exc:
+            self.fail(f"generate_code_snippet raised unexpectedly with unknown difficulty: {exc}")
+
+    def test_malformed_eval_response_treated_as_failure(self):
+        """Test response with no PASS/FAIL keyword - should default to is_valid=False."""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [
+            WRAPPED_SINGLETON_CODE,
+            "Some void text without a verdict.",
+        ]
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        _, is_valid, _ = generator.generate_code_snippet("Singleton", "E")
+        self.assertFalse(is_valid)
+
+    def test_code_without_markdown_fences(self):
+        """Raw Python code (no ``` fences) – behaviour should be consistent (no crash)."""
+        mock_llm = _mock_llm()
+        mock_llm.generate_response.side_effect = [
+            SINGLETON_CODE,  # raw without code fences
+            EVAL_PASS_RESPONSE,
+        ]
+        generator = CodeSnippetGenerator(mock_llm, max_retries=1)
+        try:
+            _, _, _ = generator.generate_code_snippet("Singleton", "E")
+        except Exception as exc:
+            self.fail(f"generate_code_snippet raised with fence-less code: {exc}")
+
+
 
 if __name__ == "__main__":
     unittest.main()
