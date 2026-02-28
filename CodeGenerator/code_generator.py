@@ -43,6 +43,16 @@ class CodeSnippetGenerator:
             Tuple of (generated_code: str, is_valid: bool, feedback: str)
         """
 
+        # Handle edge cases for input parameters
+        if difficulty not in self.difficulty_templates:
+            print(f"Warning: Unrecognised difficulty level '{difficulty}'. Defaulting to 'M' (Medium).")
+            difficulty = 'M'
+        if design_pattern.strip() == "":
+            design_pattern = "Singleton"
+            print("Warning: Design pattern is empty. Defaulting to 'Singleton'.")
+
+
+
         # Initial generation prompt
         prompt = self._create_generation_prompt(design_pattern, difficulty)
 
