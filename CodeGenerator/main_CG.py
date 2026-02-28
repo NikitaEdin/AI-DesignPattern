@@ -1,4 +1,7 @@
-import argparse, sys, time, os
+import argparse
+import sys
+import time
+import os
 
 from llm_interface import LLMInterface, LLMFactory
 from code_generator import CodeSnippetGenerator
@@ -163,7 +166,7 @@ class CodeGenerator:
             sys.exit(1)
 
         if args.count <= 0:
-            print(f"Error: Count must be a positive integer")
+            print("Error: Count must be a positive integer")
             sys.exit(1)
         
 

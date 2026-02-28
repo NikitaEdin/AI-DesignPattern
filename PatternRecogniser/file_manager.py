@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 import re
 from typing import Any, Dict, List, Optional
-from catalogue import DESIGN_PATTERNS, DIFFICULTY_LEVELS, LLM_PROVIDERS, get_llm_prefix
+from catalogue import get_llm_prefix
 
 @dataclass
 class CodeSnippet:

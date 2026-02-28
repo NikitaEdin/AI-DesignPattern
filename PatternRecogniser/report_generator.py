@@ -1,9 +1,7 @@
-import add_shared
 import os
 import pandas as pd
 import openpyxl
 import catalogue
-from datetime import datetime
 from typing import List
 from openpyxl.utils.dataframe import dataframe_to_rows
 from shared.llm_interface import LLMInterface
@@ -157,12 +155,12 @@ class ReportGenerator:
                 f.write(f"Identified Pattern: {result.identified_pattern}\n")
                 f.write(f"Confidence: {result.confidence:.2%}\n\n")
                 
-                f.write(f"Explanation:\n")
+                f.write("Explanation:\n")
                 f.write(f"{result.explanation}\n\n")
                 
                 f.write(f"Evaluation Pass: {'YES' if result.evaluation_pass else 'NO'}\n\n")
                 
-                f.write(f"Evaluation Feedback:\n")
+                f.write("Evaluation Feedback:\n")
                 f.write(f"{result.evaluation_feedback}\n\n")
             
             saved_paths.append(output_path)

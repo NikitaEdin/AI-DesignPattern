@@ -6,7 +6,6 @@ Handles the evlauation of generated code snippets
 
 from typing import Tuple
 from llm_interface import LLMInterface
-import re
 
 class CodeEvaluator:
     """Evaluates generated code for corrrectness and pattern compliance"""
@@ -94,7 +93,7 @@ FEEDBACK: The code correctly implements the Singleton pattern by ensuring only o
                     
             if not evaluation or not feedback:
                 print(f"[DEBUG] RESPONSE PRINT\n{response}")
-                return False, f"Missing EVALUATION or FEEDBACK in response"
+                return False, "Missing EVALUATION or FEEDBACK in response"
                 
             return evaluation == "PASS", feedback
             

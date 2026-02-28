@@ -15,7 +15,6 @@ comprehensive visualisation charts for performance comparison.
 import matplotlib.pyplot as plt
 import numpy as np
 import json
-import os
 from pathlib import Path
 
 def load_analysis_files(analysis_dir):
@@ -48,8 +47,8 @@ def create_visualisation(data, output_path):
     patterns = list(data["success_rate_per_pattern"].keys())
     success_rates = [data["success_rate_per_pattern"][p]["success_rate"] for p in patterns]
     total_counts = [data["success_rate_per_pattern"][p]["total_count"] for p in patterns]
-    failure_counts = [data["success_rate_per_pattern"][p]["failure_count"] for p in patterns]
-    success_counts = [data["success_rate_per_pattern"][p]["success_count"] for p in patterns]
+    # failure_counts = [data["success_rate_per_pattern"][p]["failure_count"] for p in patterns]
+    # success_counts = [data["success_rate_per_pattern"][p]["success_count"] for p in patterns]
     
     # Create figure with subplots
     fig = plt.figure(figsize=(16, 10))
@@ -112,8 +111,8 @@ def create_visualisation(data, output_path):
     # Subplot 3: Success vs Failure Counts (Stacked Bar)
     ax3 = plt.subplot(2, 2, 3)
     x_pos = np.arange(len(patterns))
-    p1 = ax3.bar(x_pos, success_counts, color='#2ecc71', alpha=0.8, label='Success', edgecolor='black')
-    p2 = ax3.bar(x_pos, failure_counts, bottom=success_counts, color='#e74c3c', alpha=0.8, label='Failure', edgecolor='black')
+    # p1 = ax3.bar(x_pos, success_counts, color='#2ecc71', alpha=0.8, label='Success', edgecolor='black')
+    # p2 = ax3.bar(x_pos, failure_counts, bottom=success_counts, color='#e74c3c', alpha=0.8, label='Failure', edgecolor='black')
     ax3.set_xticks(x_pos)
     ax3.set_xticklabels(patterns, rotation=45, ha='right')
     ax3.set_ylabel('Number of Records', fontweight='bold')
@@ -246,7 +245,7 @@ def create_summary_visualisation(data_list, output_path):
     for i in range(len(llm_names)):
         for j in range(len(patterns)):
             if not np.isnan(success_matrix[i, j]):
-                text = ax1.text(j, i, f'{success_matrix[i, j]:.0%}',
+                _ = ax1.text(j, i, f'{success_matrix[i, j]:.0%}',
                                ha="center", va="center", color="black", fontsize=8)
     
     plt.colorbar(im, ax=ax1, label='Success Rate')
@@ -399,7 +398,7 @@ def main():
     
     print(f"\n{'='*50}")
     print(f"Processing complete! Generated {len(data_list)} individual chart(s)")
-    print(f"+ 1 summary comparison chart")
+    print("+ 1 summary comparison chart")
     print(f"Charts saved in: {charts_dir}")
     print(f"{'='*50}")
 

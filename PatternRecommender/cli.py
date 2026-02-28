@@ -2,7 +2,8 @@
 CLI Interface for DPR Agent - Handles command-line args
 """
 
-import argparse, sys
+import argparse
+import sys
 from pathlib import Path
 from typing import Optional
 
@@ -86,7 +87,7 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
             return None
         
         if file_path.suffix != '.py':
-            print(f'[Error] Only Python files (.py) are supported.', file=sys.stderr)
+            print('[Error] Only Python files (.py) are supported.', file=sys.stderr)
             return None
         
         return file_path

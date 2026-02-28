@@ -1,10 +1,11 @@
-import sys, os
+import sys
+import os
 # Repo root & CodeGenerator directory added to path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../CodeGenerator')))
 
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 from CodeGenerator.code_generator import CodeSnippetGenerator
 

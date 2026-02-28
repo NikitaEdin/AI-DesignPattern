@@ -4,7 +4,8 @@ File Manager Module
 Handles file operations inlcuding directory creation, file naming, ID management, and saving code snippets
 """
 
-import os, re
+import os
+import re
 from typing import Dict, List, Optional
 from pathlib import Path
 

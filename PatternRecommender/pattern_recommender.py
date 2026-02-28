@@ -1,9 +1,7 @@
 import sys
-from pathlib import Path
 from typing import Dict, Any
 
 # Add parent directories for SHARED
-import add_shared as _
 
 from shared.llm_interface import LLMFactory
 from cli import CLI
@@ -43,7 +41,7 @@ def main():
         
         # Generate output paths
         result_path = cli.get_output_path(args.file, suffix='_result')
-        log_path = cli.get_output_path(args.file, suffix='_log')
+        #log_path = cli.get_output_path(args.file, suffix='_log')
 
         ## LLM interface
         try:

@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 
-from catalogue import WorkflowType, DESIGN_PATTERNS, DIFFICULTY_LEVELS,LLM_PROVIDERS, LLM_SHORT_MAP
+from catalogue import WorkflowType, DESIGN_PATTERNS, DIFFICULTY_LEVELS,LLM_PROVIDERS
 
 def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -113,7 +113,7 @@ def validate_arguments(args: argparse.Namespace) -> argparse.Namespace:
 
         # LLM provider    
         if args.llm is None:
-            print(f"Missing LLM Provider! add --llm <llm provider>")
+            print("Missing LLM Provider! add --llm <llm provider>")
             print(f"Available providers: {', '.join(LLM_PROVIDERS)}")
             sys.exit(1)
         elif args.llm not in LLM_PROVIDERS:
@@ -132,7 +132,7 @@ def validate_arguments(args: argparse.Namespace) -> argparse.Namespace:
                 sys.exit(1)
 
             if not input_path.endswith('.py'):
-                print(f"Error: Input file must be a Python (.py) file")
+                print("Error: Input file must be a Python (.py) file")
                 sys.exit(1)
             # Store full path
             args.input_path = input_path
@@ -168,7 +168,7 @@ def validate_arguments(args: argparse.Namespace) -> argparse.Namespace:
                 print(f"Warning: count {args.count} clamped to -1 (all snippets)")
                 args.count = -1
             elif args.count == 0:
-                print(f"Count cannot be 0, use -1 for ALL or a positive number")
+                print("Count cannot be 0, use -1 for ALL or a positive number")
                 sys.exit(1)
         else:
             args.count = -1

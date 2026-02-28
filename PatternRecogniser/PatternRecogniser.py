@@ -1,8 +1,8 @@
 # Used to include SHARED dir - don't remove
 from report_generator import ReportGenerator
-import add_shared as _
 
-import argparse, sys
+import argparse
+import sys
 from catalogue import WorkflowType
 from shared.llm_interface import LLMFactory
 from single_workflow import SingleWorkflow

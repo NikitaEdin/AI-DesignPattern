@@ -1,0 +1,10 @@
+exclude = [
+    "CodeSnippets",
+    "CodeGenerationOutputs",
+    "docs",
+    "Documentation",
+    "CodeGenerationLogs",
+    "PatternRecommender/Output",
+    "PatternRecommender/Input",
+    "PatternRecogniser/Input"
+]
