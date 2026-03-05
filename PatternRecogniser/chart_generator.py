@@ -47,8 +47,8 @@ def create_visualisation(data, output_path):
     patterns = list(data["success_rate_per_pattern"].keys())
     success_rates = [data["success_rate_per_pattern"][p]["success_rate"] for p in patterns]
     total_counts = [data["success_rate_per_pattern"][p]["total_count"] for p in patterns]
-    # failure_counts = [data["success_rate_per_pattern"][p]["failure_count"] for p in patterns]
-    # success_counts = [data["success_rate_per_pattern"][p]["success_count"] for p in patterns]
+    failure_counts = [data["success_rate_per_pattern"][p]["failure_count"] for p in patterns]
+    success_counts = [data["success_rate_per_pattern"][p]["success_count"] for p in patterns]
     
     # Create figure with subplots
     fig = plt.figure(figsize=(16, 10))
@@ -111,8 +111,8 @@ def create_visualisation(data, output_path):
     # Subplot 3: Success vs Failure Counts (Stacked Bar)
     ax3 = plt.subplot(2, 2, 3)
     x_pos = np.arange(len(patterns))
-    # p1 = ax3.bar(x_pos, success_counts, color='#2ecc71', alpha=0.8, label='Success', edgecolor='black')
-    # p2 = ax3.bar(x_pos, failure_counts, bottom=success_counts, color='#e74c3c', alpha=0.8, label='Failure', edgecolor='black')
+    p1 = ax3.bar(x_pos, success_counts, color='#2ecc71', alpha=0.8, label='Success', edgecolor='black')
+    p2 = ax3.bar(x_pos, failure_counts, bottom=success_counts, color='#e74c3c', alpha=0.8, label='Failure', edgecolor='black')
     ax3.set_xticks(x_pos)
     ax3.set_xticklabels(patterns, rotation=45, ha='right')
     ax3.set_ylabel('Number of Records', fontweight='bold')
