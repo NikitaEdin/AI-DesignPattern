@@ -1,123 +1,139 @@
 {
   "metadata": {
     "llm_name": "kimi",
-    "generation_timestamp": "2025-10-04T18:40:36.597817",
+    "generation_timestamp": "2026-03-05T20:29:20.587700",
     "reports_directory": "./Reports",
-    "total_records_analysed": 1950
+    "total_records_analysed": 1560
   },
-  "total_analysis_time_seconds": 20612.62,
-  "total_analysis_time_minutes": 343.54,
-  "total_analysis_time_hours": 5.73,
-  "average_analysis_time_seconds": 10.57,
+  "total_analysis_time_seconds": 16636.66,
+  "total_analysis_time_minutes": 277.28,
+  "total_analysis_time_hours": 4.62,
+  "average_analysis_time_seconds": 10.66,
   "min_analysis_time_seconds": 1.78,
   "max_analysis_time_seconds": 31.41,
   "success_rate_per_pattern": {
     "Singleton": {
       "success_rate": 1.0,
-      "total_count": 150,
-      "success_count": 150,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Factory": {
       "success_rate": 0.98,
-      "total_count": 150,
-      "success_count": 147,
-      "failure_count": 3
+      "total_count": 120,
+      "success_count": 118,
+      "failure_count": 2
     },
     "Builder": {
       "success_rate": 1.0,
-      "total_count": 150,
-      "success_count": 150,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Prototype": {
       "success_rate": 1.0,
-      "total_count": 150,
-      "success_count": 150,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Adapter": {
       "success_rate": 0.96,
-      "total_count": 150,
-      "success_count": 144,
-      "failure_count": 6
+      "total_count": 120,
+      "success_count": 115,
+      "failure_count": 5
     },
     "Decorator": {
       "success_rate": 1.0,
-      "total_count": 150,
-      "success_count": 150,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Facade": {
       "success_rate": 0.99,
-      "total_count": 150,
-      "success_count": 149,
+      "total_count": 120,
+      "success_count": 119,
       "failure_count": 1
     },
     "Proxy": {
-      "success_rate": 0.97,
-      "total_count": 150,
-      "success_count": 145,
+      "success_rate": 0.96,
+      "total_count": 120,
+      "success_count": 115,
       "failure_count": 5
     },
     "Observer": {
       "success_rate": 1.0,
-      "total_count": 150,
-      "success_count": 150,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Strategy": {
-      "success_rate": 0.99,
-      "total_count": 150,
-      "success_count": 148,
+      "success_rate": 0.98,
+      "total_count": 120,
+      "success_count": 118,
       "failure_count": 2
     },
     "Command": {
       "success_rate": 1.0,
-      "total_count": 150,
-      "success_count": 150,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     },
     "Iterator": {
       "success_rate": 0.99,
-      "total_count": 150,
-      "success_count": 149,
+      "total_count": 120,
+      "success_count": 119,
       "failure_count": 1
     },
     "State": {
       "success_rate": 1.0,
-      "total_count": 150,
-      "success_count": 150,
+      "total_count": 120,
+      "success_count": 120,
       "failure_count": 0
     }
   },
   "success_rate_by_difficulty": {
     "E": {
       "success_rate": 1.0,
-      "total_count": 650,
-      "success_count": 648,
+      "total_count": 520,
+      "success_count": 518,
       "failure_count": 2,
       "average_confidence": 0.94,
-      "average_time_seconds": 9.92
+      "average_time_seconds": 9.96
     },
     "M": {
-      "success_rate": 1.0,
-      "total_count": 650,
-      "success_count": 647,
+      "success_rate": 0.99,
+      "total_count": 520,
+      "success_count": 517,
       "failure_count": 3,
       "average_confidence": 0.95,
-      "average_time_seconds": 10.83
+      "average_time_seconds": 10.94
     },
     "H": {
       "success_rate": 0.98,
-      "total_count": 650,
-      "success_count": 637,
-      "failure_count": 13,
+      "total_count": 520,
+      "success_count": 509,
+      "failure_count": 11,
       "average_confidence": 0.95,
-      "average_time_seconds": 10.97
+      "average_time_seconds": 11.09
     }
   },
   "success_rate_by_generated_llm": {
+    "claude": {
+      "success_rate": 0.99,
+      "total_count": 390,
+      "success_count": 388,
+      "failure_count": 2,
+      "average_confidence": 0.95,
+      "average_time_seconds": 10.42
+    },
+    "kimi": {
+      "success_rate": 0.99,
+      "total_count": 390,
+      "success_count": 385,
+      "failure_count": 5,
+      "average_confidence": 0.95,
+      "average_time_seconds": 11.25
+    },
     "openai": {
       "success_rate": 0.99,
       "total_count": 390,
@@ -133,22 +149,6 @@
       "failure_count": 5,
       "average_confidence": 0.94,
       "average_time_seconds": 9.94
-    },
-    "claude": {
-      "success_rate": 0.99,
-      "total_count": 390,
-      "success_count": 388,
-      "failure_count": 2,
-      "average_confidence": 0.95,
-      "average_time_seconds": 10.42
-    },
-    "kimi": {
-      "success_rate": 0.99,
-      "total_count": 780,
-      "success_count": 773,
-      "failure_count": 7,
-      "average_confidence": 0.95,
-      "average_time_seconds": 10.72
     }
   },
   "most_challenging_patterns": {
@@ -157,28 +157,28 @@
         "pattern": "Adapter",
         "challenge_score": 0.14,
         "success_rate": 0.96,
-        "average_time_seconds": 10.73,
+        "average_time_seconds": 10.91,
         "average_confidence": 0.92,
-        "total_attempts": 150,
-        "failure_count": 6
+        "total_attempts": 120,
+        "failure_count": 5
+      },
+      {
+        "pattern": "Proxy",
+        "challenge_score": 0.14,
+        "success_rate": 0.96,
+        "average_time_seconds": 10.56,
+        "average_confidence": 0.91,
+        "total_attempts": 120,
+        "failure_count": 5
       },
       {
         "pattern": "Factory",
         "challenge_score": 0.13,
         "success_rate": 0.98,
-        "average_time_seconds": 10.89,
+        "average_time_seconds": 11.3,
         "average_confidence": 0.93,
-        "total_attempts": 150,
-        "failure_count": 3
-      },
-      {
-        "pattern": "Proxy",
-        "challenge_score": 0.13,
-        "success_rate": 0.97,
-        "average_time_seconds": 10.54,
-        "average_confidence": 0.92,
-        "total_attempts": 150,
-        "failure_count": 5
+        "total_attempts": 120,
+        "failure_count": 2
       }
     ],
     "top_easiest": [
@@ -186,27 +186,27 @@
         "pattern": "Decorator",
         "challenge_score": 0.1,
         "success_rate": 1.0,
-        "average_time_seconds": 9.91,
+        "average_time_seconds": 10.06,
         "average_confidence": 0.96,
-        "total_attempts": 150,
+        "total_attempts": 120,
         "failure_count": 0
       },
       {
         "pattern": "Singleton",
         "challenge_score": 0.1,
         "success_rate": 1.0,
-        "average_time_seconds": 10.06,
+        "average_time_seconds": 10.28,
         "average_confidence": 0.99,
-        "total_attempts": 150,
+        "total_attempts": 120,
         "failure_count": 0
       },
       {
         "pattern": "State",
         "challenge_score": 0.11,
         "success_rate": 1.0,
-        "average_time_seconds": 11.1,
+        "average_time_seconds": 11.14,
         "average_confidence": 0.96,
-        "total_attempts": 150,
+        "total_attempts": 120,
         "failure_count": 0
       }
     ]
