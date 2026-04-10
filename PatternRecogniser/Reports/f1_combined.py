@@ -137,8 +137,13 @@ def write_output(all_models, combined, output_path):
             f"{pat:<18}{s['tp']:>6}{s['fp']:>6}{s['fn']:>6}"
             f"  {s['precision']:>9.3f}  {s['recall']:>8.3f}  {s['f1']:>8.3f}"
         )
-        total_tp += s["tp"]; total_fp += s["fp"]; total_fn += s["fn"]
-        prec_sum += s["precision"]; rec_sum += s["recall"]; f1_sum += s["f1"]
+        total_tp += s["tp"]
+        total_fp += s["fp"]
+        total_fn += s["fn"]
+        
+        prec_sum += s["precision"]
+        rec_sum += s["recall"]
+        f1_sum += s["f1"]
 
     n = len(pattern_order)
     lines += [
