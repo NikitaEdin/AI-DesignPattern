@@ -196,6 +196,15 @@ class GrokInterface(OpenRouterInterface):
     def get_prefix(self):
         return "GROK"
     
+# GPT-OSS-20B
+class GPTOSS20BInterface(OpenRouterInterface):
+    """Interface for GPT-OSS-20B via OpenRouter"""
+    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
+        super().__init__(api_key, "openai/gpt-oss-20b:nitro", max_tokens, temperature)
+
+    def get_prefix(self):
+        return "GPTOSS20B"
+
 class QwenInterface(OpenRouterInterface):
     # Limited rate limit of 50 per date (qwen/qwen3-coder:free)
 
@@ -248,7 +257,8 @@ class LLMFactory:
         "grok": GrokInterface, 
         "qwen": QwenInterface, # limited to 50 requests per days
         "grok4fast": Grok4FastInterface, #free
-        "kimik2": KimiK2Interface # limited max tokens
+        "kimik2": KimiK2Interface, # limited max tokens
+        "gptoss20b": GPTOSS20BInterface # fast model
     }
 
     @staticmethod
