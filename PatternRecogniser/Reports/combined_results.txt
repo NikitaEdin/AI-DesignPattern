@@ -1,0 +1,56 @@
+============================================================
+  COMBINED F1 RESULTS - DESIGN PATTERN DETECTION BENCHMARK
+============================================================
+
+OVERALL ACCURACY
+-----------------
+Rank  Model     Accuracy        F1 (Macro)   Correct / Total
+  1   Claude    0.992           0.992        1547 / 1560
+  2   Kimi      0.991           0.991        1546 / 1560
+  3   Openai    0.990           0.990        1545 / 1560
+  4   Grok      0.979           0.979        1528 / 1560
+
+
+PER-PATTERN F1 SCORES
+----------------------
+Pattern         Claude    Grok    Kimi  Openai          Best
+------------------------------------------------------------
+Adapter          0.992   0.979   0.983   0.979    Claude
+Builder          1.000   1.000   1.000   1.000    All equal
+Command          1.000   1.000   1.000   1.000    All equal
+Decorator        0.980   0.906   0.980   0.972    Claude/Kimi
+Facade           0.996   0.996   0.992   0.996    Claude/Grok/Openai
+Factory          0.987   0.992   0.983   0.983    Grok
+Iterator         0.996   0.996   0.996   1.000    Openai
+Observer         1.000   1.000   1.000   1.000    All equal
+Prototype        1.000   1.000   0.996   1.000    Claude/Grok/Openai
+Proxy            0.987   0.889   0.983   0.983    Claude
+Singleton        0.984   0.996   0.992   0.992    Grok
+State            0.996   1.000   1.000   0.996    Grok/Kimi
+Strategy         0.975   0.979   0.979   0.975    Grok/Kimi
+------------------------------------------------------------
+Macro Avg        0.992   0.979   0.991   0.990
+
+
+COMBINED F1 (ALL MODELS)
+--------------------------
+Pattern               TP    FP    FN  Precision    Recall        F1
+-----------------------------------------------------------------
+Adapter              464     0    16      1.000     0.967     0.983
+Builder              480     0     0      1.000     1.000     1.000
+Command              480     0     0      1.000     1.000     1.000
+Decorator            480    42     0      0.920     1.000     0.958
+Facade               478     3     2      0.994     0.996     0.995
+Factory              472     5     8      0.990     0.983     0.986
+Iterator             477     0     3      1.000     0.994     0.997
+Observer             480     0     0      1.000     1.000     1.000
+Prototype            480     1     0      0.998     1.000     0.999
+Proxy                446     1    34      0.998     0.929     0.962
+Singleton            480     9     0      0.982     1.000     0.991
+State                478     0     2      1.000     0.996     0.998
+Strategy             471    13     9      0.973     0.981     0.977
+-----------------------------------------------------------------
+MACRO AVG                           0.989     0.988     0.988
+
+Overall Accuracy: 6166/6240 = 0.988
+============================================================
