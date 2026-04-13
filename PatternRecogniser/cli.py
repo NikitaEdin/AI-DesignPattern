@@ -65,6 +65,13 @@ LLM Providers:
         help='Analyse workflow type'
     )
 
+     # Don't save flag
+    parser.add_argument('--dont-save',
+        action='store_true',
+        default=False,
+        help='Print results to console without saving to file'
+    )
+
 
     ######### FILTERING 
     filter_group = parser.add_argument_group('snippet filtering options',

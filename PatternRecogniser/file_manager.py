@@ -53,8 +53,8 @@ class FileManager:
             patterns_to_scan = [ d for d in os.listdir(self.base_output_dir)
                                 if os.path.isdir(os.path.join(self.base_output_dir, d))]
         
-
-        llm_prefix = get_llm_prefix(llm)
+        
+        llm_prefix = get_llm_prefix(llm) if llm else None
 
         # Use REGEX to filter
         pattern_re = re.escape(design_pattern) if design_pattern else r"[^_]+" 
