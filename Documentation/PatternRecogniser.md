@@ -1,7 +1,7 @@
 # PatternRecogniser (Third Pillar) Module Documentation
 
 > [!NOTE]  
->  This documentation was AI-generated using grok-4.1.fast on 22-02-2026. Analysis included listing folder structure recursively, reading and analysing all Python scripts (add_shared.py, PatternRecogniser.py, catalogue.py, cli.py, file_manager.py, single_workflow.py, workflow_interface.py, report_generator.py), reviewing non-code outputs, and verifying architecture/data flow.
+>  This documentation was AI-generated using grok-4.1.fast on 22-02-2026. Analysis included listing folder structure recursively, reading and analysing all Python scripts (add_shared.py, pattern_recogniser.py, catalogue.py, cli.py, file_manager.py, single_workflow.py, workflow_interface.py, report_generator.py), reviewing non-code outputs, and verifying architecture/data flow.
 > All content has been manually verified, evaluated, and fixed for accuracy with the actual project.
 
 ## Overview
@@ -13,14 +13,14 @@ Key goals:
 - Benchmark accuracy/confidence across LLMs, difficulties, workflows.
 - Accumulate metrics in Excel for analysis/charts.
 
-**Entry Point**: `python PatternRecogniser/PatternRecogniser.py [args]`
+**Entry Point**: `python PatternRecogniser/pattern_recogniser.py [args]`
 
 ## Folder Structure
 
 ```
 PatternRecogniser/
 ├── add_shared.py              # Adds project root to sys.path
-├── PatternRecogniser.py       # Main CLI app
+├── pattern_recogniser.py       # Main CLI app
 ├── catalogue.py               # Constants (patterns, LLMs), filename parsers
 ├── cli.py                     # Arg parser/validation
 ├── file_manager.py            # Loads CodeSnippets/ or custom files
@@ -54,7 +54,7 @@ PatternRecogniser/
   - Prompts: Strict format (PATTERN:/CONFIDENCE:/EXPLANATION:; EVALUATION:/FEEDBACK:).
   - Parsing robust with fallbacks.
 
-### 4. **Main App (PatternRecogniser.py)**
+### 4. **Main App (pattern_recogniser.py)**
 ```
 CLI args → Validate → Locate snippets → LLM init → Workflow.execute() → ReportGenerator.save()
 ```
@@ -78,13 +78,13 @@ CodeSnippets/ → FileManager (filter) → Workflow (LLM identify + eval w/ retr
 
 ```bash
 # Analyse all Singleton (M, Claude-generated) w/ Grok
-python PatternRecogniser/PatternRecogniser.py --llm grok --filter-pattern Singleton --filter-difficulty M --filter-llm claude
+python PatternRecogniser/pattern_recogniser.py --llm grok --filter-pattern Singleton --filter-difficulty M --filter-llm claude
 
 # Custom file (Facade example)
-python PatternRecogniser/PatternRecogniser.py --llm claude --input facade.py
+python PatternRecogniser/pattern_recogniser.py --llm claude --input facade.py
 
 # Top 10 Hard Factory w/ Grok
-python PatternRecogniser/PatternRecogniser.py --llm grok --filter-pattern Factory --filter-difficulty H --count 10
+python PatternRecogniser/pattern_recogniser.py --llm grok --filter-pattern Factory --filter-difficulty H --count 10
 ```
 
 **Output Example** (custom):
