@@ -7,6 +7,7 @@ Provides unified interface for different LLM providers.
 import os
 from typing import Dict, List, Type
 import requests
+from typing_extensions import deprecated
 from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 
@@ -29,9 +30,9 @@ class LLMInterface(ABC):
 #### Direct AI Providers ####
 
 # Note: Ollama is deprecated in favour of OpenRouter
-@DeprecationWarning
+@deprecated("Unused")
 class OllamaInterface(LLMInterface):
-    """Ollama LLM interface"""
+    """[DEPRECATED] Ollama LLM interface"""
 
     def __init__(self, model: str = "codellama", host: str = None):
         self.model = model or os.getenv("OLLAMA_MODEL", "qwen2.5-coder:7b-instruct")
@@ -147,7 +148,6 @@ class OpenRouterInterface(LLMInterface):
         self.max_tokens = max_tokens
         self.temperature = temperature
         self.base_url = "https://openrouter.ai/api/v1"
-
         if not self.api_key:
             raise ValueError("OpenRouter API Key is required")
         if not self.model:
@@ -207,10 +207,12 @@ class GPTOSS20BInterface(OpenRouterInterface):
     def get_prefix(self):
         return "GPTOSS20B"
 
+# DEPRECATED
+@deprecated("Unused")
 class QwenInterface(OpenRouterInterface):
     # Limited rate limit of 50 per date (qwen/qwen3-coder:free)
 
-    """Interface for Qwen3 Coder via OpenRouter"""
+    """[DEPRECATED] Interface for Qwen3 Coder via OpenRouter"""
     # 48B
     def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
         super().__init__(api_key, "qwen/qwen3-coder", max_tokens, temperature)
@@ -247,19 +249,22 @@ class KimiK2Interface(OpenRouterInterface):
 class LLMFactory:
     """Factory class to create LLM interfaces"""
 
-
     # Registery of available providers
     _providers: Dict[str, Type[LLMInterface]] = {
-        # Direct providers
+        #### Direct providers ####
         "openai": OpenAIInterface,
         "claude": ClaudeInterface,
 
-        # OpenRouter
+        #### OpenRouter ####
         "grok": GrokInterface, 
-        "qwen": QwenInterface, # limited to 50 requests per days
         "grok4fast": Grok4FastInterface, #free
         "kimi": KimiK2Interface, # limited max tokens
+        # New models
         "gptoss20b": GPTOSS20BInterface # fast model
+
+        ## DEPRECATED/UNUSED ##
+        #"ollama": OllamaInterface, 
+        #"qwen": QwenInterface, # limited to 50 requests per days
     }
 
     @staticmethod
