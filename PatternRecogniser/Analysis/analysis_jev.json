@@ -1,0 +1,218 @@
+{
+  "metadata": {
+    "llm_name": "jev",
+    "generation_timestamp": "2026-09-23T14:27:54.006398",
+    "reports_directory": "./Reports",
+    "total_records_analysed": 1560
+  },
+  "total_analysis_time_seconds": 2595.97,
+  "total_analysis_time_minutes": 43.27,
+  "total_analysis_time_hours": 0.72,
+  "average_analysis_time_seconds": 1.66,
+  "min_analysis_time_seconds": 1.39,
+  "max_analysis_time_seconds": 5.63,
+  "success_rate_per_pattern": {
+    "Singleton": {
+      "success_rate": 1.0,
+      "total_count": 120,
+      "success_count": 120,
+      "failure_count": 0
+    },
+    "Factory": {
+      "success_rate": 0.99,
+      "total_count": 120,
+      "success_count": 119,
+      "failure_count": 1
+    },
+    "Builder": {
+      "success_rate": 1.0,
+      "total_count": 120,
+      "success_count": 120,
+      "failure_count": 0
+    },
+    "Prototype": {
+      "success_rate": 1.0,
+      "total_count": 120,
+      "success_count": 120,
+      "failure_count": 0
+    },
+    "Adapter": {
+      "success_rate": 0.89,
+      "total_count": 120,
+      "success_count": 107,
+      "failure_count": 13
+    },
+    "Decorator": {
+      "success_rate": 1.0,
+      "total_count": 120,
+      "success_count": 120,
+      "failure_count": 0
+    },
+    "Facade": {
+      "success_rate": 0.99,
+      "total_count": 120,
+      "success_count": 119,
+      "failure_count": 1
+    },
+    "Proxy": {
+      "success_rate": 0.92,
+      "total_count": 120,
+      "success_count": 110,
+      "failure_count": 10
+    },
+    "Observer": {
+      "success_rate": 1.0,
+      "total_count": 120,
+      "success_count": 120,
+      "failure_count": 0
+    },
+    "Strategy": {
+      "success_rate": 0.98,
+      "total_count": 120,
+      "success_count": 118,
+      "failure_count": 2
+    },
+    "Command": {
+      "success_rate": 1.0,
+      "total_count": 120,
+      "success_count": 120,
+      "failure_count": 0
+    },
+    "Iterator": {
+      "success_rate": 1.0,
+      "total_count": 120,
+      "success_count": 120,
+      "failure_count": 0
+    },
+    "State": {
+      "success_rate": 0.99,
+      "total_count": 120,
+      "success_count": 119,
+      "failure_count": 1
+    }
+  },
+  "success_rate_by_difficulty": {
+    "E": {
+      "success_rate": 0.99,
+      "total_count": 520,
+      "success_count": 516,
+      "failure_count": 4,
+      "average_confidence": 0.98,
+      "average_time_seconds": 1.66
+    },
+    "H": {
+      "success_rate": 0.96,
+      "total_count": 520,
+      "success_count": 501,
+      "failure_count": 19,
+      "average_confidence": 0.96,
+      "average_time_seconds": 1.66
+    },
+    "M": {
+      "success_rate": 0.99,
+      "total_count": 520,
+      "success_count": 515,
+      "failure_count": 5,
+      "average_confidence": 0.97,
+      "average_time_seconds": 1.68
+    }
+  },
+  "success_rate_by_generated_llm": {
+    "claude": {
+      "success_rate": 0.98,
+      "total_count": 390,
+      "success_count": 384,
+      "failure_count": 6,
+      "average_confidence": 0.97,
+      "average_time_seconds": 1.63
+    },
+    "grok4fast": {
+      "success_rate": 0.98,
+      "total_count": 390,
+      "success_count": 381,
+      "failure_count": 9,
+      "average_confidence": 0.97,
+      "average_time_seconds": 1.7
+    },
+    "kimi": {
+      "success_rate": 0.98,
+      "total_count": 390,
+      "success_count": 381,
+      "failure_count": 9,
+      "average_confidence": 0.97,
+      "average_time_seconds": 1.65
+    },
+    "openai": {
+      "success_rate": 0.99,
+      "total_count": 390,
+      "success_count": 386,
+      "failure_count": 4,
+      "average_confidence": 0.98,
+      "average_time_seconds": 1.67
+    }
+  },
+  "most_challenging_patterns": {
+    "top_most_challenging": [
+      {
+        "pattern": "Adapter",
+        "challenge_score": 0.16,
+        "success_rate": 0.89,
+        "average_time_seconds": 1.76,
+        "average_confidence": 0.92,
+        "total_attempts": 120,
+        "failure_count": 13
+      },
+      {
+        "pattern": "Proxy",
+        "challenge_score": 0.16,
+        "success_rate": 0.92,
+        "average_time_seconds": 1.7,
+        "average_confidence": 0.88,
+        "total_attempts": 120,
+        "failure_count": 10
+      },
+      {
+        "pattern": "Facade",
+        "challenge_score": 0.12,
+        "success_rate": 0.99,
+        "average_time_seconds": 1.72,
+        "average_confidence": 0.89,
+        "total_attempts": 120,
+        "failure_count": 1
+      }
+    ],
+    "top_easiest": [
+      {
+        "pattern": "State",
+        "challenge_score": 0.09,
+        "success_rate": 0.99,
+        "average_time_seconds": 1.64,
+        "average_confidence": 1.0,
+        "total_attempts": 120,
+        "failure_count": 1
+      },
+      {
+        "pattern": "Iterator",
+        "challenge_score": 0.09,
+        "success_rate": 1.0,
+        "average_time_seconds": 1.63,
+        "average_confidence": 1.0,
+        "total_attempts": 120,
+        "failure_count": 0
+      },
+      {
+        "pattern": "Command",
+        "challenge_score": 0.09,
+        "success_rate": 1.0,
+        "average_time_seconds": 1.65,
+        "average_confidence": 1.0,
+        "total_attempts": 120,
+        "failure_count": 0
+      }
+    ]
+  },
+  "own_vs_other_code_efficiency": {
+    "own_code_success_rate": 0.0,
+    "other_code_success_rate": 0.98
+  }
+}
