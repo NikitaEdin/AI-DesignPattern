@@ -12,18 +12,21 @@ comprehensive visualisation charts for performance comparison.
 ================================================================================
 """
 
-import matplotlib.pyplot as plt
-import numpy as np
 import json
 from pathlib import Path
 
-def load_analysis_files(analysis_dir):
-    """Load all analysis JSON files from the specified directory."""
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def load_analysis_files(analysis_dir, llm_name=None):
+    """Load analysis JSON files from the specified directory, optionally scoped to a single LLM."""
     analysis_path = Path(analysis_dir)
-    json_files = list(analysis_path.glob("analysis_*.json"))
-    
+    pattern = f"analysis_{llm_name}.json" if llm_name else "analysis_*.json"
+    json_files = list(analysis_path.glob(pattern))
+
     if not json_files:
-        print(f"No analysis files found in {analysis_dir}")
+        print(f"No analysis files found in {analysis_dir} matching '{pattern}'")
         return []
     
     data_list = []
@@ -173,7 +176,7 @@ def create_visualisation(data, output_path):
                 insight_text = f"Difference: {time_diff:.2f}s ({(time_diff/min_time)*100:.1f}% variation)"
                 ax4.text(0.98, 0.02, insight_text, transform=ax4.transAxes,
                         ha='right', va='bottom', fontsize=8, style='italic',
-                        bbox=dict(boxstyle='round', facecolor='yellow', alpha=0.3))
+                        bbox={"boxstyle": 'round', "facecolor": 'yellow', "alpha": 0.3})
     else:
         ax4.text(0.5, 0.5, 'Code generator time data not available', 
                 transform=ax4.transAxes, ha='center', va='center',
@@ -199,7 +202,7 @@ def create_summary_visualisation(data_list, output_path):
     all_patterns = set()
     for data in data_list:
         all_patterns.update(data["success_rate_per_pattern"].keys())
-    patterns = sorted(list(all_patterns))
+    patterns = sorted(all_patterns)
     
     # Create success rate matrix
     success_matrix = []
@@ -348,7 +351,7 @@ CONSISTENCY:
     
     ax6.text(0.05, 0.95, summary_text, transform=ax6.transAxes, 
              fontsize=11, verticalalignment='top', fontfamily='monospace',
-             bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.3))
+             bbox={"boxstyle": 'round', "facecolor": 'lightblue', "alpha": 0.3})
     
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
@@ -357,37 +360,52 @@ CONSISTENCY:
     print(f"✓ Summary chart saved: {output_path}")
 
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate charts from analysis JSON files")
+    parser.add_argument('--llm', type=str, default=None,
+                         help="Only generate this LLM's chart (e.g. 'jev') and skip chart_summary_all.png, "
+                              "leaving other providers' charts untouched. Omit to process all providers.")
+    args = parser.parse_args()
+
     # Define paths
     script_dir = Path(__file__).parent
     analysis_dir = script_dir / "Analysis"
     charts_dir = script_dir / "Charts"
-    
+
     # Create Charts directory if it doesn't exist
     charts_dir.mkdir(exist_ok=True)
     print(f"Charts directory: {charts_dir}")
-    
-    # Load all analysis files
+
+    # Load analysis file(s)
     print(f"\nLoading analysis files from: {analysis_dir}")
-    data_list = load_analysis_files(analysis_dir)
-    
+    data_list = load_analysis_files(analysis_dir, llm_name=args.llm)
+
     if not data_list:
         print("No analysis files to process. Exiting.")
         return
-    
+
     print(f"\nFound {len(data_list)} analysis file(s)")
-    
+
     # Generate charts for each analysis file
     print("\nGenerating individual charts...")
     for data in data_list:
         llm_name = data["metadata"]["llm_name"]
         output_filename = f"chart_{llm_name}.png"
         output_path = charts_dir / output_filename
-        
+
         try:
             create_visualisation(data, output_path)
         except Exception as e:
             print(f"✗ Error creating chart for {llm_name}: {e}")
-    
+
+    if args.llm:
+        print(f"\n{'='*50}")
+        print(f"Processing complete! Generated chart for '{args.llm}' only (summary chart skipped)")
+        print(f"Charts saved in: {charts_dir}")
+        print(f"{'='*50}")
+        return
+
     # Generate summary comparison chart
     print("\nGenerating summary comparison chart...")
     summary_output = charts_dir / "chart_summary_all.png"
@@ -395,7 +413,7 @@ def main():
         create_summary_visualisation(data_list, summary_output)
     except Exception as e:
         print(f"✗ Error creating summary chart: {e}")
-    
+
     print(f"\n{'='*50}")
     print(f"Processing complete! Generated {len(data_list)} individual chart(s)")
     print("+ 1 summary comparison chart")
