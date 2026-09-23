@@ -28,6 +28,7 @@ LLM_PROVIDERS: Final[tuple[str, ...]] = (
     "grok",
     "grok4fast",
     "qwen",
+    "gptoss20b"
 )
 
 # PREFIX - PROVIDER

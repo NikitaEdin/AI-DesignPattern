@@ -135,6 +135,7 @@ def validate_arguments(args: argparse.Namespace) -> argparse.Namespace:
             input_path = os.path.join('Input', args.input)
 
             if not os.path.exists(input_path):
+                print(f"File:'{input_path}' ")
                 print(f"Error: Input file '{args.input}' not found in Input folder")
                 sys.exit(1)
 
