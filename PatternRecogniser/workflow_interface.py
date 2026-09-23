@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
@@ -26,7 +26,7 @@ class AnalysisResult:
     error: str = None
     workflow_type: WorkflowType = WorkflowType.SINGLE_PROMPT
     metadata: dict[str, Any] = None
-    analysis_started_at: datetime = datetime.now(timezone.utc)
+    analysis_started_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_dict(self) -> dict[str, Any]:
         return {

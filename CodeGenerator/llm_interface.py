@@ -6,6 +6,7 @@ Provides unified interface for different LLM providers.
 
 import os
 from abc import ABC, abstractmethod
+from typing import ClassVar
 
 import requests
 from dotenv import load_dotenv
@@ -245,7 +246,7 @@ class LLMFactory:
 
 
     # Registery of available providers
-    _providers: dict[str, type[LLMInterface]] = {
+    _providers: ClassVar[dict[str, type[LLMInterface]]] = {
         # Direct providers
         "ollama": OllamaInterface,
         "openai": OpenAIInterface,
