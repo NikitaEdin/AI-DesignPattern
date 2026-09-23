@@ -41,7 +41,7 @@ LLM Providers:
  grok - Grok-code-fast-1
  openai - OpenAI GPT
  claude - Anthorpic Claude
- grok - xAI Grok 4 Fast
+ grok43 - xAI Grok 4.3 (replaces deprecated grok4fast)
  kimi - Kimi K2
  jev - TypeSafe Jev (typed decisions, not free text)
 """

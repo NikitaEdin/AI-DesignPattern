@@ -27,7 +27,8 @@ LLM_PROVIDERS: Final[tuple[str, ...]] = (
 
     "kimi",
     "grok",
-    "grok4fast",
+    "grok43",
+    "grok4fast", # deprecated 2026-09-23 (xAI removed grok-4-fast); kept for filtering/parsing existing snippets, see grok43
     "qwen",
     "gptoss20b",
     "jev"
@@ -41,7 +42,8 @@ LLM_SHORT_MAP: Final[dict[str, str]] = {
 
     "KimiK2": "kimi",
     "GROK": "grok",
-    "GROK4F": "grok4fast",
+    "GROK43": "grok43",
+    "GROK4F": "grok4fast", # deprecated 2026-09-23; kept to parse existing dataset snippets
     "Q3C": "qwen",
     "JEV": "jev",
 }

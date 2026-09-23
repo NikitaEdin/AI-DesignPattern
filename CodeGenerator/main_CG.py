@@ -219,7 +219,7 @@ kimi - Kimi K2
     parser.add_argument(
         "--llm", "-l",
         default="grok",
-        help="LLM provider to use (default: grok). Available: grok, openai, claude, kimi"
+        help="LLM provider to use (default: grok). Available: grok, openai, claude, kimik2, qwen, grok43, gptoss20b"
     )
     
     parser.add_argument(

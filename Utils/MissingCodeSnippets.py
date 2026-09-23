@@ -15,7 +15,8 @@ LLM_MAPPING = {
     "O": "openai",
     "L": "ollama",
     "C": "claude",
-    "GROK4F": "grok4fast",
+    "GROK4F": "grok43", # grok4fast deprecated 2026-09-23; generate missing ones with grok43 instead
+    "GROK43": "grok43",
     "KimiK2": "kimi"
 }
 

@@ -229,17 +229,29 @@ class QwenInterface(OpenRouterInterface):
         return "Q3C"
     
 # Free models
+@deprecated("xAI removed grok-4-fast from OpenRouter (404 Not Found). Originally used for "
+            "code generation and pattern identification; replaced by Grok43Interface "
+            "(x-ai/grok-4.3) on 2026-09-23.")
 class Grok4FastInterface(OpenRouterInterface):
     # Fast and high quality results, no limits, even after 1.5M tokens in a day.
     # 03/10/2025 - "x-ai/grok-4-fast:free" was removed from OpenReach
+    # 2026-09-23 - "x-ai/grok-4-fast" (paid) was also deprecated by xAI; see Grok43Interface
 
-    """Interface for Grok 4 Fast via OpenRouter"""
+    """[DEPRECATED] Interface for Grok 4 Fast via OpenRouter"""
     def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
         super().__init__(api_key, "x-ai/grok-4-fast", max_tokens, temperature)
 
     def get_prefix(self):
         return "GROK4F"
-    
+
+class Grok43Interface(OpenRouterInterface):
+    """Interface for Grok 4.3 via OpenRouter - replaces the deprecated Grok 4 Fast"""
+    def __init__(self, api_key = None, model = None, max_tokens = 5000, temperature = 0.7):
+        super().__init__(api_key, "x-ai/grok-4.3", max_tokens, temperature)
+
+    def get_prefix(self):
+        return "GROK43"
+
 class KimiK2Interface(OpenRouterInterface):
     # HIGH failure rate with kimi-k2:free (uses prompts&answers for public datasets)
     # low but recoverable failure rate with kimi-k2 (paid)
@@ -313,16 +325,17 @@ class LLMFactory:
         "claude": ClaudeInterface,
 
         #### OpenRouter ####
-        "grok": GrokInterface, 
-        "grok4fast": Grok4FastInterface, #free
+        "grok": GrokInterface,
+        "grok43": Grok43Interface, # replaces grok4fast
         "kimi": KimiK2Interface, # limited max tokens
         # New models
         "gptoss20b": GPTOSS20BInterface, # fast model
-        "jev": JevInterface # typed decisions, not free text
+        "jev": JevInterface, # typed decisions, not free text
 
         ## DEPRECATED/UNUSED ##
-        #"ollama": OllamaInterface, 
+        #"ollama": OllamaInterface,
         #"qwen": QwenInterface, # limited to 50 requests per days
+        #"grok4fast": Grok4FastInterface, # deprecated 2026-09-23, see Grok43Interface
     }
 
     @staticmethod

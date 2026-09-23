@@ -53,7 +53,8 @@ Files follow: **`<Pattern>_<ID>_<Difficulty>_<LLM-Prefix>.py`**
     | `C`      | Claude          |
     | `GROK`   | Grok            |
     | `Q3C`    | Qwen            |
-    | `GROK4F` | Grok4Fast       |
+    | `GROK4F` | Grok4Fast (deprecated 2026-09-23, replaced by GROK43) |
+    | `GROK43` | Grok 4.3        |
     | `KimiK2` | KimiK2          |
 
 **Examples**:
