@@ -4,9 +4,12 @@ Conversation Manager
 Handles interactive conversations with the user to gather context and insights.
 """
 
-from typing import Dict, Any, List
-from shared.llm_interface import LLMInterface
+from typing import Any
+
 from agent_prompts import AgentPrompts
+
+from shared.llm_interface import LLMInterface
+
 
 class ConversationManager:
     """Handles interactive conversations"""
@@ -16,7 +19,7 @@ class ConversationManager:
         self.prompts = AgentPrompts()
         self.max_questions = max_questions
 
-    def conduct_conversation(self, code_snippet: str, analysis: Dict[str, Any]) -> Dict[str, str]:
+    def conduct_conversation(self, code_snippet: str, analysis: dict[str, Any]) -> dict[str, str]:
         """
         Create and handle user-agent conversation
         
@@ -56,7 +59,7 @@ class ConversationManager:
         return insights
 
     
-    def _generate_question(self, code_snippet: str, analysis: Dict[str, Any], insights: List[Dict[str, str]]) -> str:
+    def _generate_question(self, code_snippet: str, analysis: dict[str, Any], insights: list[dict[str, str]]) -> str:
         """Generate a new question"""
         try:
             prompt = self.prompts.create_question_prompt(code_snippet, analysis, insights)
@@ -74,5 +77,5 @@ class ConversationManager:
                 
             return None
         except Exception as e:
-            print(f'[Error] Failed to generate question: {str(e)}')
+            print(f'[Error] Failed to generate question: {e!s}')
             return None

@@ -1,11 +1,12 @@
 import os
-import pandas as pd
-import openpyxl
+
 import catalogue
-from typing import List
+import openpyxl
+import pandas as pd
 from openpyxl.utils.dataframe import dataframe_to_rows
-from shared.llm_interface import LLMInterface
 from workflow_interface import AnalysisResult
+
+from shared.llm_interface import LLMInterface
 
 
 class ReportGenerator:
@@ -33,7 +34,7 @@ class ReportGenerator:
         """Save single AnalysisReport record"""
         return self.save_results([result], llm_interface)
 
-    def save_results(self, results: List[AnalysisResult], llm_interface: LLMInterface) -> str:
+    def save_results(self, results: list[AnalysisResult], llm_interface: LLMInterface) -> str:
         """Save a list of AnalysisReport to Excel file"""
         if not results:
             print('No results to  save')
@@ -58,7 +59,7 @@ class ReportGenerator:
 
         return str(saved_path)
     
-    def _results_to_dataframe(self, results: List[AnalysisResult], analysing_llm:str = 'None') -> pd.DataFrame:
+    def _results_to_dataframe(self, results: list[AnalysisResult], analysing_llm:str = 'None') -> pd.DataFrame:
         """Convert analysis results to pandas DataFrame"""
 
         data = []

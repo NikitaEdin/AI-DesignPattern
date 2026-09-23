@@ -1,5 +1,6 @@
-import sys
 import os
+import sys
+
 # Repo root & CodeGenerator directory added to path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../CodeGenerator')))
@@ -8,6 +9,7 @@ import unittest
 from unittest.mock import MagicMock
 
 from CodeGenerator.code_generator import CodeSnippetGenerator
+
 
 def _mock_llm(prefix="TEST"):
     m = MagicMock()
@@ -75,7 +77,7 @@ class TestCodeSnippetGenerator(unittest.TestCase):
         mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_PASS_RESPONSE]
 
         generator = CodeSnippetGenerator(mock_llm, max_retries=1)
-        code, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+        code, is_valid, _feedback = generator.generate_code_snippet("Singleton", "E")
         # Assertions
         self.assertTrue(is_valid)
         self.assertIn("ConfigManager", code)
@@ -89,7 +91,7 @@ class TestCodeSnippetGenerator(unittest.TestCase):
         mock_llm.get_prefix.return_value = "TEST"
         mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_FAIL_RESPONSE]
         generator = CodeSnippetGenerator(mock_llm, max_retries=1)
-        code, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
+        _code, is_valid, feedback = generator.generate_code_snippet("Singleton", "E")
         self.assertFalse(is_valid)
         self.assertIn("Missing key components", feedback)
         self.assertEqual(2, mock_llm.generate_response.call_count)
@@ -275,7 +277,7 @@ class TestEdgeCaseInputs(unittest.TestCase):
         mock_llm.generate_response.side_effect = [WRAPPED_SINGLETON_CODE, EVAL_PASS_RESPONSE]
         generator = CodeSnippetGenerator(mock_llm, max_retries=1)
         try:
-            _, _, feedback = generator.generate_code_snippet("Singleton", "UNKNOWN")
+            _, _, _feedback = generator.generate_code_snippet("Singleton", "UNKNOWN")
         except Exception as exc:
             self.fail(f"generate_code_snippet raised unexpectedly with unknown difficulty: {exc}")
 

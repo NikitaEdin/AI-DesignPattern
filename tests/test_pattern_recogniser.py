@@ -1,17 +1,19 @@
 import contextlib
-from io import StringIO
-import sys
 import os
+import sys
+from io import StringIO
 
 # Repo root
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../PatternRecogniser')))
 
-import unittest
 import argparse
+import unittest
 from unittest.mock import MagicMock
-from PatternRecogniser.pattern_recogniser import DPR
+
 from PatternRecogniser.catalogue import WorkflowType
+from PatternRecogniser.pattern_recogniser import DPR
+
 
 ################################### Utils ###################################
 def _mock_llm():
@@ -71,16 +73,16 @@ def _mock_snippet(filename="Singleton_0_E_C.py",
     return s
 
 def _make_args(**kwargs):
-    default = dict(
-        llm = 'claude',
-        workflow = WorkflowType.SINGLE_PROMPT,
-        input_path = None,
-        filter_pattern = None,
-        filter_difficulty = None,
-        filter_llm = None,
-        count = -1,
-        dont_save = False
-    )
+    default = {
+        'llm': 'claude',
+        'workflow': WorkflowType.SINGLE_PROMPT,
+        'input_path': None,
+        'filter_pattern': None,
+        'filter_difficulty': None,
+        'filter_llm': None,
+        'count': -1,
+        'dont_save': False
+    }
     default.update(kwargs)
     return argparse.Namespace(**default)
 
@@ -270,13 +272,13 @@ class TestFiltering(unittest.TestCase):
     def test_individual_filters_forwarded(self):
         """Each filter arg should be passed through"""
         cases = [
-            dict(filter_pattern="Singleton"), dict(filter_difficulty="H"),
-            dict(filter_llm="openai"), dict(count=5),
+            {'filter_pattern': "Singleton"}, {'filter_difficulty': "H"},
+            {'filter_llm': "openai"}, {'count': 5},
         ]
         for overrides in cases:
             fm = _mock_file_manager(files=[])
             self._make_dpr(fm).run(_make_args(**overrides))
-            expected = dict(design_pattern=None, difficulty=None, llm=None, count=-1)
+            expected = {'design_pattern': None, 'difficulty': None, 'llm': None, 'count': -1}
             # Map kwarg name, locate_snippets param name
             key_map = {"filter_pattern": "design_pattern",
                        "filter_difficulty": "difficulty",

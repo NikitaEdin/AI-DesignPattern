@@ -5,13 +5,13 @@ CLI Interface for DPR Agent - Handles command-line args
 import argparse
 import sys
 from pathlib import Path
-from typing import Optional
 
 # Add parent folder for shared folder
 sys.path.append(str(Path(__file__).parent.parent))
 
 # Factory for LLM providers
 from shared.llm_interface import LLMFactory
+
 
 class CLI:
     """CLI interface for pattern recommendation"""
@@ -71,13 +71,13 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
 
         return parser
     
-    def parse_args(self, args: Optional[list] = None):
+    def parse_args(self, args: list | None = None):
         """Parse args"""
         return self.parser.parse_args(args)
     
     # Reading and validating
 
-    def validate_file(self, filename:str) -> Optional[Path]:
+    def validate_file(self, filename:str) -> Path | None:
         """Validate that the given file exists"""
         file_path = self.INPUT_DIR / filename
 
@@ -92,7 +92,7 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
         
         return file_path
 
-    def read_code_file(self, file_path: Path) -> Optional[str]:
+    def read_code_file(self, file_path: Path) -> str | None:
         """Read and validate provided file"""
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
@@ -104,7 +104,7 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
             return ''.join(lines)
         
         except Exception as e:
-            print(f'[Error] Failed to reach file: {str(e)}', file=sys.stderr)
+            print(f'[Error] Failed to reach file: {e!s}', file=sys.stderr)
             return None
 
     def get_output_path(self, input_filename: str, suffix: str = '_result') -> Path:
@@ -127,7 +127,7 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
             print(f'[Info] File saved to: ./Output/{output_path.name}')
             return True
         except Exception as e:
-            print(f'[Error] Could not save output file: {str(e)}', file=sys.stderr)
+            print(f'[Error] Could not save output file: {e!s}', file=sys.stderr)
             return False
         
     def save_log(self, log_path: Path, log_content: str ) -> bool:
@@ -138,7 +138,7 @@ Available LLMs: {', '.join(LLMFactory.get_available_providers())}
             print(f'[Info] Log saved to: ./Output/{log_path.name}')
             return True
         except Exception as e:
-            print(f'[Error] Failed to save log file: {str(e)}', file=sys.stderr)
+            print(f'[Error] Failed to save log file: {e!s}', file=sys.stderr)
             return False
 
 

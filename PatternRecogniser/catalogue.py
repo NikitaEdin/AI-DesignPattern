@@ -1,6 +1,7 @@
-from enum import Enum
 import os
+from enum import Enum
 from typing import Final
+
 
 # Workflow type
 class WorkflowType(str, Enum):

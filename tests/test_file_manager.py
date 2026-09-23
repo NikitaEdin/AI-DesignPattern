@@ -1,14 +1,14 @@
+import os
 import re
 import sys
-import os
 
 # Repo root & CodeGenerator directory added to path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../CodeGenerator')))
 
 import unittest
-from CodeGenerator.file_manager import FileManager
 
+from CodeGenerator.file_manager import FileManager
 
 
 # --------------

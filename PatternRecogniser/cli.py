@@ -2,7 +2,8 @@ import argparse
 import os
 import sys
 
-from catalogue import WorkflowType, DESIGN_PATTERNS, DIFFICULTY_LEVELS,LLM_PROVIDERS
+from catalogue import DESIGN_PATTERNS, DIFFICULTY_LEVELS, LLM_PROVIDERS, WorkflowType
+
 
 def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(

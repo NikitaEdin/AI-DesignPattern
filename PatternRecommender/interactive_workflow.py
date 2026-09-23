@@ -4,13 +4,16 @@ Interactive Workflow
 Using conversational Agentic orchestration for pattern recommendation
 """
 
-from typing import Dict, Any
-from shared.llm_interface import LLMInterface
-from workflow_interface import WorkflowInterface
+from typing import Any
+
 from code_analyser import CodeAnalyser
+from code_generator import CodeGenerator
 from conversation_manager import ConversationManager
 from recommendation_generator import RecommendationGenerator
-from code_generator import CodeGenerator
+from workflow_interface import WorkflowInterface
+
+from shared.llm_interface import LLMInterface
+
 
 class InteractiveWorkflow(WorkflowInterface):
     """
@@ -65,7 +68,7 @@ class InteractiveWorkflow(WorkflowInterface):
 
     def _handle_code_generation(
             self, original_code: str, 
-            recommendation: Dict[str, Any], filename: str ) -> bool:
+            recommendation: dict[str, Any], filename: str ) -> bool:
         """Handle code generation (+ user approval)"""
 
         if not recommendation.get('should_modify', False):

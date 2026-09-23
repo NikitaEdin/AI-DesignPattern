@@ -4,8 +4,9 @@ Code Evaluator Module
 Handles the evlauation of generated code snippets
 """
 
-from typing import Tuple
+
 from llm_interface import LLMInterface
+
 
 class CodeEvaluator:
     """Evaluates generated code for corrrectness and pattern compliance"""
@@ -13,7 +14,7 @@ class CodeEvaluator:
     def __init__(self, llm: LLMInterface):
         self.llm = llm
 
-    def evaluate_code(self, code: str, design_pattern: str, difficulty: str) -> Tuple[bool, str]:
+    def evaluate_code(self, code: str, design_pattern: str, difficulty: str) -> tuple[bool, str]:
         """
         Evaluate if generated code correctly implements the given design pattern.
 
@@ -33,7 +34,7 @@ class CodeEvaluator:
             is_valid, feedback = self._parse_evaluation_response(evaluation_response)
             return is_valid, feedback
         except Exception as e:
-            return False, f"Evaluation failed: {str(e)}"
+            return False, f"Evaluation failed: {e!s}"
         
     def _create_evaluation_prompt(self, code: str, design_pattern: str, difficulty: str) -> str:
         """ Create evaluation prompt for LLM"""
@@ -78,7 +79,7 @@ FEEDBACK: The code correctly implements the Singleton pattern by ensuring only o
         
         return prompt
     
-    def _parse_evaluation_response(self, response: str) -> Tuple[bool, str]:
+    def _parse_evaluation_response(self, response: str) -> tuple[bool, str]:
         """ Parse LLM evaluation response """
         try:
             lines = response.strip().split('\n')
@@ -98,7 +99,7 @@ FEEDBACK: The code correctly implements the Singleton pattern by ensuring only o
             return evaluation == "PASS", feedback
             
         except Exception as e:
-            return False, f"Parse error: {str(e)}"
+            return False, f"Parse error: {e!s}"
         
     def get_retry_prompt(self, original_prompt: str, feedback: str) -> str:
         """ Generate a retry prompt based on feedback """

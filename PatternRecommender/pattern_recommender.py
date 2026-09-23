@@ -1,13 +1,14 @@
 import sys
-from typing import Dict, Any
+from typing import Any
 
-# Add parent directories for SHARED
-
-from shared.llm_interface import LLMFactory
 from cli import CLI
 from interactive_workflow import InteractiveWorkflow
 
-def display_results(recommendation: Dict[str, Any]) -> None:
+# Add parent directories for SHARED
+from shared.llm_interface import LLMFactory
+
+
+def display_results(recommendation: dict[str, Any]) -> None:
     """Display final results"""
     print("\nFINAL RECOMMENDATION\n" + "="*60 + "\n")
     
@@ -47,7 +48,7 @@ def main():
         try:
             llm_interface = LLMFactory.create_llm(args.llm)
         except ValueError as e:
-            print(f"[Error] {str(e)}", file=sys.stderr)
+            print(f"[Error] {e!s}", file=sys.stderr)
             print(f"Available LLMs: {', '.join(LLMFactory.get_available_providers())}")
             return 1
         
@@ -77,7 +78,7 @@ def main():
         return 0
 
     except Exception as e:
-        print(f"[Error] {str(e)}", file=sys.stderr)
+        print(f"[Error] {e!s}", file=sys.stderr)
         return 1 
     
 

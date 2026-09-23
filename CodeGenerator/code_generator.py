@@ -4,11 +4,12 @@ Code Generator Module
 Handles the generation of code snippets
 """
 
-import time
 import re
-from typing import Tuple
-from llm_interface import LLMInterface
+import time
+
 from code_evaluator import CodeEvaluator
+from llm_interface import LLMInterface
+
 
 class CodeSnippetGenerator: 
     """ Generate code snippets using specified design patterns """
@@ -32,7 +33,7 @@ class CodeSnippetGenerator:
         }
 
 
-    def generate_code_snippet(self, design_pattern: str, difficulty: str) -> Tuple[str, bool, str]:
+    def generate_code_snippet(self, design_pattern: str, difficulty: str) -> tuple[str, bool, str]:
         """ Generate code snippet for the given design pattern and difficulty level 
         
         Args:
@@ -91,11 +92,11 @@ class CodeSnippetGenerator:
 
             except Exception as e:
                 if attempt < self.max_retries - 1:
-                    prompt = self._create_retry_prompt(prompt, f"Generation error: {str(e)}")
+                    prompt = self._create_retry_prompt(prompt, f"Generation error: {e!s}")
                     time.sleep(2)
                     continue
                 else:
-                    return "", False, f"Generation failed after {self.max_retries} attempts: {str(e)}"
+                    return "", False, f"Generation failed after {self.max_retries} attempts: {e!s}"
                 
         return "", False, "Maximum retries exceeded."
     

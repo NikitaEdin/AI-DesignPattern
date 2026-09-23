@@ -4,9 +4,12 @@ Recommendation Generator
 Generates design pattern recommendations based on analysis and conversation.
 """
 
-from typing import Dict, Any, List
-from shared.llm_interface import LLMInterface
+from typing import Any
+
 from agent_prompts import AgentPrompts
+
+from shared.llm_interface import LLMInterface
+
 
 class RecommendationGenerator:
     """Generates recommendations"""
@@ -17,8 +20,8 @@ class RecommendationGenerator:
 
     def generate_recommendation(
             self,  code_snippet: str,
-            analysis: Dict[str, Any], insights: List[Dict[str, str]]
-    ) -> Dict[str, Any]:
+            analysis: dict[str, Any], insights: list[dict[str, str]]
+    ) -> dict[str, Any]:
         """
         Generate a design pattern recommendation
 
@@ -32,7 +35,7 @@ class RecommendationGenerator:
             return self._parse_recommendation(response, analysis)
         except Exception as e:
             return {
-                'error': f"Recommendation failed: {str(e)}",
+                'error': f"Recommendation failed: {e!s}",
                 'recommendation_type': 'NO_CHANGE',
                 'current_pattern': analysis.get('current_pattern', 'None'),
                 'suggested_pattern': 'None',
@@ -41,7 +44,7 @@ class RecommendationGenerator:
                 'should_modify': False
             }
         
-    def display_recommendation_summary(self, recommendation: Dict[str, Any]) -> None:
+    def display_recommendation_summary(self, recommendation: dict[str, Any]) -> None:
         """Display recommendation summary"""
         rec_type = recommendation.get('recommendation_type', 'UNKNOWN')
         current_pattern = recommendation.get('current_pattern', 'None')
@@ -59,7 +62,7 @@ class RecommendationGenerator:
         else:
             print(f"\nRecommendation: {rec_type}")
         
-    def _parse_recommendation(self, response: str, analysis: Dict[str, Any]) -> Dict[str, Any]:
+    def _parse_recommendation(self, response: str, analysis: dict[str, Any]) -> dict[str, Any]:
         """Parse recommendation response"""
         result = {
             'recommendation_type': 'NO_CHANGE',

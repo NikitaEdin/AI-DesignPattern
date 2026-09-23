@@ -5,9 +5,9 @@ Provides unified interface for different LLM providers.
 """
 
 import os
-from typing import Dict, List, Type
-import requests
 from abc import ABC, abstractmethod
+
+import requests
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -19,19 +19,17 @@ class LLMInterface(ABC):
     @abstractmethod
     def generate_response(self, prompt: str) -> str:
         """Generate response from LLM"""
-        pass
 
     @abstractmethod
     def get_prefix(self) -> str:
         """Get prefix identifier for LLM"""
-        pass
 
 #### Direct AI Providers ####
 
 class OllamaInterface(LLMInterface):
     """Ollama LLM interface"""
 
-    def __init__(self, model: str = "codellama", host: str = None):
+    def __init__(self, model: str = "codellama", host: str | None = None):
         self.model = model or os.getenv("OLLAMA_MODEL", "qwen2.5-coder:7b-instruct")
         self.host = host or os.getenv("OLLAMA_HOST", "http://localhost:11434")
         
@@ -56,7 +54,7 @@ class OllamaInterface(LLMInterface):
             result = response.json()
             return result.get('response', '').strip()
         except requests.RequestException as e:
-            raise Exception(f"Ollama API error: {str(e)}")
+            raise Exception(f"Ollama API error: {e!s}")
 
     def get_prefix(self) -> str:
         return "L"
@@ -64,7 +62,7 @@ class OllamaInterface(LLMInterface):
 class OpenAIInterface(LLMInterface):
     """Interface for OpenAI LLM"""
 
-    def __init__(self, api_key: str = None, model: str = "gpt-5-mini"):
+    def __init__(self, api_key: str | None = None, model: str = "gpt-5-mini"):
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
 
@@ -100,7 +98,7 @@ class OpenAIInterface(LLMInterface):
             
         except Exception as e:
             print(f"Exception caught: {e}")
-            raise Exception(f"OpenAI API error: {str(e)}")
+            raise Exception(f"OpenAI API error: {e!s}")
         
     def get_prefix(self) -> str:
         return "O"
@@ -108,7 +106,7 @@ class OpenAIInterface(LLMInterface):
 class ClaudeInterface(LLMInterface):
     """Interface for Claude LLM"""
 
-    def __init__(self, api_key: str = None, model: str = "claude-sonnet-4-20250514"):
+    def __init__(self, api_key: str | None = None, model: str = "claude-sonnet-4-20250514"):
         self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
         self.model = model
         if not self.api_key:
@@ -129,7 +127,7 @@ class ClaudeInterface(LLMInterface):
 
             return response.content[0].text
         except Exception as e:
-            raise Exception(f"Claude API error: {str(e)}")
+            raise Exception(f"Claude API error: {e!s}")
         
 
     def get_prefix(self) -> str:
@@ -139,7 +137,7 @@ class ClaudeInterface(LLMInterface):
 #### OpenRouter AI PROVIDER ####
 class OpenRouterInterface(LLMInterface):
     """Base interface for OpenRouter LLMs"""
-    def __init__(self, api_key:str = None, model: str = None, max_tokens: int = 5000, temperature: float = 0.7):
+    def __init__(self, api_key:str | None = None, model: str | None = None, max_tokens: int = 5000, temperature: float = 0.7):
         self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
         self.model = model
         self.max_tokens = max_tokens
@@ -180,7 +178,7 @@ class OpenRouterInterface(LLMInterface):
             else:
                 raise Exception(f"API request failed: {response.status_code} - {response.text}")
         except Exception as e:
-            raise Exception(f"OpenRouter API error: {str(e)}")
+            raise Exception(f"OpenRouter API error: {e!s}")
 
 
     def get_prefix(self):
@@ -247,7 +245,7 @@ class LLMFactory:
 
 
     # Registery of available providers
-    _providers: Dict[str, Type[LLMInterface]] = {
+    _providers: dict[str, type[LLMInterface]] = {
         # Direct providers
         "ollama": OllamaInterface,
         "openai": OpenAIInterface,
@@ -270,5 +268,5 @@ class LLMFactory:
         return LLMFactory._providers[provider](**kwargs)
         
     @staticmethod
-    def get_available_providers() -> List[str]:
+    def get_available_providers() -> list[str]:
         return tuple(LLMFactory._providers.keys())

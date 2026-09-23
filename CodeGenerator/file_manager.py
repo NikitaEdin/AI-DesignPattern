@@ -6,7 +6,6 @@ Handles file operations inlcuding directory creation, file naming, ID management
 
 import os
 import re
-from typing import Dict, List, Optional
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -79,7 +78,7 @@ class FileManager:
         """
         return f"{design_pattern}_{file_id}_{difficulty}_{llm_prefix}.py"
 
-    def save_code_snippet(self, code:str, design_pattern:str, difficulty:str, llm_prefix:str, metadata: Optional[Dict] = None) -> str:
+    def save_code_snippet(self, code:str, design_pattern:str, difficulty:str, llm_prefix:str, metadata: dict | None = None) -> str:
         """
         Save code snippet to file
 
@@ -108,7 +107,7 @@ class FileManager:
 
         return file_path
 
-    def _prepare_file_content(self, code: str, design_pattern: str, difficulty: str, llm_prefix: str, file_id: int, metadata: Optional[Dict]) -> str:
+    def _prepare_file_content(self, code: str, design_pattern: str, difficulty: str, llm_prefix: str, file_id: int, metadata: dict | None) -> str:
         """Prepare the complete file content with metadata header"""
 
 #         # Map LLM prefix to full name
@@ -145,7 +144,7 @@ class FileManager:
         # return header + code
         return code
 
-    def get_existing_files_info(self, design_pattern:str) -> List[Dict]:
+    def get_existing_files_info(self, design_pattern:str) -> list[dict]:
         """
         Get Information about existing files for a design pattern 
         Returns list of dictionaries with file information

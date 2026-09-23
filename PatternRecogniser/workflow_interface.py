@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List
-from file_manager import CodeSnippet
-from shared.llm_interface import LLMInterface
-from catalogue import DIFFICULTY_LEVELS, WorkflowType
 from datetime import datetime, timezone
+from typing import Any
+
+from catalogue import DIFFICULTY_LEVELS, WorkflowType
+from file_manager import CodeSnippet
+
+from shared.llm_interface import LLMInterface
 
 # Analysis Result Class
 #TODO: convert to TypedDict for performance. Having a class just to hold data is inefficient.
@@ -23,10 +25,10 @@ class AnalysisResult:
     difficulty: str = DIFFICULTY_LEVELS[0] # default to 'E'
     error: str = None
     workflow_type: WorkflowType = WorkflowType.SINGLE_PROMPT
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
     analysis_started_at: datetime = datetime.now(timezone.utc)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             'snippet_path': self.snippet_path,
             'identified_pattern': self.identified_pattern,
@@ -51,7 +53,7 @@ class WorkflowInterface(ABC):
         self.workflow_name = self.__class__.__name__
     
     @abstractmethod
-    def execute(self, snippets: List[CodeSnippet]) -> List[AnalysisResult]:
+    def execute(self, snippets: list[CodeSnippet]) -> list[AnalysisResult]:
         """
         Execute workflow with given list of code snippets
 
@@ -60,10 +62,9 @@ class WorkflowInterface(ABC):
         Returns:
         List of analysis results
         """
-        pass
 
 
-    def validate_snippets(self, snippets: List[CodeSnippet]) -> bool:
+    def validate_snippets(self, snippets: list[CodeSnippet]) -> bool:
         """
         Validate snippets before processing
         """
@@ -88,7 +89,6 @@ class WorkflowInterface(ABC):
         """
         Description of what this workflow does
         """
-        pass
 
 
     ### Result generators
@@ -109,7 +109,7 @@ class WorkflowInterface(ABC):
              workflow_type=self.get_workflow_type()
         )
 
-    def create_success_result(self, snippet: CodeSnippet, analysis_data: Dict[str, Any], analysis_time: float = 0) -> AnalysisResult:
+    def create_success_result(self, snippet: CodeSnippet, analysis_data: dict[str, Any], analysis_time: float = 0) -> AnalysisResult:
         """Create AnalysisResult for successful analysis"""
 
         return AnalysisResult(

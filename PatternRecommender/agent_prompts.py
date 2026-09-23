@@ -4,8 +4,10 @@ Agent Prompts
 A collection of all available prompts for the recommender to use
 """
 
-from typing import Dict, Any, List
+from typing import Any
+
 from catalogue import DESIGN_PATTERNS
+
 
 class AgentPrompts:
     """Holds all prompt templates"""
@@ -47,8 +49,8 @@ Focus on:
 """
     
     def create_question_prompt(self, code_snippet: str,
-                               analysis: Dict[str, Any],
-                               insights: List[Dict[str, str]]) -> str:
+                               analysis: dict[str, Any],
+                               insights: list[dict[str, str]]) -> str:
         """Create promot for generating clarifying questions about code context"""
 
         # Build conversation history
@@ -119,8 +121,8 @@ Code snippet for reference:
     def create_recommendation_prompt(
         self,
         code_snippet: str,
-        analysis: Dict[str, Any],
-        insights: List[Dict[str, str]]
+        analysis: dict[str, Any],
+        insights: list[dict[str, str]]
     ) -> str:
         """Create prompt for recommendation"""
         
@@ -177,7 +179,7 @@ META-EVALUATION GUIDELINES:
 """
 
     def create_code_generation_prompt(
-            self, original_code: str, recommendation: Dict[str, Any], filename:str
+            self, original_code: str, recommendation: dict[str, Any], filename:str
     ) -> str:
         """Prompt for generating new or improved code"""
         return f"""

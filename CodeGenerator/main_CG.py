@@ -1,11 +1,12 @@
 import argparse
+import os
 import sys
 import time
-import os
 
-from llm_interface import LLMInterface, LLMFactory
 from code_generator import CodeSnippetGenerator
 from file_manager import FileManager
+from llm_interface import LLMFactory, LLMInterface
+
 
 class CodeGenerator:
     """ Main class for code generation using design patterns """
@@ -49,7 +50,7 @@ class CodeGenerator:
             # Results
             self._display_results(success_count, failed_count, selected_pattern)
         except Exception as e:
-            print(f"Error: {str(e)}")
+            print(f"Error: {e!s}")
             sys.exit(1)
 
     def _create_llm_interface(self, provider: str) -> LLMInterface:
@@ -68,7 +69,7 @@ class CodeGenerator:
                 raise Exception(f"Connection test failed for {provider} LLM.")
             
         except Exception as e:
-            print(f"Failed to connect to {provider} LLM: {str(e)}")
+            print(f"Failed to connect to {provider} LLM: {e!s}")
             if provider == "ollama":
                 print("Ensure Ollama is running locally and the model is available.")
             elif provider in ["openai", "claude", "kimi"]:
@@ -112,7 +113,7 @@ class CodeGenerator:
                     print(f" Generation failed: {feedback}")
                     failed_count += 1
             except Exception as e:
-                print(f" Error generating snippet {i+1}: {str(e)}")
+                print(f" Error generating snippet {i+1}: {e!s}")
                 failed_count += 1
 
         return success_count, failed_count

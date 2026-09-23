@@ -1,16 +1,20 @@
 # Used to include SHARED dir - don't remove
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import argparse
 import sys
-from report_generator import ReportGenerator
+
 from catalogue import WorkflowType
-from shared.llm_interface import LLMFactory
-from single_workflow import SingleWorkflow
 from cli import create_argument_parser, validate_arguments
 from file_manager import FileManager
+from report_generator import ReportGenerator
+from single_workflow import SingleWorkflow
+
+from shared.llm_interface import LLMFactory
+
 
 class DPR:
     def __init__(self,  file_manager: FileManager = None, llm_factory = None, 

@@ -1,8 +1,10 @@
-from dataclasses import dataclass
 import os
 import re
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import Any
+
 from catalogue import get_llm_prefix
+
 
 @dataclass
 class CodeSnippet:
@@ -10,10 +12,10 @@ class CodeSnippet:
     filepath: str
     filename: str
     content: str
-    design_pattern: Optional[str] = None
-    difficulty: Optional[str] = None
-    llm: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    design_pattern: str | None = None
+    difficulty: str | None = None
+    llm: str | None = None
+    metadata: dict[str, Any] | None = None
 
 class FileManager:
     def __init__(self, base_out_dir: str = "../CodeSnippets"):
@@ -31,11 +33,11 @@ class FileManager:
         return pattern_dir
 
     def locate_snippets( self,
-        design_pattern: Optional[str] = None,
-        difficulty: Optional[str] = None,
-        llm: Optional[str] = None,
+        design_pattern: str | None = None,
+        difficulty: str | None = None,
+        llm: str | None = None,
         count: int = -1,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Return absolute paths to *.py code snippets that match given filters.
         Code snippets must follow the pattern: "<pattern>_<id>_<difficulty>_<llm>.py"
@@ -43,7 +45,7 @@ class FileManager:
         Count=-1 will return all matches
         """
 
-        code_snippets: List[str] = []
+        code_snippets: list[str] = []
 
         # Pattern
         if design_pattern:
@@ -98,8 +100,8 @@ class FileManager:
 
         return code_snippets
     
-    def locate_snippet(self, filename: str) -> List[CodeSnippet]:
-        code_snippets: List[str] = []
+    def locate_snippet(self, filename: str) -> list[CodeSnippet]:
+        code_snippets: list[str] = []
 
         filename = filename.lower()
         if not filename.endswith(".py"):
@@ -135,7 +137,7 @@ class FileManager:
         print(len(code_snippets))
         return code_snippets
 
-    def locate_custom_snippet(self, filepath: str) -> List[CodeSnippet]:
+    def locate_custom_snippet(self, filepath: str) -> list[CodeSnippet]:
         """Load custom code snippet"""
         
         with open(filepath, 'r', encoding='utf-8') as f:

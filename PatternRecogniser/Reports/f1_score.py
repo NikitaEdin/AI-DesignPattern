@@ -15,8 +15,10 @@ Finally, it calculates and prints precision, recall, F1 score for each pattern, 
 """
 
 
-import pandas as pd
 from collections import defaultdict
+
+import pandas as pd
+
 
 def extract_expected_pattern(snippet_name):
     """Extract pattern from filename e.g. Adapter_0_E_GROK4F.py -> Adapter"""

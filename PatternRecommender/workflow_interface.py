@@ -6,7 +6,8 @@ Base interface for all workflow implementations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Dict, Any, Optional
+from typing import Any
+
 
 # dataclass for Analysis results
 @dataclass
@@ -30,7 +31,7 @@ class RecommendationResult:
     rationale: str
     benefits: str
     should_modify: bool
-    recommended_code: Optional[str] = None
+    recommended_code: str | None = None
     code_generated: bool = False
 
 # Workflow Interface
@@ -38,7 +39,7 @@ class WorkflowInterface(ABC):
     """Abstract base for workflows"""
     
     @abstractmethod
-    def execute(self, code_snippet: str, filename: str) -> Dict[str, Any]:
+    def execute(self, code_snippet: str, filename: str) -> dict[str, Any]:
         """
         Execute the workflow on given code snippet.
         
@@ -49,14 +50,11 @@ class WorkflowInterface(ABC):
         Returns:
             Dictionary containing workflow results
         """
-        pass
     
     @abstractmethod
     def get_workflow_name(self) -> str:
         """Return the name of this workflow"""
-        pass
     
     @abstractmethod
     def get_workflow_description(self) -> str:
         """Return the description of this workflow"""
-        pass

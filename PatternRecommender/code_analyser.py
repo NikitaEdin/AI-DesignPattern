@@ -2,9 +2,12 @@
 Handles code analysis and simplified (light-weight) pattern identification.
 """
 
-from typing import Dict, Any
-from shared.llm_interface import LLMInterface
+from typing import Any
+
 from agent_prompts import AgentPrompts
+
+from shared.llm_interface import LLMInterface
+
 
 class CodeAnalyser:
     """Analyses the given code"""
@@ -15,7 +18,7 @@ class CodeAnalyser:
 
     
     # 'One-Shot' prompt to analyse the code
-    def analyse(self, code_snippet:str) -> Dict[str, Any]:
+    def analyse(self, code_snippet:str) -> dict[str, Any]:
         """
         Analyse code for strengths and weaknesses
         
@@ -29,7 +32,7 @@ class CodeAnalyser:
             return self._parse_analysis(response)
         except Exception as e:
             return {
-                'error': f'Analysis failed: {str(e)}',
+                'error': f'Analysis failed: {e!s}',
                 'current_pattern': 'Unknown',
                 'confidence': 0.0,
                 'purpose': 'Unknown',
@@ -37,7 +40,7 @@ class CodeAnalyser:
             }
 
     # Print analysis        
-    def display_analysis(self, analysis: Dict[str, Any]) -> None:
+    def display_analysis(self, analysis: dict[str, Any]) -> None:
         """Display analysis results"""
         print(f"\nCurrent Pattern: {analysis.get('current_pattern', 'None')}")
         print(f"Confidence: {analysis.get('confidence', 0.0):.2f}")
@@ -57,7 +60,7 @@ class CodeAnalyser:
             for strength in strengths[:2]:
                 print(f" - {strength}")
 
-    def _parse_analysis(self, response: str) -> Dict[str, Any]:
+    def _parse_analysis(self, response: str) -> dict[str, Any]:
         """Parse LLM response"""
         result = {
             'current_pattern': 'None',

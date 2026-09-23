@@ -4,9 +4,11 @@ Code Generator
 Generates improved code based on recommendations
 """
 
-from typing import Dict, Any
-from shared.llm_interface import LLMInterface
+from typing import Any
+
 from PatternRecommender.agent_prompts import AgentPrompts
+from shared.llm_interface import LLMInterface
+
 
 class CodeGenerator:
     """Generate improved code based on recommendations"""
@@ -16,7 +18,7 @@ class CodeGenerator:
         self.prompts = AgentPrompts()
 
     def generate_improved_code(
-            self, original_code: str, recommendation: Dict[str, Any], filename: str) -> str:
+            self, original_code: str, recommendation: dict[str, Any], filename: str) -> str:
         """Improves given code based on recommendation"""
 
         try:
@@ -24,7 +26,7 @@ class CodeGenerator:
             response = self.llm.generate_response(prompt)
             return self._extract_code(response)
         except Exception as e:
-            return f'[Error] Failed to generate code: {str(e)}'
+            return f'[Error] Failed to generate code: {e!s}'
         
 
     def request_user_approval(self) -> bool:

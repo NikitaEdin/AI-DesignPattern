@@ -8,3 +8,11 @@ exclude = [
     "PatternRecommender/Input",
     "PatternRecogniser/Input"
 ]
+
+[lint]
+ignore = [
+    "BLE001", # blind-except: broad `except Exception` is a deliberate, consistently-used
+              # pattern here (catch anything, wrap in a friendly error message) - not a bug.
+    "TRY002", # raise-vanilla-class: bare `raise Exception(...)` is used the same way; a
+              # custom exception hierarchy isn't warranted for this project's scope.
+]

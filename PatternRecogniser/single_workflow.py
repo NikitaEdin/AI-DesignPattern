@@ -1,11 +1,12 @@
-from datetime import datetime, timezone
 import time
-from typing import Any, Dict, List
+from datetime import datetime, timezone
+from typing import Any
+
 from catalogue import DESIGN_PATTERNS, WorkflowType
 from file_manager import CodeSnippet
 from workflow_interface import AnalysisResult, WorkflowInterface
-from shared.llm_interface import LLMInterface
 
+from shared.llm_interface import LLMInterface
 
 max_attempts = 3
 
@@ -21,7 +22,7 @@ class SingleWorkflow(WorkflowInterface):
         return "Analyse each code snippet through pattern identification and evaluation stages"
     
 
-    def execute(self, snippets: List[CodeSnippet]) -> List[AnalysisResult]:
+    def execute(self, snippets: list[CodeSnippet]) -> list[AnalysisResult]:
         """ Execute single workflow on given code snippets"""
 
         if not self.validate_snippets(snippets):
@@ -90,7 +91,7 @@ class SingleWorkflow(WorkflowInterface):
                     return self.create_success_result(snippet, combined_data, analysis_time)
 
             except Exception as e:
-                last_error = f'Unexpected error during analysis: {str(e)}'
+                last_error = f'Unexpected error during analysis: {e!s}'
                 print(f"Error: {last_error}")
                 if attempt == max_attempts - 1:
                     analysis_time = time.time() - start_time
@@ -101,7 +102,7 @@ class SingleWorkflow(WorkflowInterface):
         return None
 
 
-    def _analyse_pattern(self, snippet: CodeSnippet) -> Dict[str, Any]:
+    def _analyse_pattern(self, snippet: CodeSnippet) -> dict[str, Any]:
         try:
             analysis_data = self._get_analysis_data(snippet)
             if self.llm_interface.supports_typed_decisions():
@@ -109,10 +110,10 @@ class SingleWorkflow(WorkflowInterface):
                 analysis_data = self._guard_known_pattern(snippet, analysis_data)
             return analysis_data
         except Exception as e:
-            return {'error': f"Pattern analysis failed: {str(e)}"}
+            return {'error': f"Pattern analysis failed: {e!s}"}
 
 
-    def _get_analysis_data(self, snippet: CodeSnippet) -> Dict[str, Any]:
+    def _get_analysis_data(self, snippet: CodeSnippet) -> dict[str, Any]:
         if self.llm_interface.supports_typed_decisions():
             return self._analyse_pattern_typed(snippet)
         analysis_prompt = self._create_analysis_prompt(snippet.content)
@@ -122,7 +123,7 @@ class SingleWorkflow(WorkflowInterface):
 
 ###################### GUARD RAILS ######################
 
-    def _guard_empty_pattern(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _guard_empty_pattern(self, snippet: CodeSnippet, analysis_data: dict[str, Any]) -> dict[str, Any]:
         """Ensure a non-empty pattern was identified - retry once, then default to the first available pattern."""
         if str(analysis_data.get('identified_pattern') or '').strip():
             return analysis_data
@@ -136,7 +137,7 @@ class SingleWorkflow(WorkflowInterface):
         return analysis_data
 
 
-    def _guard_known_pattern(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _guard_known_pattern(self, snippet: CodeSnippet, analysis_data: dict[str, Any]) -> dict[str, Any]:
         """Ensure the identified pattern is one of the available patterns - retry once, then default to
         the first available pattern with 0 confidence."""
         if analysis_data.get('identified_pattern') in DESIGN_PATTERNS:
@@ -152,7 +153,7 @@ class SingleWorkflow(WorkflowInterface):
         return analysis_data
 
 
-    def _evaluate(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _evaluate(self, snippet: CodeSnippet, analysis_data: dict[str, Any]) -> dict[str, Any]:
         try:
             if self.llm_interface.supports_typed_decisions():
                 return self._evaluate_typed(snippet, analysis_data)
@@ -162,13 +163,13 @@ class SingleWorkflow(WorkflowInterface):
         except Exception as e:
             return{
                 'evaluation_pass': False,
-                'evaluation_feedback': f"Evaluation failed: {str(e)}"
+                'evaluation_feedback': f"Evaluation failed: {e!s}"
             }
 
 
 ###################### TYPED DECISIONS (e.g. Jev) ######################
 
-    def _analyse_pattern_typed(self, snippet: CodeSnippet) -> Dict[str, Any]:
+    def _analyse_pattern_typed(self, snippet: CodeSnippet) -> dict[str, Any]:
         """Identify the design pattern by asking a typed 'choice' question over
         the available design patterns, instead of a free-text prompt."""
         criteria = {pattern: f"The code implements the {pattern} pattern" for pattern in DESIGN_PATTERNS}
@@ -194,7 +195,7 @@ class SingleWorkflow(WorkflowInterface):
         }
 
 
-    def _evaluate_typed(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _evaluate_typed(self, snippet: CodeSnippet, analysis_data: dict[str, Any]) -> dict[str, Any]:
         """Verify the identification by asking a typed yes/no ('noul') question."""
         identified_pattern = analysis_data.get('identified_pattern', 'Unknown')
         questions = {
@@ -214,7 +215,7 @@ class SingleWorkflow(WorkflowInterface):
         }
 
 
-    def _format_decision_explanation(self, pattern_answer: Dict[str, Any]) -> str:
+    def _format_decision_explanation(self, pattern_answer: dict[str, Any]) -> str:
         probabilities = pattern_answer.get("probabilities", {})
         top = sorted(probabilities.items(), key=lambda kv: kv[1], reverse=True)[:3]
         ranked = ", ".join(f"{name} ({prob:.0%})" for name, prob in top)
@@ -249,7 +250,7 @@ Focus on:
 """
 
 
-    def _create_evaluation_prompt(self, code_snippet: str, analysis_data: Dict[str, Any]) -> str:
+    def _create_evaluation_prompt(self, code_snippet: str, analysis_data: dict[str, Any]) -> str:
 
         return f"""
 You are a code reviewer specialising in design patterns. 
@@ -279,7 +280,7 @@ FEEDBACK: [Constructive feedback on the analysis, including what was done well a
     
 ###################### PROMPT PARSING ######################
 
-    def _parse_analysis_response(self, response: str) -> Dict[str, Any]:
+    def _parse_analysis_response(self, response: str) -> dict[str, Any]:
 
         result = {
             'identified_pattern': 'Unknown',
@@ -302,12 +303,12 @@ FEEDBACK: [Constructive feedback on the analysis, including what was done well a
                     result['explanation'] = '\n'.join(lines[i:]).split(':', 1)[1].strip()
                     break  
         except Exception as e:
-            result ["error"] = f"Failed to parse analysis response: {str(e)}"
+            result ["error"] = f"Failed to parse analysis response: {e!s}"
 
         return result
 
 
-    def _parse_evaluation_response(self, response: str) -> Dict[str, Any]:
+    def _parse_evaluation_response(self, response: str) -> dict[str, Any]:
         result = {
             'evaluation_pass': False,
             'evaluation_feedback': response
@@ -322,7 +323,7 @@ FEEDBACK: [Constructive feedback on the analysis, including what was done well a
                     result['evaluation_feedback'] = '\n'.join(lines[i:]).split(':', 1)[1].strip()
                     break
         except Exception as e:
-            result['evaluation_feedback'] = f'Failed to parse evaluation response: {str(e)}'
+            result['evaluation_feedback'] = f'Failed to parse evaluation response: {e!s}'
         return result
 
             
