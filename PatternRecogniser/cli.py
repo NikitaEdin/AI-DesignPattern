@@ -38,10 +38,11 @@ Difficulty Levels:
 
 LLM Providers:
  grok - Grok-code-fast-1
- openai - OpenAI GPT  
+ openai - OpenAI GPT
  claude - Anthorpic Claude
  grok - xAI Grok 4 Fast
  kimi - Kimi K2
+ jev - TypeSafe Jev (typed decisions, not free text)
 """
     )
 

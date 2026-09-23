@@ -103,15 +103,59 @@ class SingleWorkflow(WorkflowInterface):
 
     def _analyse_pattern(self, snippet: CodeSnippet) -> Dict[str, Any]:
         try:
-            analysis_prompt = self._create_analysis_prompt(snippet.content)
-            analysis_response = self.llm_interface.generate_response(analysis_prompt)
-            return self._parse_analysis_response(analysis_response)
+            analysis_data = self._get_analysis_data(snippet)
+            if self.llm_interface.supports_typed_decisions():
+                analysis_data = self._guard_empty_pattern(snippet, analysis_data)
+                analysis_data = self._guard_known_pattern(snippet, analysis_data)
+            return analysis_data
         except Exception as e:
-            return {'error': f"Pattern analysis failed: {str(e)}"} 
+            return {'error': f"Pattern analysis failed: {str(e)}"}
+
+
+    def _get_analysis_data(self, snippet: CodeSnippet) -> Dict[str, Any]:
+        if self.llm_interface.supports_typed_decisions():
+            return self._analyse_pattern_typed(snippet)
+        analysis_prompt = self._create_analysis_prompt(snippet.content)
+        analysis_response = self.llm_interface.generate_response(analysis_prompt)
+        return self._parse_analysis_response(analysis_response)
+
+
+###################### GUARD RAILS ######################
+
+    def _guard_empty_pattern(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Ensure a non-empty pattern was identified - retry once, then default to the first available pattern."""
+        if str(analysis_data.get('identified_pattern') or '').strip():
+            return analysis_data
+
+        print("  Warning: empty pattern identification, retrying...")
+        analysis_data = self._get_analysis_data(snippet)
+        if not str(analysis_data.get('identified_pattern') or '').strip():
+            print(f"  Warning: still empty after retry, defaulting to '{DESIGN_PATTERNS[0]}'")
+            analysis_data['identified_pattern'] = DESIGN_PATTERNS[0]
+
+        return analysis_data
+
+
+    def _guard_known_pattern(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Ensure the identified pattern is one of the available patterns - retry once, then default to
+        the first available pattern with 0 confidence."""
+        if analysis_data.get('identified_pattern') in DESIGN_PATTERNS:
+            return analysis_data
+
+        print(f"  Warning: '{analysis_data.get('identified_pattern')}' is not a recognised pattern, retrying...")
+        analysis_data = self._get_analysis_data(snippet)
+        if analysis_data.get('identified_pattern') not in DESIGN_PATTERNS:
+            print(f"  Warning: still unrecognised after retry, defaulting to '{DESIGN_PATTERNS[0]}' with 0 confidence")
+            analysis_data['identified_pattern'] = DESIGN_PATTERNS[0]
+            analysis_data['confidence'] = 0.0
+
+        return analysis_data
 
 
     def _evaluate(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
         try:
+            if self.llm_interface.supports_typed_decisions():
+                return self._evaluate_typed(snippet, analysis_data)
             evaluation_prompt = self._create_evaluation_prompt(snippet.content, analysis_data)
             evaluation_response = self.llm_interface.generate_response(evaluation_prompt)
             return self._parse_evaluation_response(evaluation_response)
@@ -120,6 +164,61 @@ class SingleWorkflow(WorkflowInterface):
                 'evaluation_pass': False,
                 'evaluation_feedback': f"Evaluation failed: {str(e)}"
             }
+
+
+###################### TYPED DECISIONS (e.g. Jev) ######################
+
+    def _analyse_pattern_typed(self, snippet: CodeSnippet) -> Dict[str, Any]:
+        """Identify the design pattern by asking a typed 'choice' question over
+        the available design patterns, instead of a free-text prompt."""
+        criteria = {pattern: f"The code implements the {pattern} pattern" for pattern in DESIGN_PATTERNS}
+        criteria["None"] = "No recognisable design pattern is implemented"
+
+        questions = {
+            "pattern": {
+                "type": "choice",
+                "instructions": "Which design pattern (if any) is implemented in this code?",
+                "criteria": criteria
+            }
+        }
+
+        answers = self.llm_interface.generate_decision(state=snippet.content, questions=questions)
+        pattern_answer = answers["pattern"]
+        identified_pattern = pattern_answer["choice"]
+        confidence = pattern_answer.get("probabilities", {}).get(identified_pattern, 0.0)
+
+        return {
+            'identified_pattern': identified_pattern,
+            'confidence': confidence,
+            'explanation': self._format_decision_explanation(pattern_answer)
+        }
+
+
+    def _evaluate_typed(self, snippet: CodeSnippet, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Verify the identification by asking a typed yes/no ('noul') question."""
+        identified_pattern = analysis_data.get('identified_pattern', 'Unknown')
+        questions = {
+            "is_correct": {
+                "type": "noul",
+                "instructions": f"The code was identified as implementing the '{identified_pattern}' pattern. "
+                                 "Is this identification correct?"
+            }
+        }
+
+        answers = self.llm_interface.generate_decision(state=snippet.content, questions=questions)
+        confidence = answers["is_correct"]["noul"]
+
+        return {
+            'evaluation_pass': confidence >= 0.5,
+            'evaluation_feedback': f"Jev confidence that the identification is correct: {confidence:.0%}"
+        }
+
+
+    def _format_decision_explanation(self, pattern_answer: Dict[str, Any]) -> str:
+        probabilities = pattern_answer.get("probabilities", {})
+        top = sorted(probabilities.items(), key=lambda kv: kv[1], reverse=True)[:3]
+        ranked = ", ".join(f"{name} ({prob:.0%})" for name, prob in top)
+        return f"Jev decision probabilities (no natural-language rationale available): {ranked}"
 
 
 ###################### PROMPTS ######################

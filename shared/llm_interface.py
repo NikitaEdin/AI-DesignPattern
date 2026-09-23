@@ -27,6 +27,15 @@ class LLMInterface(ABC):
         """Get prefix identifier for LLM"""
         pass
 
+    def supports_typed_decisions(self) -> bool:
+        """Whether this LLM answers typed questions (state + questions -> calibrated answers)
+        instead of generating free text."""
+        return False
+
+    def generate_decision(self, state: str, questions: Dict[str, dict]) -> Dict[str, dict]:
+        """Answer typed questions about a state. Only supported when supports_typed_decisions() is True."""
+        raise NotImplementedError(f"{type(self).__name__} does not support typed decisions")
+
 #### Direct AI Providers ####
 
 # Note: Ollama is deprecated in favour of OpenRouter
@@ -244,6 +253,55 @@ class KimiK2Interface(OpenRouterInterface):
     def get_prefix(self):
         return "KimiK2"
 
+#### TypeSafe System One Provider (typed decisions, not free text) ####
+class JevInterface(LLMInterface):
+    """Interface for Jev (TypeSafe System One) via OpenRouter.
+
+    Jev doesn't generate text: it answers typed questions about a `state`
+    (noul/choice/score) and returns calibrated probabilities, so
+    generate_response() is unsupported - use generate_decision() instead.
+    """
+    def __init__(self, api_key: str = None, model: str = "typesafe/jev-1.13"):
+        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
+        self.model = model
+        self.base_url = "https://openrouter.ai/api/v1/systemone"
+        if not self.api_key:
+            raise ValueError("OpenRouter API Key is required")
+
+        self.headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+    def supports_typed_decisions(self) -> bool:
+        return True
+
+    def generate_decision(self, state: str, questions: Dict[str, dict]) -> Dict[str, dict]:
+        """Answer typed questions about a state via Jev's Decisions API"""
+        try:
+            payload = {
+                "model": self.model,
+                "state": state,
+                "questions": questions
+            }
+
+            response = requests.post(self.base_url, headers=self.headers, json=payload)
+
+            if response.status_code == 200:
+                return response.json()["answers"]
+            else:
+                raise Exception(f"API request failed: {response.status_code} - {response.text}")
+        except Exception as e:
+            raise Exception(f"Jev Decisions API error: {str(e)}")
+
+    def generate_response(self, prompt: str) -> str:
+        raise NotImplementedError(
+            "JevInterface does not generate free text; call generate_decision(state, questions) instead."
+        )
+
+    def get_prefix(self) -> str:
+        return "JEV"
+
 #### Factory ####
 
 class LLMFactory:
@@ -260,7 +318,8 @@ class LLMFactory:
         "grok4fast": Grok4FastInterface, #free
         "kimi": KimiK2Interface, # limited max tokens
         # New models
-        "gptoss20b": GPTOSS20BInterface # fast model
+        "gptoss20b": GPTOSS20BInterface, # fast model
+        "jev": JevInterface # typed decisions, not free text
 
         ## DEPRECATED/UNUSED ##
         #"ollama": OllamaInterface, 

@@ -28,7 +28,8 @@ LLM_PROVIDERS: Final[tuple[str, ...]] = (
     "grok",
     "grok4fast",
     "qwen",
-    "gptoss20b"
+    "gptoss20b",
+    "jev"
 )
 
 # PREFIX - PROVIDER
@@ -41,6 +42,7 @@ LLM_SHORT_MAP: Final[dict[str, str]] = {
     "GROK": "grok",
     "GROK4F": "grok4fast",
     "Q3C": "qwen",
+    "JEV": "jev",
 }
 
 
